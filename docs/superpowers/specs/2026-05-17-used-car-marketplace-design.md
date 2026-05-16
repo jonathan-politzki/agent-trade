@@ -3,7 +3,8 @@
 **Date:** 2026-05-17
 **Branch:** `feat/car_exp`
 **Author:** Robert (Aganthos) + Claude
-**Status:** draft (awaiting user review)
+**Status:** revised after Codex review (see `2026-05-17-codex-review.md`)
+**Design principle (post-review):** *deterministic economic engine + LLM for flavor + replayable ablation*. The headline causal claim (visible-rep vs hidden-rep welfare delta) is reproducible from a fixed seed without re-querying any LLM.
 
 ---
 
@@ -79,6 +80,20 @@ The existing `project_deal/` modules become a **substrate** we extend, not repla
 
 New modules live under `car_market/` to keep the Project Deal code intact for the README.
 
+### 3.1 Execution modes (orchestrator)
+
+Every scenario runs in one of three modes, switched via `--mode`:
+
+| mode    | seller decisions      | buyer decisions       | LLM calls per run | use for                                  |
+|---------|-----------------------|-----------------------|-------------------|------------------------------------------|
+| `fast`  | archetype rule        | persona policy rule   | 0                 | sweeps, ablations, CI runs, **the headline chart** |
+| `llm`   | LLM (cached output)   | LLM (cached output)   | high, but cached  | recording the LLM-flavored transcripts the demo shows |
+| `replay`| read from cache       | read from cache       | 0                 | live demo playback; deterministic, instant |
+
+The `fast` mode is the source of truth for every metric chart. `llm` is run once offline per scenario to record cached transcripts (asking-price prose, negotiation messages, sampled buyer rationales). `replay` is what the audience actually sees on stage — same metrics as `fast`, with LLM-generated prose interleaved as flavor.
+
+This separation removes LLM noise from the causal claim and removes LLM latency from the demo window.
+
 ## 4. Synthetic generator + oracle
 
 The generator is the **single source of truth**. The "fair value" referenced in every metric comes from it directly. No dataset column, no API call.
@@ -153,6 +168,34 @@ class Listing:
 
 `generate(seed: int, n: int) -> list[CarSpec]` is deterministic per seed.
 
+### 4.5 Seller archetypes (R1)
+
+Seller dishonesty is not an emergent LLM behavior — it's a pinned policy. This is what makes the visible/hidden ablation identifiable. Three archetypes with fixed population proportions:
+
+| archetype     | share | listing_condition                   | claimed_vhr_flags                 | asking_price                          |
+|---------------|-------|-------------------------------------|-----------------------------------|---------------------------------------|
+| `honest`      | 60%   | `true_condition`                    | `true_vhr_flags`                  | `seller_ceiling` + ±5% jitter         |
+| `moderate`    | 30%   | `min(true_cond + 1.0, 5.0)`          | drops 1 worst flag if present     | `seller_ceiling` + 5–15% markup       |
+| `aggressive`  | 10%   | `min(true_cond + 2.0, 5.0)`          | drops all negative flags          | `seller_ceiling` + 10–25% markup      |
+
+```python
+@dataclass
+class SellerArchetype:
+    name: str                # honest | moderate | aggressive
+    condition_bias: float    # 0.0, 1.0, 2.0
+    vhr_disclosure: str      # full | drop_worst | drop_all_negative
+    asking_markup: tuple[float, float]   # (low, high) over seller_ceiling
+```
+
+Population draw at run start: 12 honest, 6 moderate, 2 aggressive (k=20). Same archetype draw per `seed` across visible/hidden — ablation compares the *same dishonest population* under different reputation regimes.
+
+**Why pin behavior:** without this, the welfare delta isn't attributable to reputation — it's confounded by stochastic LLM dishonesty. With it, the delta isolates the reputation institution as the causal mechanism.
+
+**Where LLMs still matter (in `llm` mode):**
+- Listing description prose conditioned on `(listing_condition, claimed_vhr_flags)` — naturally embellishes for inflater archetypes.
+- Negotiation messages (the conversational turns), but the *decision policy* (accept/counter/decline at what price) is rule-based per archetype.
+- Sampled live transcript on stage.
+
 ## 5. Personas (buyer-side hedonic utility)
 
 10 personas defined in `car_market/personas/*.json`. Each carries:
@@ -190,16 +233,27 @@ if honesty < 0.5:
 
 `DECAY ∈ [0.95, 1.0]`, configurable. `MAX_COND_GAP = 2.0` (one full step on the 1–5 scale).
 
-### 6.2 What buyers see
+### 6.2 What buyers see (R3 — reputation in ranking, not just tool)
 
-- Mean rating `α / (α + β)` rendered as 1–5 stars.
-- Review count.
-- 3 most recent review excerpts.
-- **Behind a tool call** `lookup_seller(seller_id)` — not stuffed into system prompt. This lets us measure whether agents bother to look.
+Two reputation channels, both controlled by `reputation_mode`:
+
+**Channel A — search ranking (the operational channel).** Search results are scored:
+
+```python
+score(listing, query) = relevance(listing, query) * (1 + γ * rating_norm(seller))
+   where rating_norm = (α / (α + β) - 0.5) * 2   ∈ [-1, 1]   # centred so neutral seller doesn't move score
+   and γ = 0.5 in visible mode, 0 in hidden mode
+```
+
+In `visible` mode, reputable sellers rise in search rank and disreputable sellers sink. This is what every real platform (CarGurus, eBay, Carfax) does, and it's what makes the welfare delta mechanically attributable to reputation — not to whether agents happened to call a tool.
+
+**Channel B — tool call (instrumentation).** `lookup_seller(seller_id)` is still available to buyers in `visible` mode, returning rating + review count + 3 recent excerpts. The tool's call rate per buyer model is logged as a secondary outcome (does Opus consult reputation more than Haiku?), but the headline chart does not depend on it.
+
+In `hidden` mode, `lookup_seller` is removed from the tool set entirely, and Channel A's γ goes to 0.
 
 ### 6.3 Ablation toggle
 
-`RunConfig.reputation_mode ∈ {visible, hidden, sock_puppet_p}` where `sock_puppet_p` injects fake-review noise on a random fraction of sellers.
+`reputation_mode ∈ {visible, hidden}`. Same seed → same arrivals, same inventory, same archetype assignments, same buyer policies; only the reputation channels change. (R7: deferred `sock_puppet`, `cold_start`, and `capability_asymmetry` to extended-results runs that ship if time permits.)
 
 ## 7. Agent action space
 
@@ -233,29 +287,52 @@ answer_question(listing_id: str, question: str, answer: str) -> None   # NEW
 
 Metric: per-seller surplus `Σ (price - true_value)`. Output: 10×m heatmap.
 
-### 8.2 S2 — m diverse listings, 10 personas
+### 8.2 S2 — m diverse listings, 10 personas (R8: deterministic, no LLMs)
 
-- Generate m listings (m ∈ {10, 25, 50, 100} — sweep).
-- Each persona enters with a search budget (max k searches) and turn budget.
-- Persona's regret = `U(optimal | persona) - U(chosen | persona)` where optimal is computed by the evaluator over the full pool.
+Cut LLM agents from S2 entirely; it's an analytical replication of the paradox-of-choice finding, not a separate live demo. Compare two deterministic buyer policies:
 
-Metric: mean regret per persona × m. Output: regret-vs-pool-size curve (one line per buyer model).
+- `first_acceptable`: visit listings in search order, buy first car that beats utility threshold `τ_persona`.
+- `full_search`: enumerate all listings, buy the argmax of `U(car, asking_price | persona)`.
 
-### 8.3 S3 — Open market, headline
+Sweep m ∈ {10, 25, 50, 100, 200}, 50 seeds per cell. Output: mean regret-vs-m curve, one line per policy. ~30 lines of code, runs in seconds, no API cost. Backup-slide chart.
 
-- k=20 sellers with seeded inventories (3-8 cars each, total ≈100 cars).
-- m=150 buyers arriving over T=400 simulation steps as Poisson(λ=m/T). Demand > supply by design, so scarcity bites and reputation matters.
-- Up to 5 concurrent negotiations per seller; 1 per buyer.
-- Each negotiation has a soft deadline of 6 turns.
-- Search returns top-K by configurable rank (relevance / rating / random / hidden).
+(LLM-agent S2 deferred to "extended results" if time remains.)
 
-Sub-experiments (all from same harness, run as separate seeds):
-1. **Reputation ablation:** `reputation_mode={visible, hidden}` → welfare delta = value of reputation institution.
-2. **Sock-puppet stress:** sweep `sock_puppet_p ∈ {0, 0.05, 0.10, 0.20}` → buyer welfare vs adversary fraction.
-3. **Cold start:** inject 10% new sellers at t=T/2 with Beta(1,1) prior → time-to-converge.
-4. **Capability asymmetry:** mix Opus/Sonnet/Haiku buyers and sellers → who benefits from reputation?
+### 8.3 S3 — Open market, **headline** (R2 + R4 + R7)
 
-Metrics: total welfare, surplus Gini, mean regret, mean seller-rating trajectory per archetype, deals/seller Lorenz curve, sock-puppet detection AUC.
+#### 8.3.1 Setup
+
+- k=20 sellers (12 honest / 6 moderate / 2 aggressive per §4.5), seeded inventories 3–8 cars each (≈100 cars total).
+- m=150 buyers arriving over T=400 simulation steps as Poisson(λ = m/T). Demand > supply by design.
+- Up to 5 concurrent open negotiations per seller; 1 per buyer.
+- Soft deadline 6 turns per negotiation.
+- Search returns top-K=10 by `score()` from §6.2.
+
+#### 8.3.2 Market-clearing rules (R4)
+
+- A **listing is locked** while it has any open offer. Locked listings are excluded from search results.
+- A locked listing unlocks on `decline`, `withdraw`, or turn-deadline expiry.
+- A seller accepting an offer marks the listing `sold`, withdraws all other open offers on that listing, frees the listing-lock.
+- A buyer holding an open offer cannot start another negotiation; she must accept, decline, or time out first.
+- Abandoned negotiations (deadline reached without resolution) are logged with `outcome="abandoned"` and contribute zero surplus.
+
+#### 8.3.3 Run modes (R2)
+
+- `--mode fast` (default for chart-producing runs): archetype rule-policies for sellers, persona policies for buyers (utility-maximising with calibrated noise floor), zero LLM calls. ~5 seconds per run on a laptop. **All published metrics come from `fast` mode.**
+- `--mode llm` (run once per scenario, offline): same scenario, but listing prose, negotiation messages, and a sampled buyer rationale come from Claude calls. Cached to `runs/{run_id}/llm_cache.jsonl`. Used to produce the on-stage transcript content.
+- `--mode replay` (live demo): plays back a previously recorded `llm` run instantly with no API calls.
+
+#### 8.3.4 Headline ablation
+
+`reputation_mode ∈ {visible, hidden}` × same seed × `fast` mode. Bootstrap CIs over 30 seeds (n=30 because runs are 5s each). Welfare delta with 95% CI is the money chart.
+
+#### 8.3.5 Extended results (R7 — run if time, do not block demo)
+
+- Sock-puppet stress: `sock_puppet_p ∈ {0, 0.05, 0.10, 0.20}` injecting fake high ratings on aggressive sellers.
+- Cold-start: inject 4 new sellers at t=T/2 with Beta(1,1) prior.
+- Capability asymmetry: switch `--mode llm` for selected buyer cohorts mixing Opus/Sonnet/Haiku.
+
+These are backup-slide material. If any block the Saturday-ship critical path, drop them.
 
 ## 9. Evaluator
 
@@ -265,6 +342,48 @@ Single module `car_market/evaluator.py`. Consumes the JSONL event log emitted by
 - `runs/{run_id}/per_deal.csv` — every deal with oracle-aware columns.
 - `runs/{run_id}/reputation.csv` — per-seller, per-timestep Beta state.
 - `runs/{run_id}/figures/` — matplotlib figures (welfare bar, Gini curve, rep trajectory, regret-vs-pool, ablation comparison).
+
+### 9.1 Locked metric formulas (R5)
+
+These formulas are committed contract. The evaluator implements them literally; figures derive from them without reinterpretation.
+
+**Per closed deal** (a `(buyer, seller, car, price)` tuple):
+
+```
+buyer_surplus     = U(car | persona) - price
+seller_surplus    = price - true_value          # uses oracle, not asking_price
+deal_welfare      = buyer_surplus + seller_surplus
+condition_premium = price - U_at_listing_cond(car | persona)   # how much buyer overpaid given the inflated claim
+honesty_at_deal   = clip(1 - |listing_cond - true_cond| / 2.0, 0, 1)
+```
+
+**Per buyer that did not transact** (left market unfilled by t=T):
+
+```
+buyer_surplus = 0                              # no penalty; left market in equilibrium
+no_deal_flag  = True                           # used for "% buyers served" metric
+```
+
+**Per scenario run**:
+
+```
+total_welfare       = Σ deal_welfare across all closed deals
+mean_buyer_surplus  = mean(buyer_surplus) over BUYERS (no-deal buyers contribute 0)
+mean_seller_surplus = mean(per-seller surplus across all closed deals)
+surplus_gini        = Gini( per-buyer total surplus )                # inequality of buyer outcomes
+seller_lorenz       = Lorenz curve of (deals_per_seller)             # market concentration
+mean_regret         = mean over buyers of (U(best_attainable | persona) - U(actually_received | persona))
+                      where best_attainable = argmax over listings active during buyer's lifetime
+                      that satisfied her hard constraints
+rep_convergence_t   = first t such that |α/(α+β) - true_honesty_rate| < 0.1 for ≥80% of sellers
+                      (only well-defined for archetype-pinned sellers)
+```
+
+**Bootstrap CIs**: n=30 seeds per condition (e.g., visible vs hidden), report mean and 95% bootstrap CI via 1000 resamples of the seed-level means. **No CI reported on fewer than 10 seeds.**
+
+**No-deal handling**: no-deal buyers count as buyer_surplus=0 in averages. They contribute to `% buyers served` but not to `mean_regret` (their counterfactual is also no-deal in the alternative ablation, by same seed).
+
+**Welfare units**: dollars. `seller_floor`/`seller_ceiling` are in dollars; `U` returns a dollar-equivalent (achieved by normalising hedonic weights to sum to a persona's `max_budget` at perfect-match attributes).
 
 ## 10. Real-data anchoring
 
@@ -312,19 +431,25 @@ agent-trade/
 └── requirements.txt               # add: pandas, pyarrow, scikit-learn, matplotlib
 ```
 
-## 12. Headline demo (Saturday)
+## 12. Headline demo (Saturday) — R6 revised
+
+Pre-recorded `llm`-mode runs replayed live. The audience sees LLM-flavored transcripts; the metrics chart is pre-computed from the `fast`-mode 30-seed sweep.
 
 ```
-1. (Pre-recorded if needed) Run S1 → heatmap of seller skill across personas.       30s
-2. (Pre-recorded if needed) Run S2 → regret-vs-pool-size curve, paradox replicates. 30s
-3. LIVE: Run S3 with reputation visible.                                              90s
-4. LIVE: Run S3 with reputation hidden (same seed).                                   90s
-5. Show side-by-side welfare delta — the Akerlof result, on stage.                    30s
-6. Show sock-puppet AUC plot — agent-vs-adversary robustness.                         20s
-7. Q&A: explain the karma-staked extension as "what we're submitting to NeurIPS".    flex
+1. Show one S3 listing card with the LLM-generated description, narrate the     20s
+   asymmetry (true_cond=2.5, listing_cond=4 — aggressive seller).
+2. Replay S3 visible (cached LLM transcripts, accelerated 10x).                  45s
+   Reputation stars visibly shift; aggressive sellers drop in rank.
+3. Replay S3 hidden (same seed, same LLM transcripts where they exist).          45s
+4. Cut to the welfare-delta bar chart (pre-computed, fast-mode, 30 seeds, CIs). 30s
+   "Reputation institution worth $X per transaction, p < 0.01."
+5. Show one live LLM negotiation transcript (one buyer, one seller, real time).  60s
+   This is the only live LLM call on stage. Picks an aggressive seller for drama.
+6. Show S1 heatmap (backup) and S2 regret-vs-m curve (backup) as supporting.     20s
+7. Q&A: pitch karma-staked-disclosure as "what we're submitting to NeurIPS".    flex
 ```
 
-Total stage time ~5 min. Pre-recording S1/S2 is fine if API budget is tight; S3 must be live (it's the headline).
+Total stage time ~3.5 min plus Q&A. **The headline chart never depends on a live LLM call.** Step 5 is the one live LLM moment, and if rate limits hit, we replay from cache and apologize — the chart is still on screen.
 
 ## 13. Out-of-scope (explicitly)
 
@@ -338,11 +463,12 @@ Total stage time ~5 min. Pre-recording S1/S2 is fine if API budget is tight; S3 
 
 | Risk                                              | Likelihood | Mitigation                                                                 |
 |---------------------------------------------------|------------|-----------------------------------------------------------------------------|
-| API rate limits / cost overrun during S3          | medium     | Cap concurrent negs at 5/seller; pre-record S1+S2; budget alert at $50/100 |
-| Hedonic calibration drifts → unrealistic prices   | medium     | Cross-check `true_value` vs `kbb_midpoint` for sampled cars in tests       |
-| Sellers/buyers ignore reputation tool entirely    | medium     | Make tool's existence loud in system prompt; log `lookup_seller` call rate |
-| Sock-puppet experiment too noisy at small n       | low        | Bootstrap CIs over 5 seeds per condition                                   |
-| Beta-decay parameter is wrong, rep never converges| low        | Param sweep `DECAY ∈ {0.95, 0.97, 0.99, 1.0}` in S3 cold-start sub-exp     |
+| API rate limits / cost overrun during S3          | LOW (after R2) | `fast` mode produces all charts; `llm` mode runs once offline; live demo uses `replay` |
+| Hedonic calibration drifts → unrealistic prices   | medium     | Cross-check `true_value` vs `kbb_midpoint` for sampled cars in tests; assert distribution |
+| Visible/hidden welfare delta turns out small      | medium     | Tune §4.5 archetype shares to ensure visible lemons effect; budget seed-sweep to detect early |
+| Archetype-pinned sellers feel "too scripted"      | low        | LLM-flavored prose makes inflation feel organic; live transcript step (12.5) shows the agent reasoning |
+| Beta-decay parameter wrong, rep never converges   | low        | Param sweep `DECAY ∈ {0.95, 0.97, 0.99, 1.0}` in offline calibration       |
+| Single live LLM call (step 12.5) rate-limits       | low        | Pre-record fallback transcript; have it ready to swap in if API stalls     |
 
 ## 15. Decision log
 
@@ -350,7 +476,18 @@ Total stage time ~5 min. Pre-recording S1/S2 is fine if API budget is tight; S3 
 - **2026-05-17**: chose **S3 as headline**, S1/S2 as supporting. Reasons: highest visual punch (live reputation), most novel research angle (reputation-ablation), Akerlof-grade narrative.
 - **2026-05-17**: chose rebrowser AutoTrader as **anchoring** source, not runtime oracle. Reasons: salePrice is locked but marginals are unrestricted; freshness (2026-04 listings); description text is gold for narrative; no runtime dependency.
 - **2026-05-17**: deferred **karma-staked disclosure** to post-hackathon. Reasons: implementation complexity not justified by Saturday timeline; deserves its own paper.
+- **2026-05-17 (post-Codex)**: applied R1–R8 revisions. The biggest architectural shift is R2 (`--mode fast|llm|replay`): the headline causal claim is produced by a deterministic, LLM-free `fast`-mode sweep, and the live demo plays back cached LLM-flavored transcripts. Reasons: keeps the welfare-delta chart reproducible and cheap, decouples it from LLM latency / cost / nondeterminism, and lets us run 30 seeds per ablation cell on a laptop in seconds. The LLM still does the work that requires natural language (listing prose, negotiation messages, sampled buyer rationale), just not the work that determines the chart.
 
 ## 16. Next step
 
-After user review of this spec, hand off to `superpowers:writing-plans` to produce the implementation plan that turns these sections into ordered, testable tasks.
+Revised spec is committed. Next: hand off to `superpowers:writing-plans` to produce the ordered, testable implementation plan from this spec. The implementation plan should sequence the build as follows (writing-plans skill will produce the actual ordering and verification gates):
+
+1. `car_market/generator.py` + `car_market/personas/` + locked metric formulas in tests *first* — these are the contract.
+2. `car_market/reputation.py` with property-test-style invariants (Beta posterior bounds, decay monotonicity).
+3. `car_market/marketplace.py` extending `project_deal/marketplace.py` with reputation, locks, and search ranking.
+4. `car_market/scenarios/s3_open_market.py` with the `--mode fast` path *first*. Get the welfare-delta chart producing numbers before adding LLM code.
+5. LLM-mode buyer/seller agents reusing `project_deal/agent.py`. Cache transcripts to disk.
+6. Evaluator + figures.
+7. Replay mode for the demo.
+8. S1 heatmap and S2 deterministic curve (backup slides), only after S3 ships.
+9. Anchor scripts last — they're optional polish for the marginals.
