@@ -47,16 +47,16 @@ def _satisfies(car: CarSpec, p: Persona, price: float) -> bool:
     return True
 
 
-def utility(car: CarSpec, listing_condition: float, price: float, persona: Persona) -> float:
-    """Persona's utility for buying `car` at `price` given the seller's claim
-    `listing_condition`. Buyer does NOT see true_condition. Returns -inf if
-    hard constraints fail."""
-    if not _satisfies(car, persona, price):
-        return float("-inf")
+def welfare_value(car: CarSpec, condition: float, persona: Persona) -> float:
+    """Persona's gross max WTP for a car of a given condition, ignoring any
+    constraint check. Returns dollars. Used by the evaluator as the "U(car |
+    persona)" term in spec §9.1 welfare formulas. The buyer's max willingness
+    to pay equals dollar_value / price_sensitivity (the price at which net
+    utility crosses zero)."""
     w = persona.weights
     year_score = (car.year - 2015) / 11.0          # 2015→0, 2026→1
     miles_score = 1.0 - min(1.0, car.mileage / 150000)
-    cond_score = (listing_condition - 1.0) / 4.0
+    cond_score = (condition - 1.0) / 4.0
     body_match = 1.0 if car.body in persona.allowed_bodies else 0.0
     brand_match = 1.0 if car.make in persona.preferred_makes else 0.4
     value = (
@@ -66,6 +66,19 @@ def utility(car: CarSpec, listing_condition: float, price: float, persona: Perso
         + w["body_match"] * body_match
         + w["brand"] * brand_match
     )
-    # Convert hedonic score to dollars at max_budget scale.
     dollar_value = value * persona.max_budget
-    return float(dollar_value - persona.price_sensitivity * price)
+    return float(dollar_value / max(0.1, persona.price_sensitivity))
+
+
+def utility(car: CarSpec, listing_condition: float, price: float, persona: Persona) -> float:
+    """Net utility for buying `car` at `price` given the seller's claim
+    `listing_condition`. Buyer does NOT see true_condition; she decides based
+    on listing_condition. Returns -inf if hard constraints fail. Sign-positive
+    means the buyer would want to bid; negative means walk away.
+
+    Defined as `welfare_value(car, listing_condition, persona) - price`, i.e.
+    max-WTP minus price. This is the buyer's *decision* signal, distinct from
+    *ex-post* welfare (which uses true_condition, not listing_condition)."""
+    if not _satisfies(car, persona, price):
+        return float("-inf")
+    return welfare_value(car, listing_condition, persona) - price

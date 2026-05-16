@@ -23,7 +23,7 @@ from ..config import S3Config
 from ..evaluator import deal_welfare, run_metrics
 from ..generator import generate
 from ..marketplace import CarMarketplace
-from ..personas import load_personas, utility
+from ..personas import load_personas, utility, welfare_value
 from ..policies import HeuristicBuyer, HeuristicSeller
 from ..scheduler import poisson_arrivals
 
@@ -99,9 +99,10 @@ def run(cfg: S3Config) -> dict:
                     action="accept", counter_price=None, message="(fast)",
                 )
                 if d is not None:
-                    # Buyer's persona-true utility (oracle): based on
-                    # listing_condition because that's what she pays for.
-                    bu = utility(car, card.listing_condition, d.price, persona)
+                    # Ex-post welfare: based on TRUE condition (what buyer
+                    # actually got), not listing_condition (what she perceived).
+                    # buyer_utility here is GROSS max WTP — evaluator subtracts price.
+                    bu = welfare_value(car, car.true_condition, persona)
                     bs, ss, dw = deal_welfare(price=d.price, true_value=car.true_value,
                                                  buyer_utility=bu)
                     per_deal.append({
@@ -136,7 +137,7 @@ def run(cfg: S3Config) -> dict:
                             action="accept", counter_price=None, message="(close)",
                         )
                         if d is not None:
-                            bu = utility(car, card.listing_condition, d.price, persona)
+                            bu = welfare_value(car, car.true_condition, persona)
                             bs, ss, dw = deal_welfare(price=d.price, true_value=car.true_value,
                                                          buyer_utility=bu)
                             per_deal.append({
