@@ -6,7 +6,9 @@
 
 **Architecture:** Deterministic economic engine + LLM for flavor + replayable ablation. All published metrics come from `--mode fast` (rule-based seller archetypes, rule-based buyer policies, zero LLM calls, runs in seconds). `--mode llm` runs once offline to record cached transcripts. `--mode replay` plays them back live on stage. Reputation is a `Beta(α,β)` posterior per seller updated from listing-vs-true-condition gap on every deal close. Reputation operates through both search ranking (operational channel) and a `lookup_seller` tool (instrumentation channel).
 
-**Tech Stack:** Python 3.13, anthropic SDK, pandas, pyarrow, scikit-learn, matplotlib, numpy, pytest. Reuses `project_deal/marketplace.py`, `project_deal/agent.py`, `project_deal/config.py` as a substrate; new code lives under `car_market/`.
+**Tech Stack:** Python 3.13, **litellm** (provider-agnostic LLM client wrapping Anthropic, OpenAI, Gemini, local, etc.), pandas, pyarrow, scikit-learn, matplotlib, numpy, pytest. Reuses `project_deal/marketplace.py`, `project_deal/agent.py`, `project_deal/config.py` as a substrate; new code lives under `car_market/`.
+
+> **Model selection note.** All LLM calls (description, negotiation messages, optional capability-asymmetry sub-experiment) go through `litellm.completion(model=..., messages=...)`. Models pass as strings like `"anthropic/claude-haiku-4-5"`, `"openai/gpt-4o-mini"`, `"gemini/gemini-2.0-flash"`. This lets us trivially swap models per cohort (see spec §8.3.5 capability asymmetry) and lets the demo fall back to a cheaper provider if rate limits hit. Default per-call model is `"anthropic/claude-haiku-4-5"`.
 
 **Reference spec:** `docs/superpowers/specs/2026-05-17-used-car-marketplace-design.md` (revised after Codex review).
 
@@ -79,6 +81,7 @@ agent-trade/
 ```
 anthropic>=0.40.0
 python-dotenv>=1.0.0
+litellm>=1.40.0
 pandas>=2.2.0
 pyarrow>=15.0.0
 scikit-learn>=1.4.0
@@ -1659,6 +1662,7 @@ class S3Config:
     max_concurrent_per_seller: int = 5
     reputation_gamma: float = 0.5     # 0.0 = hidden mode
     mode: str = "fast"                # fast | llm | replay
+    llm_model: str = "anthropic/claude-haiku-4-5"   # any litellm model string
     out_dir: str = "runs"
 ```
 
@@ -2179,26 +2183,28 @@ Create `car_market/descriptions.py`:
 
 ```python
 """LLM-generated listing prose. Conditioned on the seller's CLAIMS
-(listing_condition, claimed_vhr_flags), not the true state. Cached."""
+(listing_condition, claimed_vhr_flags), not the true state. Cached.
+LLM provider is selected via litellm model string (e.g.
+'anthropic/claude-haiku-4-5', 'openai/gpt-4o-mini', 'gemini/gemini-2.0-flash')."""
 from __future__ import annotations
 
-from pathlib import Path
-
-from anthropic import Anthropic
+from litellm import completion
 
 from .archetypes import CarListing
 from .llm_cache import LLMCache
 
-MODEL = "claude-haiku-4-5"
+DEFAULT_MODEL = "anthropic/claude-haiku-4-5"
 
 
-def generate_description(listing: CarListing, client: Anthropic, cache: LLMCache) -> str:
+def generate_description(listing: CarListing, cache: LLMCache,
+                          model: str = DEFAULT_MODEL) -> str:
     ctx = {
         "year": listing.car.year, "make": listing.car.make, "model": listing.car.model,
         "body": listing.car.body, "mileage": listing.car.mileage,
         "listing_condition": round(listing.listing_condition, 1),
         "claimed_vhr_flags": sorted(listing.claimed_vhr_flags),
         "asking_price": round(listing.asking_price),
+        "_model": model,
     }
     hit = cache.get("description", ctx)
     if hit is not None:
@@ -2214,11 +2220,11 @@ Asking: ${ctx['asking_price']}
 Condition (1-5 scale, seller's claim): {ctx['listing_condition']}
 Vehicle history flags: {', '.join(ctx['claimed_vhr_flags'])}
 """
-    resp = client.messages.create(
-        model=MODEL, max_tokens=200,
+    resp = completion(
+        model=model, max_tokens=200,
         messages=[{"role": "user", "content": prompt}],
     )
-    text = "".join(b.text for b in resp.content if hasattr(b, "text")).strip()
+    text = resp.choices[0].message.content.strip()
     cache.put("description", ctx, text)
     return text
 ```
@@ -2268,19 +2274,25 @@ Create `car_market/llm_agent.py`:
 """LLM-flavored negotiation messages. The DECISION (accept/counter/decline,
 bid price) is taken by the heuristic policy in policies.py; the LLM only
 writes the natural-language MESSAGE that accompanies the action. This keeps
-the ablation deterministic while making transcripts feel human."""
+the ablation deterministic while making transcripts feel human.
+
+Model selection goes through litellm so the same code drives Claude, GPT,
+Gemini, or local models — used for the capability-asymmetry sub-experiment."""
 from __future__ import annotations
 
-from anthropic import Anthropic
+from litellm import completion
+
 from .llm_cache import LLMCache
 
-MODEL = "claude-haiku-4-5"
+DEFAULT_MODEL = "anthropic/claude-haiku-4-5"
 
 
 def buyer_message(buyer_persona_id: str, listing_summary: str,
-                   action: str, bid: float, client: Anthropic, cache: LLMCache) -> str:
+                   action: str, bid: float, cache: LLMCache,
+                   model: str = DEFAULT_MODEL) -> str:
     ctx = {"who": "buyer", "persona": buyer_persona_id,
-           "listing": listing_summary, "action": action, "bid": round(bid)}
+           "listing": listing_summary, "action": action, "bid": round(bid),
+           "_model": model}
     hit = cache.get("negotiation_msg", ctx)
     if hit is not None:
         return hit
@@ -2293,17 +2305,19 @@ Listing: {listing_summary}
 Your action: {action}
 Your bid: ${bid:.0f}
 """
-    resp = client.messages.create(model=MODEL, max_tokens=80,
-                                    messages=[{"role": "user", "content": prompt}])
-    text = "".join(b.text for b in resp.content if hasattr(b, "text")).strip()
+    resp = completion(model=model, max_tokens=80,
+                       messages=[{"role": "user", "content": prompt}])
+    text = resp.choices[0].message.content.strip()
     cache.put("negotiation_msg", ctx, text)
     return text
 
 
 def seller_message(archetype_name: str, listing_summary: str,
-                    action: str, price: float, client: Anthropic, cache: LLMCache) -> str:
+                    action: str, price: float, cache: LLMCache,
+                    model: str = DEFAULT_MODEL) -> str:
     ctx = {"who": "seller", "archetype": archetype_name,
-           "listing": listing_summary, "action": action, "price": round(price)}
+           "listing": listing_summary, "action": action, "price": round(price),
+           "_model": model}
     hit = cache.get("negotiation_msg", ctx)
     if hit is not None:
         return hit
@@ -2316,9 +2330,9 @@ Listing: {listing_summary}
 Your action: {action}
 Price involved: ${price:.0f}
 """
-    resp = client.messages.create(model=MODEL, max_tokens=80,
-                                    messages=[{"role": "user", "content": prompt}])
-    text = "".join(b.text for b in resp.content if hasattr(b, "text")).strip()
+    resp = completion(model=model, max_tokens=80,
+                       messages=[{"role": "user", "content": prompt}])
+    text = resp.choices[0].message.content.strip()
     cache.put("negotiation_msg", ctx, text)
     return text
 ```
@@ -2342,18 +2356,15 @@ Modify `s3_open_market.py` to optionally call `generate_description()` on each l
 Add at the top of `run()`:
 
 ```python
-client = None
 cache = None
 if cfg.mode == "llm":
-    from anthropic import Anthropic
     from ..llm_cache import LLMCache
     from ..descriptions import generate_description
     from ..llm_agent import buyer_message, seller_message
-    client = Anthropic()
     cache = LLMCache(Path(cfg.out_dir) / "llm_cache.jsonl")
 ```
 
-After adding each listing, if `cfg.mode == "llm"`, call `generate_description` and store on `l.description`. At each `make_offer`/`respond_to_offer` step, replace the `"(fast)"` message string with the LLM-generated one.
+Also extend `S3Config` to carry `llm_model: str = "anthropic/claude-haiku-4-5"`. After adding each listing, if `cfg.mode == "llm"`, call `generate_description(l, cache, model=cfg.llm_model)` and store on `l.description`. At each `make_offer`/`respond_to_offer` step, replace `"(fast)"` with the LLM-generated message string (passing `cache=cache, model=cfg.llm_model`).
 
 - [ ] **Step 2: Record one full `--mode llm` run**
 
