@@ -1,0 +1,12 @@
+{
+  "name": "alex",
+  "background": "Software engineer, into cycling and board games.",
+  "selling": [
+    {"item": "lightly-used road bike helmet", "asking": 40, "min": 25},
+    {"item": "Settlers of Catan base game", "asking": 25, "min": 15},
+    {"item": "Anker 20000mAh power bank", "asking": 30, "min": 20},
+    {"item": "espresso tamper, stainless", "asking": 15, "min": 8}
+  ],
+  "buying": ["mechanical keyboard under $60", "noise-cancelling headphones under $80"],
+  "style": "pragmatic"
+}

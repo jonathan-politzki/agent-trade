@@ -1,0 +1,12 @@
+{
+  "name": "priya",
+  "background": "Climber and outdoorsy; downsizing her gear collection.",
+  "selling": [
+    {"item": "climbing chalk bag", "asking": 18, "min": 10},
+    {"item": "Black Diamond climbing shoes (US 8)", "asking": 55, "min": 35},
+    {"item": "trail running pack 10L", "asking": 35, "min": 22},
+    {"item": "headlamp, Petzl Tikka", "asking": 22, "min": 14}
+  ],
+  "buying": ["a camera lens under $80", "a tripod under $35"],
+  "style": "pragmatic"
+}

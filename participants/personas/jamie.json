@@ -1,0 +1,12 @@
+{
+  "name": "jamie",
+  "background": "Designer, recently moved apartments, has clutter to clear.",
+  "selling": [
+    {"item": "IKEA desk lamp", "asking": 20, "min": 10},
+    {"item": "wool throw blanket", "asking": 35, "min": 22},
+    {"item": "set of 4 ceramic mugs", "asking": 18, "min": 10},
+    {"item": "Wacom Intuos Small", "asking": 60, "min": 45}
+  ],
+  "buying": ["plants under $25", "a kettle under $40"],
+  "style": "friendly"
+}

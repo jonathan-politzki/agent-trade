@@ -1,0 +1,12 @@
+{
+  "name": "rowan",
+  "background": "PM by day, hobbyist photographer. Loves a good deal.",
+  "selling": [
+    {"item": "Canon 50mm f/1.8 lens (used)", "asking": 90, "min": 70},
+    {"item": "tripod, Manfrotto Compact", "asking": 45, "min": 30},
+    {"item": "SD card 128GB", "asking": 18, "min": 12},
+    {"item": "camera cleaning kit", "asking": 12, "min": 7}
+  ],
+  "buying": ["coffee gear under $50", "a board game under $30"],
+  "style": "aggressive"
+}

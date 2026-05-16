@@ -1,0 +1,12 @@
+{
+  "name": "sam",
+  "background": "Mechanical engineer, cooks a lot, lives in a small apartment.",
+  "selling": [
+    {"item": "cast iron skillet, 10-inch", "asking": 30, "min": 18},
+    {"item": "kettle, electric (Bonavita)", "asking": 40, "min": 25},
+    {"item": "Le Creuset cookbook", "asking": 14, "min": 8},
+    {"item": "knife sharpener (manual)", "asking": 20, "min": 12}
+  ],
+  "buying": ["a desk lamp under $25", "ceramic mugs under $20"],
+  "style": "friendly"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "gabby",
+  "background": "Grad student, perpetually broke, looking to flip a few things.",
+  "selling": [
+    {"item": "intro stats textbook", "asking": 25, "min": 12},
+    {"item": "noise-cancelling headphones (Sony WH-CH710N)", "asking": 70, "min": 50},
+    {"item": "yoga mat, lightly used", "asking": 15, "min": 8},
+    {"item": "Hydroflask 32oz", "asking": 22, "min": 15}
+  ],
+  "buying": ["a road bike helmet under $35", "a power bank under $25"],
+  "style": "aggressive"
+}
