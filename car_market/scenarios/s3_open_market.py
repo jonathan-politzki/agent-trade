@@ -34,6 +34,27 @@ def run(cfg: S3Config) -> dict:
     out_dir.mkdir(parents=True, exist_ok=True)
     log_path = out_dir / "events.jsonl"
 
+    # ---- LLM mode setup (E.3) ----
+    cache = None
+    if cfg.mode == "llm":
+        from ..llm_cache import LLMCache
+        from ..descriptions import generate_description
+        from ..llm_agent import buyer_message, seller_message
+        cache = LLMCache(Path(cfg.out_dir) / "llm_cache.jsonl")
+
+    def _bmsg(action: str, bid: float, listing_summary: str, persona_id: str) -> str:
+        if cfg.mode != "llm" or cache is None:
+            return f"(fast {action})"
+        return buyer_message(persona_id, listing_summary, action, bid, cache, model=cfg.llm_model)
+
+    def _smsg(action: str, price: float, listing_summary: str, archetype: str) -> str:
+        if cfg.mode != "llm" or cache is None:
+            return f"(fast {action})"
+        return seller_message(archetype, listing_summary, action, price, cache, model=cfg.llm_model)
+
+    def _summary(card) -> str:
+        return f"{card.year} {card.make} {card.model} — {card.mileage}mi, cond {card.listing_condition:.1f}, asking ${card.asking_price:.0f}"
+
     mp = CarMarketplace(
         run_name=f"s3_seed{cfg.seed}_gamma{cfg.reputation_gamma}",
         reputation_gamma=cfg.reputation_gamma,
@@ -56,6 +77,8 @@ def run(cfg: S3Config) -> dict:
                 listing_id=f"L_{car_idx+1:05d}",
             )
             mp.add_listing(l)
+            if cfg.mode == "llm":
+                l.description = generate_description(l, cache, model=cfg.llm_model)
             cars_by_listing[l.listing_id] = c
             car_idx += 1
         sellers[seller_id] = HeuristicSeller(
@@ -86,7 +109,7 @@ def run(cfg: S3Config) -> dict:
             card = next(c for c in cards if c.listing_id == lid)
             car = cars_by_listing[lid]
             bid = buyer.propose_price(card, car)
-            off = mp.make_offer(buyer=buyer_id, listing_id=lid, price=bid, message="(fast)")
+            off = mp.make_offer(buyer=buyer_id, listing_id=lid, price=bid, message=_bmsg("offer", bid, _summary(card), persona.persona_id))
             if off is None:
                 continue
             seller = sellers[card.seller_id]
@@ -96,7 +119,7 @@ def run(cfg: S3Config) -> dict:
             if step.action == "accept":
                 d = mp.respond_to_offer(
                     seller=seller.seller_id, offer_id=off.offer_id,
-                    action="accept", counter_price=None, message="(fast)",
+                    action="accept", counter_price=None, message=_smsg("accept", bid, _summary(card), seller.archetype.name),
                 )
                 if d is not None:
                     # Ex-post welfare: based on TRUE condition (what buyer
@@ -121,7 +144,7 @@ def run(cfg: S3Config) -> dict:
             elif step.action == "counter":
                 mp.respond_to_offer(
                     seller=seller.seller_id, offer_id=off.offer_id,
-                    action="counter", counter_price=step.counter_price, message="(fast)",
+                    action="counter", counter_price=step.counter_price, message=_smsg("counter", step.counter_price, _summary(card), seller.archetype.name),
                 )
                 # Buyer evaluates counter as a new asking price. If her WTP >= counter,
                 # she accepts by re-offering at the counter price.
@@ -129,12 +152,12 @@ def run(cfg: S3Config) -> dict:
                 if step.counter_price <= wtp_under_listing:
                     new_off = mp.make_offer(
                         buyer=buyer_id, listing_id=lid,
-                        price=step.counter_price, message="(accepts counter)",
+                        price=step.counter_price, message=_bmsg("accepts counter", step.counter_price, _summary(card), persona.persona_id),
                     )
                     if new_off is not None:
                         d = mp.respond_to_offer(
                             seller=seller.seller_id, offer_id=new_off.offer_id,
-                            action="accept", counter_price=None, message="(close)",
+                            action="accept", counter_price=None, message=_smsg("close", step.counter_price, _summary(card), seller.archetype.name),
                         )
                         if d is not None:
                             bu = welfare_value(car, car.true_condition, persona)
