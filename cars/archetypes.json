@@ -1,0 +1,14 @@
+[
+  {"car_id": "camry_2018", "year": 2018, "make": "Toyota", "model": "Camry", "trim": "LE", "approx_mileage": 78000, "severity_profile": "minor"},
+  {"car_id": "civic_2016", "year": 2016, "make": "Honda", "model": "Civic", "trim": "EX", "approx_mileage": 96000, "severity_profile": "clean"},
+  {"car_id": "f150_2015", "year": 2015, "make": "Ford", "model": "F-150", "trim": "XLT", "approx_mileage": 132000, "severity_profile": "moderate"},
+  {"car_id": "altima_2017", "year": 2017, "make": "Nissan", "model": "Altima", "trim": "SV", "approx_mileage": 104000, "severity_profile": "moderate"},
+  {"car_id": "rav4_2019", "year": 2019, "make": "Toyota", "model": "RAV4", "trim": "XLE", "approx_mileage": 52000, "severity_profile": "clean"},
+  {"car_id": "wrangler_2014", "year": 2014, "make": "Jeep", "model": "Wrangler", "trim": "Sport", "approx_mileage": 118000, "severity_profile": "moderate"},
+  {"car_id": "mustang_2013", "year": 2013, "make": "Ford", "model": "Mustang", "trim": "GT", "approx_mileage": 88000, "severity_profile": "severe"},
+  {"car_id": "tahoe_2016", "year": 2016, "make": "Chevrolet", "model": "Tahoe", "trim": "LT", "approx_mileage": 142000, "severity_profile": "severe"},
+  {"car_id": "sienna_2017", "year": 2017, "make": "Toyota", "model": "Sienna", "trim": "XLE", "approx_mileage": 89000, "severity_profile": "minor"},
+  {"car_id": "bmw3_2015", "year": 2015, "make": "BMW", "model": "328i", "trim": "Sport", "approx_mileage": 96000, "severity_profile": "moderate"},
+  {"car_id": "prius_2018", "year": 2018, "make": "Toyota", "model": "Prius", "trim": "Two", "approx_mileage": 71000, "severity_profile": "clean"},
+  {"car_id": "silverado_2017", "year": 2017, "make": "Chevrolet", "model": "Silverado 1500", "trim": "LT", "approx_mileage": 109000, "severity_profile": "minor"}
+]
