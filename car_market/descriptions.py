@@ -45,3 +45,18 @@ Vehicle history flags: {', '.join(ctx['claimed_vhr_flags'])}
     text = resp.choices[0].message.content.strip()
     cache.put("description", ctx, text)
     return text
+
+
+def lookup_description(listing: CarListing, cache: LLMCache,
+                        model: str = DEFAULT_MODEL) -> str | None:
+    """Cache-only lookup — returns None on miss. No API call."""
+    ctx = {
+        "year": listing.car.year, "make": listing.car.make,
+        "model": listing.car.model, "body": listing.car.body,
+        "mileage": listing.car.mileage,
+        "listing_condition": round(listing.listing_condition, 1),
+        "claimed_vhr_flags": sorted(listing.claimed_vhr_flags),
+        "asking_price": round(listing.asking_price),
+        "_model": model,
+    }
+    return cache.get("description", ctx)

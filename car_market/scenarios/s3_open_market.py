@@ -34,23 +34,39 @@ def run(cfg: S3Config) -> dict:
     out_dir.mkdir(parents=True, exist_ok=True)
     log_path = out_dir / "events.jsonl"
 
-    # ---- LLM mode setup (E.3) ----
+    # ---- LLM / replay mode setup ----
     cache = None
-    if cfg.mode == "llm":
+    generate_description = None
+    buyer_message = None
+    seller_message = None
+    lookup_description = None
+    lookup_buyer_message = None
+    lookup_seller_message = None
+    if cfg.mode in ("llm", "replay"):
         from ..llm_cache import LLMCache
-        from ..descriptions import generate_description
-        from ..llm_agent import buyer_message, seller_message
+        from ..descriptions import lookup_description
+        from ..llm_agent import lookup_buyer_message, lookup_seller_message
         cache = LLMCache(Path(cfg.out_dir) / "llm_cache.jsonl")
+        if cfg.mode == "llm":
+            from ..descriptions import generate_description
+            from ..llm_agent import buyer_message, seller_message
 
     def _bmsg(action: str, bid: float, listing_summary: str, persona_id: str) -> str:
-        if cfg.mode != "llm" or cache is None:
+        if cfg.mode == "fast" or cache is None:
             return f"(fast {action})"
-        return buyer_message(persona_id, listing_summary, action, bid, cache, model=cfg.llm_model)
+        if cfg.mode == "llm":
+            return buyer_message(persona_id, listing_summary, action, bid, cache, model=cfg.llm_model)
+        # replay: cache-only, fall back to a fixed string on miss
+        msg = lookup_buyer_message(persona_id, listing_summary, action, bid, cache, model=cfg.llm_model)
+        return msg if msg is not None else f"(replay-miss {action})"
 
     def _smsg(action: str, price: float, listing_summary: str, archetype: str) -> str:
-        if cfg.mode != "llm" or cache is None:
+        if cfg.mode == "fast" or cache is None:
             return f"(fast {action})"
-        return seller_message(archetype, listing_summary, action, price, cache, model=cfg.llm_model)
+        if cfg.mode == "llm":
+            return seller_message(archetype, listing_summary, action, price, cache, model=cfg.llm_model)
+        msg = lookup_seller_message(archetype, listing_summary, action, price, cache, model=cfg.llm_model)
+        return msg if msg is not None else f"(replay-miss {action})"
 
     def _summary(card) -> str:
         return f"{card.year} {card.make} {card.model} — {card.mileage}mi, cond {card.listing_condition:.1f}, asking ${card.asking_price:.0f}"
@@ -79,6 +95,9 @@ def run(cfg: S3Config) -> dict:
             mp.add_listing(l)
             if cfg.mode == "llm":
                 l.description = generate_description(l, cache, model=cfg.llm_model)
+            elif cfg.mode == "replay":
+                desc = lookup_description(l, cache, model=cfg.llm_model)
+                l.description = desc if desc is not None else ""
             cars_by_listing[l.listing_id] = c
             car_idx += 1
         sellers[seller_id] = HeuristicSeller(

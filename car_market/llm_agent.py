@@ -59,3 +59,23 @@ Price involved: ${price:.0f}
     text = resp.choices[0].message.content.strip()
     cache.put("negotiation_msg", ctx, text)
     return text
+
+
+def lookup_buyer_message(buyer_persona_id: str, listing_summary: str,
+                          action: str, bid: float, cache: LLMCache,
+                          model: str = DEFAULT_MODEL) -> str | None:
+    """Cache-only lookup — returns None on miss. No API call."""
+    ctx = {"who": "buyer", "persona": buyer_persona_id,
+           "listing": listing_summary, "action": action,
+           "bid": round(bid), "_model": model}
+    return cache.get("negotiation_msg", ctx)
+
+
+def lookup_seller_message(archetype_name: str, listing_summary: str,
+                           action: str, price: float, cache: LLMCache,
+                           model: str = DEFAULT_MODEL) -> str | None:
+    """Cache-only lookup — returns None on miss. No API call."""
+    ctx = {"who": "seller", "archetype": archetype_name,
+           "listing": listing_summary, "action": action,
+           "price": round(price), "_model": model}
+    return cache.get("negotiation_msg", ctx)
