@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_059",
+  "year": 2016,
+  "make": "Subaru",
+  "model": "Outback",
+  "body": "SUV",
+  "mileage": 194415,
+  "true_condition": 3.646982109349019,
+  "true_value": 11808.505722061567,
+  "seller_floor": 10710.902010895152,
+  "seller_ceiling": 12759.023783863919,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

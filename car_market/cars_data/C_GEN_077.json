@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_077",
+  "year": 2021,
+  "make": "Honda",
+  "model": "Civic",
+  "body": "Sedan",
+  "mileage": 113561,
+  "true_condition": 3.396192330598573,
+  "true_value": 14798.453439349269,
+  "seller_floor": 13846.020667220379,
+  "seller_ceiling": 16271.793500864464,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

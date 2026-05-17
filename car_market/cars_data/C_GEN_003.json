@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_003",
+  "year": 2019,
+  "make": "Chevrolet",
+  "model": "Silverado",
+  "body": "Truck",
+  "mileage": 133590,
+  "true_condition": 2.6399234237686233,
+  "true_value": 13985.939060145318,
+  "seller_floor": 12842.14601896388,
+  "seller_ceiling": 15696.058458184953,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

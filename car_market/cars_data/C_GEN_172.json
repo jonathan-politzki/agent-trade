@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_172",
+  "year": 2023,
+  "make": "Toyota",
+  "model": "Camry",
+  "body": "Sedan",
+  "mileage": 85905,
+  "true_condition": 2.5913542633879887,
+  "true_value": 16940.823135678656,
+  "seller_floor": 14903.574890882777,
+  "seller_ceiling": 18587.64376458973,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_178",
+  "year": 2012,
+  "make": "Honda",
+  "model": "Accord",
+  "body": "Sedan",
+  "mileage": 250000,
+  "true_condition": 3.3671697317010345,
+  "true_value": 7851.787217731204,
+  "seller_floor": 6945.760837789362,
+  "seller_ceiling": 8730.985622959117,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

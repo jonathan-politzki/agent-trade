@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_116",
+  "year": 2015,
+  "make": "Volkswagen",
+  "model": "Jetta",
+  "body": "Sedan",
+  "mileage": 215205,
+  "true_condition": 2.834047002203592,
+  "true_value": 8301.817250000147,
+  "seller_floor": 7428.3691294118735,
+  "seller_ceiling": 9269.156194317668,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

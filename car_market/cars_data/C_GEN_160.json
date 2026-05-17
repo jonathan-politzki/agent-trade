@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_160",
+  "year": 2016,
+  "make": "Honda",
+  "model": "Pilot",
+  "body": "SUV",
+  "mileage": 191989,
+  "true_condition": 2.748637373694523,
+  "true_value": 11505.459001173864,
+  "seller_floor": 10028.174034062527,
+  "seller_ceiling": 12879.297426930352,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

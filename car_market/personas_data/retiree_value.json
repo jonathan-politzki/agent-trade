@@ -1,0 +1,13 @@
+{
+  "persona_id": "retiree_value",
+  "name": "Linda Brooks",
+  "description": "Linda is 68, retired from teaching middle-school English last spring. She drives to bridge club twice a week, the grocery store, and once a month to visit her grandkids two hours up the coast. Her late husband always handled the car-buying and she's a little anxious about being talked into something she doesn't need.",
+  "allowed_bodies": ["Sedan", "SUV"],
+  "max_miles": 90000,
+  "max_age_years": 10,
+  "max_budget": 18000,
+  "preferred_makes": ["Toyota", "Honda", "Subaru"],
+  "weights": {"year": 0.15, "miles": 0.2, "condition": 0.35, "body_match": 0.1, "brand": 0.2},
+  "price_sensitivity": 1.2,
+  "risk_aversion": 0.8
+}

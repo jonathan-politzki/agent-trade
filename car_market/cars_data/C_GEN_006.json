@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_006",
+  "year": 2017,
+  "make": "Tesla",
+  "model": "Model S",
+  "body": "Sedan",
+  "mileage": 142936,
+  "true_condition": 3.7275221287149227,
+  "true_value": 17502.88203130183,
+  "seller_floor": 14735.482988991045,
+  "seller_ceiling": 19972.02200839745,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

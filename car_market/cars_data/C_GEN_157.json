@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_157",
+  "year": 2020,
+  "make": "BMW",
+  "model": "3 Series",
+  "body": "Sedan",
+  "mileage": 112594,
+  "true_condition": 3.4676760363509715,
+  "true_value": 19493.1821429049,
+  "seller_floor": 17645.14806168,
+  "seller_ceiling": 21629.09880633961,
+  "true_vhr_flags": [
+    "SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "persona_id": "family_of_four",
+  "name": "Mike & Jen Hendricks",
+  "description": "Mike runs a small IT consultancy out of their garage; Jen does part-time bookkeeping. Two kids: Lily (7) and Noah (4), both in soccer. Their 2011 minivan has been in the shop three times this year and Jen has put her foot down — they're getting a real SUV before school starts.",
+  "allowed_bodies": ["SUV"],
+  "max_miles": 100000,
+  "max_age_years": 8,
+  "max_budget": 32000,
+  "preferred_makes": ["Honda", "Toyota", "Subaru", "Kia"],
+  "weights": {"year": 0.2, "miles": 0.2, "condition": 0.3, "body_match": 0.15, "brand": 0.15},
+  "price_sensitivity": 1.0,
+  "risk_aversion": 0.7
+}

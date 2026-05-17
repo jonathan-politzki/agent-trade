@@ -1,0 +1,13 @@
+{
+  "persona_id": "student_first_car",
+  "name": "Maya Chen",
+  "description": "Maya is 20, a biology major at SF State on a partial scholarship. She just landed an unpaid lab internship 25 minutes away and has been bumming rides from her roommate. Budget is everything she saved waiting tables last summer — about nine grand. She just needs four wheels that won't die before graduation.",
+  "allowed_bodies": ["Sedan", "SUV"],
+  "max_miles": 200000,
+  "max_age_years": 18,
+  "max_budget": 9000,
+  "preferred_makes": ["Honda", "Toyota", "Hyundai", "Kia"],
+  "weights": {"year": 0.1, "miles": 0.25, "condition": 0.3, "body_match": 0.15, "brand": 0.2},
+  "price_sensitivity": 1.4,
+  "risk_aversion": 0.6
+}

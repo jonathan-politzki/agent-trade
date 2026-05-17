@@ -1,0 +1,13 @@
+{
+  "persona_id": "ev_curious",
+  "name": "Priya Shah",
+  "description": "Priya is a 35-year-old hospitalist at UCSF who's been reading about climate for years and finally wants to act. She has a parking spot with a 240V outlet and her commute is short. She's willing to stretch her budget for a low-mileage Tesla — but she's never owned an EV and is wary of battery surprises.",
+  "allowed_bodies": ["Sedan", "SUV"],
+  "max_miles": 80000,
+  "max_age_years": 6,
+  "max_budget": 40000,
+  "preferred_makes": ["Tesla"],
+  "weights": {"year": 0.3, "miles": 0.15, "condition": 0.2, "body_match": 0.1, "brand": 0.25},
+  "price_sensitivity": 0.8,
+  "risk_aversion": 0.4
+}

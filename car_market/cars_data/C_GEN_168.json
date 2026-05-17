@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_168",
+  "year": 2024,
+  "make": "Mazda",
+  "model": "Mazda3",
+  "body": "Sedan",
+  "mileage": 47499,
+  "true_condition": 3.8588351998390378,
+  "true_value": 21317.271041006454,
+  "seller_floor": 19156.84179404665,
+  "seller_ceiling": 24218.774073188117,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_114",
+  "year": 2010,
+  "make": "Honda",
+  "model": "CR-V",
+  "body": "SUV",
+  "mileage": 250000,
+  "true_condition": 3.983403813545479,
+  "true_value": 7767.245360500075,
+  "seller_floor": 7078.121662054135,
+  "seller_ceiling": 8712.812902180616,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

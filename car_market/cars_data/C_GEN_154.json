@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_154",
+  "year": 2015,
+  "make": "Ford",
+  "model": "Escape",
+  "body": "SUV",
+  "mileage": 218570,
+  "true_condition": 2.59290989424155,
+  "true_value": 9702.557200691312,
+  "seller_floor": 8619.711018904987,
+  "seller_ceiling": 10477.805880076303,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

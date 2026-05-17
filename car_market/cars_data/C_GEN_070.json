@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_070",
+  "year": 2018,
+  "make": "Toyota",
+  "model": "Camry",
+  "body": "Sedan",
+  "mileage": 135357,
+  "true_condition": 2.0438518610894487,
+  "true_value": 12209.450429370207,
+  "seller_floor": 10913.39451955251,
+  "seller_ceiling": 13303.949862678204,
+  "true_vhr_flags": [
+    "SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

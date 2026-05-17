@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_124",
+  "year": 2018,
+  "make": "Toyota",
+  "model": "Corolla",
+  "body": "Sedan",
+  "mileage": 127702,
+  "true_condition": 3.495716396014435,
+  "true_value": 13460.792179603808,
+  "seller_floor": 12218.420206368499,
+  "seller_ceiling": 15286.347354188953,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

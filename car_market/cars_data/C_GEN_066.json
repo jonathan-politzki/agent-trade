@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_066",
+  "year": 2018,
+  "make": "Toyota",
+  "model": "Tacoma",
+  "body": "Truck",
+  "mileage": 151041,
+  "true_condition": 2.823936598220422,
+  "true_value": 15405.939294977668,
+  "seller_floor": 13712.213208906687,
+  "seller_ceiling": 17382.682389605896,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_145",
+  "year": 2016,
+  "make": "Toyota",
+  "model": "Camry",
+  "body": "Sedan",
+  "mileage": 179977,
+  "true_condition": 1.9435566684268533,
+  "true_value": 9133.117565173508,
+  "seller_floor": 8403.162861982735,
+  "seller_ceiling": 10172.894791934119,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

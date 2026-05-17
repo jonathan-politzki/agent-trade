@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_141",
+  "year": 2019,
+  "make": "Ford",
+  "model": "Ranger",
+  "body": "Truck",
+  "mileage": 136371,
+  "true_condition": 3.089210330912235,
+  "true_value": 14169.988089554541,
+  "seller_floor": 12306.564728368567,
+  "seller_ceiling": 15688.941586459763,
+  "true_vhr_flags": [
+    "SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

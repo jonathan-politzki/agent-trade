@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_196",
+  "year": 2022,
+  "make": "Toyota",
+  "model": "Tacoma",
+  "body": "Truck",
+  "mileage": 64752,
+  "true_condition": 4.0969389047648,
+  "true_value": 18961.592893555495,
+  "seller_floor": 16962.12154639833,
+  "seller_ceiling": 20008.31437181357,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "PRIOR_USE_LEASE"
+  ]
+}

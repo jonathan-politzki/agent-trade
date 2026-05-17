@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_152",
+  "year": 2020,
+  "make": "Ford",
+  "model": "F-150",
+  "body": "Truck",
+  "mileage": 115898,
+  "true_condition": 2.800941694287112,
+  "true_value": 14005.327960626255,
+  "seller_floor": 12513.830413588628,
+  "seller_ceiling": 15472.320523641001,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

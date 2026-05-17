@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_024",
+  "year": 2017,
+  "make": "Honda",
+  "model": "Pilot",
+  "body": "SUV",
+  "mileage": 187383,
+  "true_condition": 2.7666102947039986,
+  "true_value": 12712.235030263324,
+  "seller_floor": 11665.678888551785,
+  "seller_ceiling": 14208.714066624783,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

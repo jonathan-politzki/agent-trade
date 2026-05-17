@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_065",
+  "year": 2018,
+  "make": "Hyundai",
+  "model": "Elantra",
+  "body": "Sedan",
+  "mileage": 147798,
+  "true_condition": 2.8535686336770176,
+  "true_value": 10512.730424872432,
+  "seller_floor": 9666.874405518725,
+  "seller_ceiling": 11565.948730625703,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_004",
+  "year": 2021,
+  "make": "Honda",
+  "model": "Accord",
+  "body": "Sedan",
+  "mileage": 88301,
+  "true_condition": 3.6556568739859348,
+  "true_value": 13691.88399179391,
+  "seller_floor": 12518.35257815239,
+  "seller_ceiling": 14866.478251114373,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

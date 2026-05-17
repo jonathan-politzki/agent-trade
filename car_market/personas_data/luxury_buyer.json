@@ -1,0 +1,13 @@
+{
+  "persona_id": "luxury_buyer",
+  "name": "Reed Sterling",
+  "description": "Reed is a 45-year-old partner at a mid-size PE firm. He just totaled his M3 in a low-speed parking-lot incident he refuses to discuss, and his wife took the X5. He wants a newer BMW or a Tesla S — low mileage, immaculate condition, and he'd genuinely rather pay above market than wait three weeks shopping.",
+  "allowed_bodies": ["Sedan", "SUV"],
+  "max_miles": 50000,
+  "max_age_years": 5,
+  "max_budget": 60000,
+  "preferred_makes": ["BMW", "Tesla"],
+  "weights": {"year": 0.25, "miles": 0.15, "condition": 0.25, "body_match": 0.1, "brand": 0.25},
+  "price_sensitivity": 0.6,
+  "risk_aversion": 0.4
+}

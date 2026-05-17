@@ -1,0 +1,13 @@
+{
+  "persona_id": "contractor_pickup",
+  "name": "Carlos Rivera",
+  "description": "Carlos runs a one-man home-remodeling outfit in Austin. He hauls lumber, tools, and the occasional motorcycle, and tows a 5x8 trailer to job sites. His old F-150 just hit 240k and the transmission is whining. He needs a truck — full-size or mid-size — that can handle real work without breaking the bank.",
+  "allowed_bodies": ["Truck"],
+  "max_miles": 180000,
+  "max_age_years": 15,
+  "max_budget": 28000,
+  "preferred_makes": ["Ford", "Chevrolet", "Toyota"],
+  "weights": {"year": 0.15, "miles": 0.2, "condition": 0.35, "body_match": 0.2, "brand": 0.1},
+  "price_sensitivity": 0.9,
+  "risk_aversion": 0.5
+}

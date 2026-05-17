@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_186",
+  "year": 2017,
+  "make": "Ford",
+  "model": "Escape",
+  "body": "SUV",
+  "mileage": 189923,
+  "true_condition": 1.5100433993240574,
+  "true_value": 10624.585404522872,
+  "seller_floor": 9358.85767359344,
+  "seller_ceiling": 11551.653047408123,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

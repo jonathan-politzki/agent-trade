@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_103",
+  "year": 2021,
+  "make": "Toyota",
+  "model": "Highlander",
+  "body": "SUV",
+  "mileage": 96302,
+  "true_condition": 3.146520005458379,
+  "true_value": 17943.827252806754,
+  "seller_floor": 16103.902314758925,
+  "seller_ceiling": 19952.658416410555,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

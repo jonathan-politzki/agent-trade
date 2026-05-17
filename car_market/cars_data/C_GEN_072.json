@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_072",
+  "year": 2016,
+  "make": "Mazda",
+  "model": "Mazda3",
+  "body": "Sedan",
+  "mileage": 204942,
+  "true_condition": 2.9555524824420285,
+  "true_value": 9944.881545398464,
+  "seller_floor": 8931.430026268716,
+  "seller_ceiling": 10989.912239480722,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

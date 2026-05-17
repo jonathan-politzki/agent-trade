@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_028",
+  "year": 2021,
+  "make": "Tesla",
+  "model": "Model S",
+  "body": "Sedan",
+  "mileage": 119509,
+  "true_condition": 4.0426188655307005,
+  "true_value": 27267.22434783842,
+  "seller_floor": 25492.259005959455,
+  "seller_ceiling": 29687.62454729072,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "PRIOR_USE_LEASE"
+  ]
+}

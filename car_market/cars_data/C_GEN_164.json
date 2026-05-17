@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_164",
+  "year": 2020,
+  "make": "Kia",
+  "model": "Sportage",
+  "body": "SUV",
+  "mileage": 106928,
+  "true_condition": 2.517237746737114,
+  "true_value": 13421.470531527728,
+  "seller_floor": 12257.94068827789,
+  "seller_ceiling": 14518.746834972417,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

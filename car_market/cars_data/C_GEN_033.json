@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_033",
+  "year": 2025,
+  "make": "Honda",
+  "model": "CR-V",
+  "body": "SUV",
+  "mileage": 51040,
+  "true_condition": 1.781960610865833,
+  "true_value": 20384.02355613867,
+  "seller_floor": 18287.165504925462,
+  "seller_ceiling": 22027.294952728927,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "PRIOR_USE_LEASE"
+  ]
+}

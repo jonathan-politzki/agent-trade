@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_133",
+  "year": 2016,
+  "make": "BMW",
+  "model": "5 Series",
+  "body": "Sedan",
+  "mileage": 241710,
+  "true_condition": 2.9742930894724617,
+  "true_value": 13647.150708561483,
+  "seller_floor": 11742.415538532592,
+  "seller_ceiling": 15523.180261932783,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

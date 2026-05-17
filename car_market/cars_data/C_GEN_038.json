@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_038",
+  "year": 2015,
+  "make": "Jeep",
+  "model": "Wrangler",
+  "body": "SUV",
+  "mileage": 229912,
+  "true_condition": 3.857546401077255,
+  "true_value": 13613.094783599014,
+  "seller_floor": 12351.650481948955,
+  "seller_ceiling": 15164.369703538297,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

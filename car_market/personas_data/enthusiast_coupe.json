@@ -1,0 +1,13 @@
+{
+  "persona_id": "enthusiast_coupe",
+  "name": "Alex Müller",
+  "description": "Alex is 28, works at a hedge fund, and has been saving for the right used 3 Series since college. Weekend canyon drives, occasional autocross, and a deep prejudice against anything with a CVT. He'd rather pay 20% more for a clean-history Bimmer than 'settle' for a boring sedan.",
+  "allowed_bodies": ["Sedan"],
+  "max_miles": 90000,
+  "max_age_years": 12,
+  "max_budget": 38000,
+  "preferred_makes": ["BMW", "Volkswagen"],
+  "weights": {"year": 0.2, "miles": 0.2, "condition": 0.25, "body_match": 0.05, "brand": 0.3},
+  "price_sensitivity": 0.7,
+  "risk_aversion": 0.5
+}

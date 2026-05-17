@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_117",
+  "year": 2017,
+  "make": "Honda",
+  "model": "CR-V",
+  "body": "SUV",
+  "mileage": 189505,
+  "true_condition": 3.1607664651232428,
+  "true_value": 11533.02431501103,
+  "seller_floor": 10493.013095005586,
+  "seller_ceiling": 12998.493118723492,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

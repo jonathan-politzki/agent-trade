@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_009",
+  "year": 2023,
+  "make": "Nissan",
+  "model": "Altima",
+  "body": "Sedan",
+  "mileage": 52031,
+  "true_condition": 3.7525055832191634,
+  "true_value": 16764.667274050465,
+  "seller_floor": 15313.67175153445,
+  "seller_ceiling": 19062.33700462098,
+  "true_vhr_flags": [
+    "SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

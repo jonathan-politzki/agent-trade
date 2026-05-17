@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_036",
+  "year": 2020,
+  "make": "Mazda",
+  "model": "Mazda6",
+  "body": "Sedan",
+  "mileage": 135755,
+  "true_condition": 2.1558822702254745,
+  "true_value": 11665.579835981614,
+  "seller_floor": 10309.735026678778,
+  "seller_ceiling": 12919.334504503184,
+  "true_vhr_flags": [
+    "SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

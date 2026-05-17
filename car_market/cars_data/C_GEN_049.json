@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_049",
+  "year": 2022,
+  "make": "Ford",
+  "model": "Explorer",
+  "body": "SUV",
+  "mileage": 91161,
+  "true_condition": 2.8393501839731754,
+  "true_value": 15097.41157686926,
+  "seller_floor": 13564.621213378216,
+  "seller_ceiling": 17114.35051691366,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

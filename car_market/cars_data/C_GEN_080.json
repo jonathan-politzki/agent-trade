@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_080",
+  "year": 2017,
+  "make": "Chevrolet",
+  "model": "Tahoe",
+  "body": "SUV",
+  "mileage": 206875,
+  "true_condition": 3.6043481466487584,
+  "true_value": 12261.36731641731,
+  "seller_floor": 11017.68347680063,
+  "seller_ceiling": 13153.79605292691,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}
