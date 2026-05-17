@@ -61,9 +61,16 @@ const Replay = (() => {
   async function loadSession(sid) {
     stopTimer();
     const sess = cachedData.replayable.find(s => s.session_id === sid);
-    const ann  = cachedData.annotations[sid] || {};
+    const explicitAnn = cachedData.annotations[sid] || {};
     const car  = cachedData.cars[sess.car_id];
     const turns = await Data.loadTranscript(sess);
+
+    // If no explicit annotations exist for this session, derive a minimal set
+    // from the transcript so the iceberg still lights up: every
+    // request_inspection turn reveals all facts in its focus_area.
+    const ann = Object.keys(explicitAnn).length
+      ? explicitAnn
+      : deriveInspectionAnnotations(turns, car);
 
     state.session = sess;
     state.car = car;
@@ -287,6 +294,24 @@ const Replay = (() => {
 
   // For each private fact, decide if revealed by cursor turn, and how.
   // Mechanism priority: lie-caught > inspection > voluntary.
+  function deriveInspectionAnnotations(turns, car) {
+    const out = {};
+    if (!car?.private_facts?.length) return out;
+    for (const t of turns) {
+      if (t.tool === "request_inspection") {
+        const area = t.args?.focus_area;
+        if (!area) continue;
+        const idxs = car.private_facts
+          .map((f, i) => f.focus_area === area ? i : -1)
+          .filter(i => i >= 0);
+        if (idxs.length) {
+          out[String(t.idx)] = { type: "inspection_reveal", fact_idx: idxs };
+        }
+      }
+    }
+    return out;
+  }
+
   function computeRevealedFacts(upToTurn) {
     const out = {};
     const ann = state.annotations || {};

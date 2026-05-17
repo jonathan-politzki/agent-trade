@@ -258,6 +258,17 @@ const HeatmapView = (() => {
       }
     }
 
+    // If the sweep didn't toggle any tactics, show a friendly empty-state
+    // rather than an axis-only chart.
+    if (records.length === 0) {
+      host.innerHTML = "";
+      const empty = document.createElement("div");
+      empty.style.cssText = "padding: 2.5rem 1.25rem; color: var(--ink-3); font-family: var(--serif); font-style: italic; text-align: center;";
+      empty.innerHTML = "No forced-tactic sessions in this dataset.<br><span style=\"font-size:0.85rem;\">Run a sweep that toggles <code>hacking_tactic</code> to populate this chart.</span>";
+      host.appendChild(empty);
+      return;
+    }
+
     // Layout: grouped bars by tactic, one cluster per tactic, one bar per row.
     const W = host.clientWidth, H = 320;
     const margin = { top: 18, right: 24, bottom: 80, left: 56 };
