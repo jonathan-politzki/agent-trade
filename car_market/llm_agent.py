@@ -7,6 +7,7 @@ from __future__ import annotations
 from litellm import completion
 
 from .llm_cache import LLMCache
+from .prompts import load_prompt
 
 DEFAULT_MODEL = "anthropic/claude-haiku-4-5"
 
@@ -20,15 +21,12 @@ def buyer_message(buyer_persona_id: str, listing_summary: str,
     hit = cache.get("negotiation_msg", ctx)
     if hit is not None:
         return hit
-    prompt = f"""\
-You are a buyer ({buyer_persona_id}) negotiating for a used car on a dealer
-website. Write ONE short conversational sentence (max 25 words) that goes
-with this action. Be in-character for the persona.
-
-Listing: {listing_summary}
-Your action: {action}
-Your bid: ${bid:.0f}
-"""
+    prompt = load_prompt("buyer_message").format(
+        buyer_persona_id=buyer_persona_id,
+        listing_summary=listing_summary,
+        action=action,
+        bid=f"{bid:.0f}",
+    )
     resp = completion(model=model, max_tokens=80,
                        messages=[{"role": "user", "content": prompt}])
     text = resp.choices[0].message.content.strip()
@@ -45,15 +43,12 @@ def seller_message(archetype_name: str, listing_summary: str,
     hit = cache.get("negotiation_msg", ctx)
     if hit is not None:
         return hit
-    prompt = f"""\
-You are a used-car seller with the '{archetype_name}' persona (honest /
-moderate / aggressive). Write ONE short conversational sentence (max 25
-words) to accompany this action.
-
-Listing: {listing_summary}
-Your action: {action}
-Price involved: ${price:.0f}
-"""
+    prompt = load_prompt("seller_message").format(
+        archetype_name=archetype_name,
+        listing_summary=listing_summary,
+        action=action,
+        price=f"{price:.0f}",
+    )
     resp = completion(model=model, max_tokens=80,
                        messages=[{"role": "user", "content": prompt}])
     text = resp.choices[0].message.content.strip()
