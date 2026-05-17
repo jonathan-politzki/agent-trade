@@ -18,6 +18,9 @@
     return;
   }
 
+  // Expose data globally for view modules (e.g. lot.js).
+  window.AT_DATA = data;
+
   // Update data-source tag.
   document.getElementById("data-source-tag").textContent =
     `${data.sessions.length} sessions · ${data.replayable.length} replayable transcripts`;
@@ -36,23 +39,25 @@
       if (v === "overview") {
         Overview.render(data);
         rendered.overview = true;
+      } else if (v === "lot") {
+        window.AT_LOT_RENDER && window.AT_LOT_RENDER();
+      } else if (v === "e3") {
+        window.AT_E3_RENDER && window.AT_E3_RENDER();
       } else if (v === "susceptibility") {
         HeatmapView.render(data);
         rendered.susceptibility = true;
-      } else if (v === "primer") {
-        Primer.stop();
-        Primer.render(data);
-      } else if (v === "reputation") {
-        Reputation.render(data);
       }
+      // Replay view is rendered once at boot; it uses HTML for the iceberg
+      // and a viewBox-scaled SVG for the price track, so it survives being
+      // initially hidden.
     });
   }
 
-  // Hash routing. Primer is the default landing.
-  const views = ["primer", "overview", "replay", "susceptibility", "reputation", "methods"];
+  // Hash routing.
+  const views = ["overview", "lot", "replay", "susceptibility", "e3", "methods"];
 
   function setView(v) {
-    if (!views.includes(v)) v = "primer";
+    if (!views.includes(v)) v = "overview";
     document.querySelectorAll(".view").forEach(el => el.classList.remove("active"));
     document.getElementById(`view-${v}`).classList.add("active");
     document.querySelectorAll(".nav-link").forEach(a => {
@@ -69,7 +74,7 @@
     });
   });
   window.addEventListener("hashchange", () => setView(window.location.hash.slice(1)));
-  setView(window.location.hash.slice(1) || "primer");
+  setView(window.location.hash.slice(1) || "overview");
 
   // Re-render charts on resize (debounced) for whichever view is active.
   let resizeTimer;
@@ -83,33 +88,4 @@
       else if (v === "susceptibility") HeatmapView.render(data);
     }, 220);
   });
-
-  // Refresh button: re-fetch all data files and re-render whatever's active.
-  // Useful for watching a sweep in progress: re-run `import_sweep.py` after
-  // new sessions land, then click Refresh — no page reload needed.
-  const refreshBtn = document.getElementById("refresh-data");
-  if (refreshBtn) {
-    refreshBtn.addEventListener("click", async () => {
-      refreshBtn.classList.remove("flash-done");
-      refreshBtn.classList.add("loading");
-      try {
-        data = await Data.reload();
-        document.getElementById("data-source-tag").textContent =
-          `${data.sessions.length} sessions · ${data.replayable.length} replayable transcripts`;
-        // Re-render every constructed view so the next time the user switches
-        // to it, it shows the new data without an additional click.
-        Overview.render(data);
-        HeatmapView.render(data);
-        Reputation.render(data);
-        await Replay.render(data);
-        refreshBtn.classList.remove("loading");
-        refreshBtn.classList.add("flash-done");
-        setTimeout(() => refreshBtn.classList.remove("flash-done"), 1200);
-      } catch (e) {
-        refreshBtn.classList.remove("loading");
-        console.error("refresh failed:", e);
-        alert(`Refresh failed: ${e.message}`);
-      }
-    });
-  }
 })();

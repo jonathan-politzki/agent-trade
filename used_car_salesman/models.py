@@ -213,12 +213,34 @@ class GeminiClient(AgentClient):
         super().__init__(model, system, tools, max_tokens=max_tokens)
         from google import genai
         from google.genai import types as gt
-        api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
-        if not api_key:
-            raise RuntimeError("GEMINI_API_KEY (or GOOGLE_API_KEY) not set.")
         self._genai = genai
         self._gt = gt
-        self._client = genai.Client(api_key=api_key)
+
+        # Vertex mode if either env is set or GOOGLE_GENAI_USE_VERTEXAI=true.
+        use_vertex = (
+            os.environ.get("GOOGLE_GENAI_USE_VERTEXAI", "").lower() in ("1", "true", "yes")
+            or bool(os.environ.get("GOOGLE_CLOUD_PROJECT"))
+        )
+
+        if use_vertex:
+            project = os.environ.get("GOOGLE_CLOUD_PROJECT")
+            location = os.environ.get("GOOGLE_CLOUD_LOCATION", "us-central1")
+            if not project:
+                raise RuntimeError(
+                    "Vertex mode requested but GOOGLE_CLOUD_PROJECT is not set."
+                )
+            # Auth comes from ADC (gcloud auth application-default login,
+            # or gcloud config's active service account).
+            self._client = genai.Client(vertexai=True, project=project, location=location)
+        else:
+            api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+            if not api_key:
+                raise RuntimeError(
+                    "Need either Vertex env (GOOGLE_CLOUD_PROJECT) or "
+                    "GEMINI_API_KEY / GOOGLE_API_KEY for direct-API mode."
+                )
+            self._client = genai.Client(api_key=api_key)
+
         self._contents: list[Any] = []
         self._last_call_name: str | None = None
         self._last_call_id: str | None = None
