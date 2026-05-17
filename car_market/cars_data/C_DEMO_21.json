@@ -1,0 +1,13 @@
+{
+  "car_id": "C_DEMO_21",
+  "year": 2023,
+  "make": "BMW",
+  "model": "3 Series",
+  "body": "Sedan",
+  "mileage": 19000,
+  "true_condition": 4.4,
+  "true_value": 26795,
+  "seller_floor": 24115,
+  "seller_ceiling": 29474,
+  "true_vhr_flags": ["NO_SALVAGE_TITLE", "NO_FRAME_DAMAGE", "NO_FLOOD_WATER_DAMAGE", "NO_ACCIDENTS_REPORTED", "NO_ONE_OWNER"]
+}

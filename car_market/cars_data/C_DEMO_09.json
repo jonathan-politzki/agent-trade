@@ -1,0 +1,13 @@
+{
+  "car_id": "C_DEMO_09",
+  "year": 2019,
+  "make": "Hyundai",
+  "model": "Sonata",
+  "body": "Sedan",
+  "mileage": 65000,
+  "true_condition": 3.4,
+  "true_value": 12049,
+  "seller_floor": 10844,
+  "seller_ceiling": 13254,
+  "true_vhr_flags": ["NO_SALVAGE_TITLE", "NO_FRAME_DAMAGE", "NO_FLOOD_WATER_DAMAGE", "NO_ACCIDENTS_REPORTED", "NO_ONE_OWNER"]
+}

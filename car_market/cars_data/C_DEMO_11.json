@@ -1,0 +1,13 @@
+{
+  "car_id": "C_DEMO_11",
+  "year": 2017,
+  "make": "Subaru",
+  "model": "Outback",
+  "body": "SUV",
+  "mileage": 88000,
+  "true_condition": 3.2,
+  "true_value": 13794,
+  "seller_floor": 12415,
+  "seller_ceiling": 15174,
+  "true_vhr_flags": ["NO_SALVAGE_TITLE", "NO_FRAME_DAMAGE", "NO_FLOOD_WATER_DAMAGE", "NO_ACCIDENTS_REPORTED", "NO_ONE_OWNER"]
+}

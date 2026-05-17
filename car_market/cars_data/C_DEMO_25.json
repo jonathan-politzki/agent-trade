@@ -1,0 +1,13 @@
+{
+  "car_id": "C_DEMO_25",
+  "year": 2022,
+  "make": "Toyota",
+  "model": "Tundra",
+  "body": "Truck",
+  "mileage": 32000,
+  "true_condition": 4.0,
+  "true_value": 22648,
+  "seller_floor": 20383,
+  "seller_ceiling": 24912,
+  "true_vhr_flags": ["NO_SALVAGE_TITLE", "NO_FRAME_DAMAGE", "NO_FLOOD_WATER_DAMAGE", "NO_ACCIDENTS_REPORTED", "NO_ONE_OWNER"]
+}

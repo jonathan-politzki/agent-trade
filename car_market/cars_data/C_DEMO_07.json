@@ -1,0 +1,13 @@
+{
+  "car_id": "C_DEMO_07",
+  "year": 2017,
+  "make": "Toyota",
+  "model": "RAV4",
+  "body": "SUV",
+  "mileage": 92000,
+  "true_condition": 3.3,
+  "true_value": 13923,
+  "seller_floor": 12531,
+  "seller_ceiling": 15315,
+  "true_vhr_flags": ["NO_SALVAGE_TITLE", "NO_FRAME_DAMAGE", "NO_FLOOD_WATER_DAMAGE", "NO_ACCIDENTS_REPORTED", "NO_ONE_OWNER"]
+}

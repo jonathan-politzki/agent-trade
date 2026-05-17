@@ -1,0 +1,13 @@
+{
+  "car_id": "C_DEMO_16",
+  "year": 2022,
+  "make": "Toyota",
+  "model": "Camry",
+  "body": "Sedan",
+  "mileage": 28000,
+  "true_condition": 4.2,
+  "true_value": 18956,
+  "seller_floor": 17061,
+  "seller_ceiling": 20852,
+  "true_vhr_flags": ["NO_SALVAGE_TITLE", "NO_FRAME_DAMAGE", "NO_FLOOD_WATER_DAMAGE", "NO_ACCIDENTS_REPORTED", "NO_ONE_OWNER"]
+}

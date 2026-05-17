@@ -1,0 +1,13 @@
+{
+  "car_id": "C_DEMO_20",
+  "year": 2024,
+  "make": "Ford",
+  "model": "F-150",
+  "body": "Truck",
+  "mileage": 12000,
+  "true_condition": 4.6,
+  "true_value": 25416,
+  "seller_floor": 22875,
+  "seller_ceiling": 27958,
+  "true_vhr_flags": ["NO_SALVAGE_TITLE", "NO_FRAME_DAMAGE", "NO_FLOOD_WATER_DAMAGE", "NO_ACCIDENTS_REPORTED", "NO_ONE_OWNER"]
+}

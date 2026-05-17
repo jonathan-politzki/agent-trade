@@ -129,6 +129,30 @@ def _draw_vhr_flags(rng: random.Random) -> list[str]:
     return flags
 
 
+import json as _json
+from pathlib import Path as _Path
+
+CARS_DIR = _Path(__file__).parent / "cars_data"
+
+
+def load_curated_cars() -> list[CarSpec]:
+    """Load the curated demo car set from car_market/cars_data/*.json."""
+    out = []
+    for p in sorted(CARS_DIR.glob("*.json")):
+        d = _json.loads(p.read_text())
+        out.append(CarSpec(
+            car_id=d["car_id"], year=int(d["year"]),
+            make=d["make"], model=d["model"], body=d["body"],
+            mileage=int(d["mileage"]),
+            true_condition=float(d["true_condition"]),
+            true_value=float(d["true_value"]),
+            seller_floor=float(d["seller_floor"]),
+            seller_ceiling=float(d["seller_ceiling"]),
+            true_vhr_flags=list(d["true_vhr_flags"]),
+        ))
+    return out
+
+
 def generate(seed: int, n: int) -> list[CarSpec]:
     """Deterministic per seed. Returns n CarSpec with ground-truth values."""
     rng = random.Random(seed)

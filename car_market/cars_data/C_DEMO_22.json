@@ -1,0 +1,13 @@
+{
+  "car_id": "C_DEMO_22",
+  "year": 2022,
+  "make": "Subaru",
+  "model": "Forester",
+  "body": "SUV",
+  "mileage": 30000,
+  "true_condition": 4.1,
+  "true_value": 21782,
+  "seller_floor": 19603,
+  "seller_ceiling": 23960,
+  "true_vhr_flags": ["NO_SALVAGE_TITLE", "NO_FRAME_DAMAGE", "NO_FLOOD_WATER_DAMAGE", "NO_ACCIDENTS_REPORTED", "NO_ONE_OWNER"]
+}

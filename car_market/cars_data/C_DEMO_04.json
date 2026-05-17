@@ -1,0 +1,13 @@
+{
+  "car_id": "C_DEMO_04",
+  "year": 2011,
+  "make": "Toyota",
+  "model": "Camry",
+  "body": "Sedan",
+  "mileage": 220000,
+  "true_condition": 1.9,
+  "true_value": 6753,
+  "seller_floor": 6077,
+  "seller_ceiling": 7428,
+  "true_vhr_flags": ["NO_SALVAGE_TITLE", "NO_FRAME_DAMAGE", "NO_FLOOD_WATER_DAMAGE", "ACCIDENTS_REPORTED", "PRIOR_USE_LEASE"]
+}

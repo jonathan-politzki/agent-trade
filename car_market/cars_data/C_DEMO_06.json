@@ -1,0 +1,13 @@
+{
+  "car_id": "C_DEMO_06",
+  "year": 2018,
+  "make": "Honda",
+  "model": "Accord",
+  "body": "Sedan",
+  "mileage": 78000,
+  "true_condition": 3.2,
+  "true_value": 12135,
+  "seller_floor": 10922,
+  "seller_ceiling": 13349,
+  "true_vhr_flags": ["NO_SALVAGE_TITLE", "NO_FRAME_DAMAGE", "NO_FLOOD_WATER_DAMAGE", "NO_ACCIDENTS_REPORTED", "NO_ONE_OWNER"]
+}

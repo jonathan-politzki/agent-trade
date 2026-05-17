@@ -1,0 +1,13 @@
+{
+  "car_id": "C_DEMO_19",
+  "year": 2022,
+  "make": "BMW",
+  "model": "X5",
+  "body": "SUV",
+  "mileage": 22000,
+  "true_condition": 4.3,
+  "true_value": 28672,
+  "seller_floor": 25805,
+  "seller_ceiling": 31539,
+  "true_vhr_flags": ["NO_SALVAGE_TITLE", "NO_FRAME_DAMAGE", "NO_FLOOD_WATER_DAMAGE", "NO_ACCIDENTS_REPORTED", "NO_ONE_OWNER"]
+}

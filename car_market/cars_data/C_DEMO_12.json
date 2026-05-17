@@ -1,0 +1,13 @@
+{
+  "car_id": "C_DEMO_12",
+  "year": 2016,
+  "make": "Chevrolet",
+  "model": "Silverado",
+  "body": "Truck",
+  "mileage": 120000,
+  "true_condition": 3.1,
+  "true_value": 12054,
+  "seller_floor": 10849,
+  "seller_ceiling": 13259,
+  "true_vhr_flags": ["NO_SALVAGE_TITLE", "NO_FRAME_DAMAGE", "NO_FLOOD_WATER_DAMAGE", "NO_ACCIDENTS_REPORTED", "NO_ONE_OWNER"]
+}

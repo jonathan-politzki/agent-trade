@@ -1,0 +1,13 @@
+{
+  "car_id": "C_DEMO_23",
+  "year": 2024,
+  "make": "Tesla",
+  "model": "Model Y",
+  "body": "SUV",
+  "mileage": 8000,
+  "true_condition": 4.7,
+  "true_value": 38541,
+  "seller_floor": 34687,
+  "seller_ceiling": 42395,
+  "true_vhr_flags": ["NO_SALVAGE_TITLE", "NO_FRAME_DAMAGE", "NO_FLOOD_WATER_DAMAGE", "NO_ACCIDENTS_REPORTED", "NO_ONE_OWNER"]
+}

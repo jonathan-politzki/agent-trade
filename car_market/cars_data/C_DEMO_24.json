@@ -1,0 +1,13 @@
+{
+  "car_id": "C_DEMO_24",
+  "year": 2023,
+  "make": "Honda",
+  "model": "Pilot",
+  "body": "SUV",
+  "mileage": 24000,
+  "true_condition": 4.2,
+  "true_value": 22523,
+  "seller_floor": 20271,
+  "seller_ceiling": 24776,
+  "true_vhr_flags": ["NO_SALVAGE_TITLE", "NO_FRAME_DAMAGE", "NO_FLOOD_WATER_DAMAGE", "NO_ACCIDENTS_REPORTED", "NO_ONE_OWNER"]
+}

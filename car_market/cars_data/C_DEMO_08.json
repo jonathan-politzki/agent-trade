@@ -1,0 +1,13 @@
+{
+  "car_id": "C_DEMO_08",
+  "year": 2016,
+  "make": "Ford",
+  "model": "F-150",
+  "body": "Truck",
+  "mileage": 105000,
+  "true_condition": 3.0,
+  "true_value": 11959,
+  "seller_floor": 10763,
+  "seller_ceiling": 13155,
+  "true_vhr_flags": ["NO_SALVAGE_TITLE", "NO_FRAME_DAMAGE", "NO_FLOOD_WATER_DAMAGE", "ACCIDENTS_REPORTED", "NO_ONE_OWNER"]
+}
