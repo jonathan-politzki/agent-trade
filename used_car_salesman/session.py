@@ -198,6 +198,7 @@ class SessionResult:
     buyer_options_narrowed: bool
     seller_is_agent: bool
     buyer_is_agent: bool
+    karma_visible: bool
     seed: int
     transcript_path: str
 
@@ -237,6 +238,7 @@ def run_session(
     if cfg.seller_is_agent or cfg.buyer_is_agent:
         suffix = ("Ah" if cfg.seller_is_agent else "Hh") + ("Ab" if cfg.buyer_is_agent else "Hb")
         session_id += f"_{suffix}"
+    session_id += "_kv" if cfg.karma_visible else "_kh"
     out_dir = sweep_dir / session_id
     out_dir.mkdir(parents=True, exist_ok=True)
     transcript_path = out_dir / "transcript.jsonl"
@@ -437,6 +439,7 @@ def run_session(
         buyer_options_narrowed=cfg.buyer_options_narrowed,
         seller_is_agent=cfg.seller_is_agent,
         buyer_is_agent=cfg.buyer_is_agent,
+        karma_visible=cfg.karma_visible,
         seed=cfg.seed,
         transcript_path=str(transcript_path.relative_to(sweep_dir.parent)),
     )
