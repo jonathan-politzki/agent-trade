@@ -1,6 +1,7 @@
 {
   "persona_id": "contractor_pickup",
-  "description": "Self-employed contractor, needs a truck for tools and towing.",
+  "name": "Carlos Rivera",
+  "description": "Carlos runs a one-man home-remodeling outfit in Austin. He hauls lumber, tools, and the occasional motorcycle, and tows a 5x8 trailer to job sites. His old F-150 just hit 240k and the transmission is whining. He needs a truck — full-size or mid-size — that can handle real work without breaking the bank.",
   "allowed_bodies": ["Truck"],
   "max_miles": 180000,
   "max_age_years": 15,

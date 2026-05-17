@@ -1,6 +1,7 @@
 {
   "persona_id": "weekend_offroad",
-  "description": "Weekend trail-runner. Wants a Wrangler-class SUV.",
+  "name": "Tom & Sarah Beckham",
+  "description": "Tom is a mechanical engineer and Sarah is an ER nurse. They live in Boulder, climb every weekend they can, and have Joshua Tree printed on their kitchen wall. They want a Wrangler or 4Runner that can take a forest-service road and still be dailyable — and Tom will absolutely walk over a salvage title.",
   "allowed_bodies": ["SUV", "Truck"],
   "max_miles": 150000,
   "max_age_years": 14,

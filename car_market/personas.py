@@ -21,7 +21,7 @@ class Persona:
     weights: dict                 # keys: year, miles, condition, body_match, brand
     price_sensitivity: float      # λ; higher = more price-averse
     risk_aversion: float          # 0..1; penalty for high asking-price-vs-ceiling
-    name: str = ""                # optional human-readable name for transcripts
+    name: str                     # human-readable name for transcripts
 
 
 PERSONA_DIR = Path(__file__).parent / "personas_data"

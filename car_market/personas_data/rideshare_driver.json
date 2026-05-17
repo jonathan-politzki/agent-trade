@@ -1,6 +1,7 @@
 {
   "persona_id": "rideshare_driver",
-  "description": "Uber/Lyft driver. Reliability dominates everything.",
+  "name": "Jamal Washington",
+  "description": "Jamal drives 55–60 hours a week for Uber and Lyft in Chicago. He averages 1,200 miles a week and his current Camry is at 220k. He'll buy anything reliable enough to clear another 250k without major surgery — preferably a hybrid, and absolutely nothing that's ever flooded.",
   "allowed_bodies": ["Sedan", "SUV"],
   "max_miles": 80000,
   "max_age_years": 7,

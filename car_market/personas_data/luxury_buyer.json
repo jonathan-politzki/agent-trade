@@ -1,6 +1,7 @@
 {
   "persona_id": "luxury_buyer",
-  "description": "High income, wants new BMW/Tesla, condition matters most.",
+  "name": "Reed Sterling",
+  "description": "Reed is a 45-year-old partner at a mid-size PE firm. He just totaled his M3 in a low-speed parking-lot incident he refuses to discuss, and his wife took the X5. He wants a newer BMW or a Tesla S — low mileage, immaculate condition, and he'd genuinely rather pay above market than wait three weeks shopping.",
   "allowed_bodies": ["Sedan", "SUV"],
   "max_miles": 50000,
   "max_age_years": 5,

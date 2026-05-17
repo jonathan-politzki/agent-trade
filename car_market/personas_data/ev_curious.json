@@ -1,6 +1,7 @@
 {
   "persona_id": "ev_curious",
-  "description": "Wants to try an EV, willing to pay a premium for low emissions.",
+  "name": "Priya Shah",
+  "description": "Priya is a 35-year-old hospitalist at UCSF who's been reading about climate for years and finally wants to act. She has a parking spot with a 240V outlet and her commute is short. She's willing to stretch her budget for a low-mileage Tesla — but she's never owned an EV and is wary of battery surprises.",
   "allowed_bodies": ["Sedan", "SUV"],
   "max_miles": 80000,
   "max_age_years": 6,

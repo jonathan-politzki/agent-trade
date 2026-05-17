@@ -1,6 +1,7 @@
 {
   "persona_id": "family_of_four",
-  "description": "Two kids, needs an SUV with safety + reliability + space.",
+  "name": "Mike & Jen Hendricks",
+  "description": "Mike runs a small IT consultancy out of their garage; Jen does part-time bookkeeping. Two kids: Lily (7) and Noah (4), both in soccer. Their 2011 minivan has been in the shop three times this year and Jen has put her foot down — they're getting a real SUV before school starts.",
   "allowed_bodies": ["SUV"],
   "max_miles": 100000,
   "max_age_years": 8,

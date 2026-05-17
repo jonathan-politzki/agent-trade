@@ -1,6 +1,7 @@
 {
   "persona_id": "student_first_car",
-  "description": "First-time buyer, tight budget, just needs something that runs.",
+  "name": "Maya Chen",
+  "description": "Maya is 20, a biology major at SF State on a partial scholarship. She just landed an unpaid lab internship 25 minutes away and has been bumming rides from her roommate. Budget is everything she saved waiting tables last summer — about nine grand. She just needs four wheels that won't die before graduation.",
   "allowed_bodies": ["Sedan", "SUV"],
   "max_miles": 200000,
   "max_age_years": 18,
