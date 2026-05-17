@@ -45,12 +45,16 @@ const HeatmapView = (() => {
 
   function dimNoun(d) {
     return ({
-      buyer_persona: "buyer persona",
-      seller_persona: "seller persona",
-      buyer_model: "buyer model",
-      seller_model: "seller model",
-      tactic: "forced tactic",
-    })[d];
+      buyer_persona:   "buyer persona",
+      seller_persona:  "seller persona",
+      buyer_model:     "buyer model",
+      seller_model:    "seller model",
+      tactic:          "forced tactic",
+      delegation_cell: "delegation cell",
+      karma_label:     "karma visibility",
+      seller_is_agent: "seller mode",
+      buyer_is_agent:  "buyer mode",
+    })[d] || d;
   }
 
   function renderHeatmap(sessions, rowDim, colDim, metric) {

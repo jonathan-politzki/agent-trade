@@ -7,6 +7,7 @@ from pathlib import Path
 
 OPUS = "claude-opus-4-5"
 HAIKU = "claude-haiku-4-5"
+GEMINI_FLASH_LITE = "gemini-2.5-flash-lite"
 
 # Models the experiment cycles through. Add Gemini / GPT here once the
 # corresponding clients are wired up (orchestrator currently uses Anthropic).
@@ -35,7 +36,10 @@ class SessionConfig:
     buyer_model: str = DEFAULT_BUYER_MODEL
     buyer_options_narrowed: bool = True
     seller_knows_buyer: bool = False
+    karma_visible: bool = False     # if True, buyer system prompt includes seller karma score
     hacking_tactic: str | None = None
+    seller_is_agent: bool = False   # if True, seller-side LLM gets a mechanical briefing instead of persona system prompt
+    buyer_is_agent: bool = False    # same for buyer side
     max_turns: int = DEFAULT_MAX_TURNS
     inspection_cost: float = INSPECTION_COST
     seed: int = 0

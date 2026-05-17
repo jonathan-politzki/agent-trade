@@ -844,85 +844,152 @@ strong { font-weight: 600; color: var(--ink); }
 }
 .footer-sep { color: var(--ink-4); }
 
-/* ============ Lot view ============ */
-.lot-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
-  margin-top: 12px;
-}
-.lot-card {
-  background: var(--bg-card, #fff);
-  border: 1px solid #eee;
-  border-left: 4px solid #888;
-  border-radius: 6px;
-  padding: 14px 14px 12px;
-  font-size: 0.92em;
-}
-.lot-card-head {
-  display: flex; justify-content: space-between; align-items: baseline;
-  gap: 8px; margin-bottom: 10px;
-}
-.lot-card-name {
-  font-weight: 600;
-}
-.lot-card-tag {
+/* ============ Who's in the lot view (cards + bars) ============ */
+#view-lot .lot-row-label {
   font-size: 0.78em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  background: #eee;
-  color: #555;
-  padding: 2px 8px;
-  border-radius: 10px;
-  letter-spacing: 0.04em;
+  color: #8a7e6f;
+  margin: 22px 0 10px;
 }
-.lot-bar {
+#view-lot .lot-row {
   display: grid;
-  grid-template-columns: 110px 1fr 40px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+@media (max-width: 1100px) {
+  #view-lot .lot-row { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  #view-lot .lot-row { grid-template-columns: 1fr; }
+}
+#view-lot .lot-card {
+  background: #f5efe4;
+  border: 1px solid #e0d8c8;
+  border-radius: 6px;
+  padding: 18px 18px 16px;
+}
+#view-lot .lot-card-eyebrow {
+  font-size: 0.7em;
+  letter-spacing: 0.1em;
+  color: #9c8f7e;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+#view-lot .lot-card-name {
+  display: flex;
   align-items: center;
   gap: 8px;
+  margin-bottom: 14px;
+}
+#view-lot .lot-name-text {
+  font-family: 'Tiempos Headline', 'Source Serif 4', Georgia, serif;
+  font-weight: 500;
+  font-size: 1.2em;
+  color: #2a241c;
+  line-height: 1.1;
+}
+#view-lot .lot-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+#view-lot .lot-square {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
+}
+#view-lot .lot-card-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+#view-lot .lot-bar {
+  display: grid;
+  grid-template-columns: 90px 1fr 38px;
+  align-items: center;
+  gap: 10px;
   font-size: 0.82em;
-  margin-bottom: 4px;
 }
-.lot-bar-label { color: #888; }
-.lot-bar-track {
-  background: #eee; height: 6px; border-radius: 3px;
-  position: relative; overflow: hidden;
+#view-lot .lot-bar-label {
+  color: #8a7e6f;
 }
-.lot-bar-fill { background: #335; display: block; height: 100%; }
-.lot-bar-val { text-align: right; color: #555; font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
-.lot-card-row {
-  display: flex; justify-content: space-between;
-  font-size: 0.85em; margin-top: 6px;
+#view-lot .lot-bar-track {
+  height: 3px;
+  background: #ebe2d1;
+  border-radius: 2px;
+  overflow: hidden;
 }
-.lot-card-label { color: #888; }
-.lot-card-val { color: #333; font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
-.lot-card-prompt {
-  margin-top: 10px;
-  font-size: 0.82em;
+#view-lot .lot-bar-fill {
+  display: block;
+  height: 100%;
+  background: #d56a3e;
 }
-.lot-card-prompt summary {
-  cursor: pointer; color: #557; user-select: none;
+#view-lot .lot-bar-val {
+  text-align: right;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+  color: #6a5e4f;
 }
-.lot-card-prompt pre {
-  white-space: pre-wrap;
+/* ============ E3 Delegation view ============ */
+.e3-aggregate {
   background: #fafafa;
-  padding: 8px;
-  border-radius: 4px;
-  margin-top: 6px;
-  color: #444;
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  padding: 16px;
 }
-.lot-car-prices {
-  display: flex; gap: 12px; font-size: 0.85em;
-  margin: 6px 0 8px;
+.e3-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95em;
 }
-.lot-tier {
-  margin-bottom: 28px;
-}
-.lot-tier-head {
-  font-size: 1.05em;
-  font-weight: 600;
-  margin: 8px 0;
-  padding-bottom: 4px;
+.e3-table th, .e3-table td {
+  text-align: left;
+  padding: 8px 12px;
   border-bottom: 1px solid #eee;
 }
-.lot-tier-count { color: #999; font-weight: 400; font-size: 0.85em; }
+.e3-table thead th {
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #ddd;
+}
+.e3-table td:first-child {
+  color: #888;
+}
+.e3-table td:not(:first-child) {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.92em;
+  color: #222;
+}
+.e3-delta-positive {
+  color: #c33;
+  font-weight: 600;
+}
+.e3-callout {
+  margin-top: 12px;
+  font-size: 0.88em;
+  color: #666;
+  font-style: italic;
+}
+.e3-featured {
+  list-style: none;
+  padding: 0;
+}
+.e3-featured li {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  background: #fafafa;
+  border-left: 3px solid #557;
+  border-radius: 4px;
+}
+.e3-featured code {
+  font-size: 0.78em;
+  color: #557;
+}
+.e3-featured-label {
+  font-size: 0.85em;
+  color: #555;
+}

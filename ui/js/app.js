@@ -41,6 +41,8 @@
         rendered.overview = true;
       } else if (v === "lot") {
         window.AT_LOT_RENDER && window.AT_LOT_RENDER();
+      } else if (v === "e3") {
+        window.AT_E3_RENDER && window.AT_E3_RENDER();
       } else if (v === "susceptibility") {
         HeatmapView.render(data);
         rendered.susceptibility = true;
@@ -52,7 +54,7 @@
   }
 
   // Hash routing.
-  const views = ["overview", "lot", "replay", "susceptibility", "methods"];
+  const views = ["overview", "lot", "replay", "susceptibility", "e3", "methods"];
 
   function setView(v) {
     if (!views.includes(v)) v = "overview";
