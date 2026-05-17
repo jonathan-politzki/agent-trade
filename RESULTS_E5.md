@@ -28,24 +28,27 @@ Grandma's budget was bumped from $18K → $25K so she can engage 9 of 12 cars in
 
 ---
 
-## Headline: the expertise × reputation gradient
+## Headline: the four-persona expertise gradient
 
-| Buyer persona | Close rate **without** rep | Close rate **with** rep | Δ |
-| ------------- | -------------------------- | ----------------------- | - |
-| **grandma** | **82.5%** | **42.5%** | **−40 pp** |
-| casual (e4) | 95.0% | 60.0% | −35 pp |
-| **mechanic** | 17.5% | 15.0% | −2.5 pp |
+| Buyer persona | Skepticism (prompt) | Close rate **without** rep | Close rate **with** rep | Δ |
+| ------------- | ------------------- | -------------------------- | ----------------------- | - |
+| **grandma** | 0.20 | **82.5%** | **42.5%** | **−40 pp** |
+| casual (e4) | 0.50 | 95.0% | 60.0% | −35 pp |
+| engineer | 0.70 | 22.5% | 15.0% | −7.5 pp |
+| **mechanic** | 0.90 | 17.5% | 15.0% | −2.5 pp |
 
 | Buyer persona | Mean premium **without** rep | Mean premium **with** rep | Δ |
 | ------------- | ---------------------------- | ------------------------- | - |
 | grandma | +33.0% | **+14.5%** | **−18.5 pp** |
 | casual | +27.0% | +17.5% | −9.5 pp |
+| engineer | +9.6% | +1.4% | −8.2 pp |
 | mechanic | +36.5% | +15.9% | **−20.6 pp** |
 
 | Buyer persona | Mean rating (without rep) | Mean rating (with rep) |
 | ------------- | ------------------------- | ----------------------- |
 | grandma | 1.67 | 1.82 |
 | casual | 1.61 | 2.12 |
+| engineer | 2.00 | 2.50 |
 | mechanic | 1.29 | 1.67 |
 
 ### Two distinct mechanisms
