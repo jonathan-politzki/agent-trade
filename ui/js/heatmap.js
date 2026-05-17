@@ -226,7 +226,13 @@ const HeatmapView = (() => {
 
   function renderTacticBars(sessions, rowDim, metric) {
     const host = document.getElementById("tactic-bars");
+    const section = document.getElementById("tactic-profile-section");
     host.innerHTML = "";
+
+    // Hide the entire section when no sweep ran a forced tactic.
+    const hasAnyTactic = sessions.some(s => s.hacking_tactic);
+    if (section) section.style.display = hasAnyTactic ? "" : "none";
+    if (!hasAnyTactic) return;
 
     // For each row, compute: mean(metric | tactic = T) - mean(metric | tactic = none).
     const rows = Data.uniqueKeys(sessions, rowDim);
