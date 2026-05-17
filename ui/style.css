@@ -843,3 +843,86 @@ strong { font-weight: 600; color: var(--ink); }
   align-items: center;
 }
 .footer-sep { color: var(--ink-4); }
+
+/* ============ Lot view ============ */
+.lot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+}
+.lot-card {
+  background: var(--bg-card, #fff);
+  border: 1px solid #eee;
+  border-left: 4px solid #888;
+  border-radius: 6px;
+  padding: 14px 14px 12px;
+  font-size: 0.92em;
+}
+.lot-card-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 8px; margin-bottom: 10px;
+}
+.lot-card-name {
+  font-weight: 600;
+}
+.lot-card-tag {
+  font-size: 0.78em;
+  text-transform: uppercase;
+  background: #eee;
+  color: #555;
+  padding: 2px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.04em;
+}
+.lot-bar {
+  display: grid;
+  grid-template-columns: 110px 1fr 40px;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82em;
+  margin-bottom: 4px;
+}
+.lot-bar-label { color: #888; }
+.lot-bar-track {
+  background: #eee; height: 6px; border-radius: 3px;
+  position: relative; overflow: hidden;
+}
+.lot-bar-fill { background: #335; display: block; height: 100%; }
+.lot-bar-val { text-align: right; color: #555; font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
+.lot-card-row {
+  display: flex; justify-content: space-between;
+  font-size: 0.85em; margin-top: 6px;
+}
+.lot-card-label { color: #888; }
+.lot-card-val { color: #333; font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
+.lot-card-prompt {
+  margin-top: 10px;
+  font-size: 0.82em;
+}
+.lot-card-prompt summary {
+  cursor: pointer; color: #557; user-select: none;
+}
+.lot-card-prompt pre {
+  white-space: pre-wrap;
+  background: #fafafa;
+  padding: 8px;
+  border-radius: 4px;
+  margin-top: 6px;
+  color: #444;
+}
+.lot-car-prices {
+  display: flex; gap: 12px; font-size: 0.85em;
+  margin: 6px 0 8px;
+}
+.lot-tier {
+  margin-bottom: 28px;
+}
+.lot-tier-head {
+  font-size: 1.05em;
+  font-weight: 600;
+  margin: 8px 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #eee;
+}
+.lot-tier-count { color: #999; font-weight: 400; font-size: 0.85em; }
