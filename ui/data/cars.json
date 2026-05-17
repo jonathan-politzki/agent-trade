@@ -8,17 +8,17 @@
     "odometer_miles": 78000,
     "exterior_condition": "good",
     "asking_price": 18495,
-    "dealer_pitch": "Reliable and fuel-efficient 2018 Toyota Camry LE with only 78K miles! This well-maintained sedan features a clean interior, backup camera, and Toyota's legendary dependability. Perfect commuter car ready for its next owner.",
+    "dealer_pitch": "Reliable and fuel-efficient 2018 Toyota Camry LE with only 78K miles! Well-maintained sedan with backup camera and Toyota's legendary dependability. Perfect commuter ready for its next owner.",
     "private_facts": [
       {
         "focus_area": "body",
-        "summary": "Quarter-sized dent on rear passenger door from shopping cart impact, touched up but visible under direct light",
+        "summary": "Quarter-sized dent on rear passenger door from a shopping-cart impact; touched up but visible under direct light",
         "severity": 1,
         "price_impact_usd": -350
       },
       {
         "focus_area": "history",
-        "summary": "Oil change interval exceeded by 4,000 miles at 62K service; dealer topped off but did not document potential increased engine wear",
+        "summary": "Oil change interval exceeded by 4,000 miles at the 62K service; dealer topped off but did not document potential increased engine wear",
         "severity": 2,
         "price_impact_usd": -600
       }
@@ -26,7 +26,7 @@
     "real_mileage": 78000,
     "public_fair_value": 17800,
     "true_value": 16850,
-    "reasoning": "A 2018 Camry LE with 78K miles in good condition typically trades between $17,000-$18,500 retail. The asking price of $18,495 is at the higher end of market, reflecting the dealer's margin expectations. Public fair value is $17,800 accounting for minor negotiation room. The shopping cart dent is purely cosmetic but detracts $350 for paintless dent repair. The skipped oil change interval at 62K creates uncertainty about long-term engine health on Toyota's 2.5L, warranting a $600 reduction for potential accelerated wear."
+    "reasoning": ""
   },
   {
     "car_id": "civic_2016",
@@ -37,7 +37,7 @@
     "odometer_miles": 96000,
     "exterior_condition": "good",
     "asking_price": 14995,
-    "dealer_pitch": "Well-maintained one-owner 2016 Honda Civic EX with Honda Sensing suite! This reliable sedan features a turbocharged engine, Apple CarPlay, and a moonroof. Full service records available \u2014 ready for its next adventure.",
+    "dealer_pitch": "Well-maintained one-owner 2016 Honda Civic EX with Honda Sensing! Turbocharged engine, Apple CarPlay, moonroof. Full service records \u2014 ready for its next adventure.",
     "private_facts": [
       {
         "focus_area": "interior",
@@ -49,6 +49,41 @@
     "real_mileage": 96000,
     "public_fair_value": 14500,
     "true_value": 14350,
-    "reasoning": "A 2016 Civic EX with 96k miles in good condition typically trades between $13,500-$15,000 retail. The asking price of $14,995 is on the higher end but reasonable given the EX trim with Honda Sensing. Public fair value sits at $14,500 reflecting typical market negotiation. The minor seat bolster wear is cosmetic and common at this mileage, warranting only a $150 deduction, keeping true_value close to public_fair_value as expected for a clean-profile car."
+    "reasoning": ""
+  },
+  {
+    "car_id": "accord_2015",
+    "year": 2015,
+    "make": "Honda",
+    "model": "Accord",
+    "trim": "EX-L",
+    "odometer_miles": 112000,
+    "exterior_condition": "fair",
+    "asking_price": 12995,
+    "dealer_pitch": "2015 Accord EX-L, leather, sunroof, navigation. Priced to move at $12,995. Smooth-driving sedan with a long road ahead of it.",
+    "private_facts": [
+      {
+        "focus_area": "engine",
+        "summary": "Oil consumption: roughly 1 quart per 1,800 miles, consistent with mid-life 2.4L K24-series wear",
+        "severity": 3,
+        "price_impact_usd": -1200
+      },
+      {
+        "focus_area": "history",
+        "summary": "Two-time rental-fleet vehicle before private resale; CARFAX shows fleet registration 2015\u20132019",
+        "severity": 3,
+        "price_impact_usd": -900
+      },
+      {
+        "focus_area": "transmission",
+        "summary": "Mild torque-converter shudder under light throttle around 35 mph",
+        "severity": 2,
+        "price_impact_usd": -500
+      }
+    ],
+    "real_mileage": 112000,
+    "public_fair_value": 11900,
+    "true_value": 9300,
+    "reasoning": ""
   }
 ]

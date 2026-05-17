@@ -1,12 +1,12 @@
 {
   "s_camry_2018_slimy_grandma_demo": {
-    "3": {
+    "4": {
       "type": "lie",
       "fact_idx": 1,
       "claim": "Full service records, every oil change on schedule.",
       "truth": "Oil change interval exceeded by 4,000 miles at 62K."
     },
-    "5": {
+    "6": {
       "type": "lie",
       "fact_idx": 0,
       "claim": "Body is clean, no dings, just detailed it.",
@@ -19,7 +19,7 @@
     }
   },
   "s_civic_2016_slimy_mechanic_demo": {
-    "3": {
+    "4": {
       "type": "lie",
       "fact_idx": 0,
       "claim": "Interior is in great shape, one-owner, never abused.",

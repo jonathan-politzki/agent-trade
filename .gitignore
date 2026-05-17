@@ -4,7 +4,5 @@ __pycache__/
 .venv/
 venv/
 runs/
-sweeps/
-cars/generated/
 participants/generated/
 .DS_Store

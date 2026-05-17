@@ -1,0 +1,380 @@
+[
+  {
+    "car_id": "camry_2018",
+    "year": 2018,
+    "make": "Toyota",
+    "model": "Camry",
+    "trim": "LE",
+    "odometer_miles": 78000,
+    "exterior_condition": "good",
+    "asking_price": 18495,
+    "dealer_pitch": "Reliable 2018 Toyota Camry LE with low miles and excellent fuel economy! This well-maintained sedan features a backup camera, Bluetooth connectivity, and Toyota's legendary dependability. Perfect commuter car ready for years of trouble-free driving.",
+    "private_facts": [
+      {
+        "focus_area": "body",
+        "summary": "Quarter-panel dent on rear passenger side approximately 3 inches in diameter, touched up but visible under direct light",
+        "severity": 2,
+        "price_impact_usd": -450
+      },
+      {
+        "focus_area": "history",
+        "summary": "Oil change overdue by 4,200 miles; last documented service at 68,500 miles",
+        "severity": 2,
+        "price_impact_usd": -350
+      }
+    ],
+    "real_mileage": 78000,
+    "public_fair_value": 17800,
+    "true_value": 17000,
+    "reasoning": "A 2018 Camry LE with 78k miles in good condition typically retails around $17,500-$18,500 in today's market. The asking price of $18,495 is at the higher end but within range for a dealer listing. Public fair value of $17,800 reflects typical negotiated price. The rear quarter-panel dent requires professional PDR or body work costing $300-500 and reduces resale appeal, justifying a $450 hit. The significantly overdue oil change suggests deferred maintenance and potential increased engine wear, warranting a $350 reduction. Combined impact of $800 (approximately 4.5% of public value) aligns with the minor severity profile."
+  },
+  {
+    "car_id": "civic_2016",
+    "year": 2016,
+    "make": "Honda",
+    "model": "Civic",
+    "trim": "EX",
+    "odometer_miles": 96000,
+    "exterior_condition": "good",
+    "asking_price": 14900,
+    "dealer_pitch": "Reliable 2016 Honda Civic EX with the popular 2.0L engine and Honda Sensing safety suite! Well-maintained one-owner vehicle with complete service records. Features include sunroof, Apple CarPlay, and excellent fuel economy \u2014 ready for many more miles.",
+    "private_facts": [
+      {
+        "focus_area": "interior",
+        "summary": "Driver seat bolster has minor wear and slight fabric pilling from entry/exit",
+        "severity": 1,
+        "price_impact_usd": -150
+      }
+    ],
+    "real_mileage": 96000,
+    "public_fair_value": 14500,
+    "true_value": 14350,
+    "reasoning": "A 2016 Civic EX with 96k miles in good condition typically retails between $14,000-$15,500 at dealers. The asking price of $14,900 is slightly above fair market at $14,500 given the mileage. The only private issue is minor cosmetic seat wear that barely affects value (-$150), resulting in a true value of $14,350 \u2014 essentially in line with public expectations for a clean, well-maintained example."
+  },
+  {
+    "car_id": "f150_2015",
+    "year": 2015,
+    "make": "Ford",
+    "model": "F-150",
+    "trim": "XLT",
+    "odometer_miles": 132000,
+    "exterior_condition": "good",
+    "asking_price": 21500,
+    "dealer_pitch": "Rugged and reliable 2015 F-150 XLT with the proven 5.0L V8! This truck features the popular SuperCrew cab, tow package, and has been well-maintained with recent new tires. Perfect for work or weekend adventures.",
+    "private_facts": [
+      {
+        "focus_area": "history",
+        "summary": "Previously used as a fleet vehicle for a landscaping company; hauled heavy loads and trailers regularly for 3 years",
+        "severity": 3,
+        "price_impact_usd": -1800
+      },
+      {
+        "focus_area": "transmission",
+        "summary": "6R80 transmission exhibits delayed engagement when shifting from Park to Drive, especially when cold; likely worn valve body seals",
+        "severity": 4,
+        "price_impact_usd": -2200
+      },
+      {
+        "focus_area": "body",
+        "summary": "Rear frame crossmember shows surface rust and early corrosion pitting from road salt exposure; not structural yet but progressing",
+        "severity": 2,
+        "price_impact_usd": -700
+      }
+    ],
+    "real_mileage": 132000,
+    "public_fair_value": 20800,
+    "true_value": 16100,
+    "reasoning": "A 2015 F-150 XLT SuperCrew with 132k miles in good exterior condition typically markets around $20,000-$22,000. The asking price of $21,500 is slightly optimistic but within range. Public fair value at $20,800 reflects typical market negotiation. The fleet history indicates harder-than-average use, reducing drivetrain confidence. The transmission issue is concerning as 6R80 valve body repairs run $1,500-$2,500, and the frame corrosion will need treatment to prevent escalation. Combined impacts of approximately $4,700 bring true value to $16,100."
+  },
+  {
+    "car_id": "altima_2017",
+    "year": 2017,
+    "make": "Nissan",
+    "model": "Altima",
+    "trim": "SV",
+    "odometer_miles": 104000,
+    "exterior_condition": "good",
+    "asking_price": 11495,
+    "dealer_pitch": "Well-maintained 2017 Altima SV with power driver's seat, dual-zone climate control, and Bluetooth connectivity. This fuel-efficient sedan runs great and is priced to move. Clean interior, fresh detail, ready for your test drive today!",
+    "private_facts": [
+      {
+        "focus_area": "transmission",
+        "summary": "CVT exhibits shuddering and hesitation during acceleration between 25-40 mph, early signs of belt wear typical of Nissan Jatco units at this mileage",
+        "severity": 4,
+        "price_impact_usd": -1400
+      },
+      {
+        "focus_area": "history",
+        "summary": "Vehicle was used as a rental fleet car for Enterprise for first 38 months of service, higher wear pattern than typical private ownership",
+        "severity": 2,
+        "price_impact_usd": -450
+      },
+      {
+        "focus_area": "engine",
+        "summary": "Slight oil seep visible at valve cover gasket, consumes approximately 1 quart every 2500 miles",
+        "severity": 2,
+        "price_impact_usd": -350
+      }
+    ],
+    "real_mileage": 104000,
+    "public_fair_value": 10800,
+    "true_value": 8600,
+    "reasoning": "A 2017 Altima SV with 104k miles in good exterior condition typically trades around $10,500-$11,000 retail. The asking price of $11,495 is slightly optimistic but within dealer markup norms. The CVT shudder is a well-known issue on these Jatco transmissions and signals potential $2,500-4,000 replacement cost down the road, justifying a $1,400 immediate discount. Rental history reduces desirability and implies harder use. The valve cover seep and oil consumption are manageable but add repair costs and buyer hesitation. Combined impacts total $2,200, dropping true value to $8,600."
+  },
+  {
+    "car_id": "rav4_2019",
+    "year": 2019,
+    "make": "Toyota",
+    "model": "RAV4",
+    "trim": "XLE",
+    "odometer_miles": 52000,
+    "exterior_condition": "good",
+    "asking_price": 27495,
+    "dealer_pitch": "One-owner 2019 Toyota RAV4 XLE with all the features you want \u2014 Toyota Safety Sense 2.0, 8-inch touchscreen, and legendary reliability. Well-maintained with full service records and ready for your next adventure!",
+    "private_facts": [
+      {
+        "focus_area": "interior",
+        "summary": "Small cigarette burn on rear passenger seat fabric, approximately 1cm diameter, partially hidden by seat crease",
+        "severity": 1,
+        "price_impact_usd": -150
+      }
+    ],
+    "real_mileage": 52000,
+    "public_fair_value": 27000,
+    "true_value": 26850,
+    "reasoning": "A 2019 RAV4 XLE with 52k miles typically trades in the $26,000-$28,000 range at retail. The asking price of $27,495 is slightly above fair market but within normal dealer markup territory. The single cosmetic defect \u2014 a small cigarette burn on the rear seat \u2014 is minor and only warrants a $150 deduction, keeping true_value very close to public_fair_value as expected for a clean severity profile."
+  },
+  {
+    "car_id": "wrangler_2014",
+    "year": 2014,
+    "make": "Jeep",
+    "model": "Wrangler",
+    "trim": "Sport",
+    "odometer_miles": 118000,
+    "exterior_condition": "good",
+    "asking_price": 19995,
+    "dealer_pitch": "Iconic Jeep Wrangler Sport ready for your next adventure! This 4x4 has been well-maintained and runs great with the bulletproof 3.6L V6. Trail-rated capability with removable top and doors \u2014 summer is calling!",
+    "private_facts": [
+      {
+        "focus_area": "history",
+        "summary": "Vehicle was involved in moderate front-end collision in 2019; airbags did not deploy but frame was pulled and repaired at independent shop",
+        "severity": 4,
+        "price_impact_usd": -2200
+      },
+      {
+        "focus_area": "engine",
+        "summary": "Cylinder 2 misfire code P0302 intermittently appears; likely failing ignition coil or early valve seat issue common to 3.6L Pentastar",
+        "severity": 3,
+        "price_impact_usd": -900
+      },
+      {
+        "focus_area": "interior",
+        "summary": "Driver seat foam worn through on bolster; seat heater element no longer functions on driver side",
+        "severity": 2,
+        "price_impact_usd": -400
+      }
+    ],
+    "real_mileage": 118000,
+    "public_fair_value": 19200,
+    "true_value": 15700,
+    "reasoning": "A 2014 Wrangler Sport 2-door with 118k miles in good exterior condition typically lists around $19-21k retail given Wrangler's strong resale. Public fair value of $19,200 reflects a reasonable deal for someone seeing only the ad. However, the undisclosed moderate collision with frame repair significantly impacts structural integrity and resale (-$2,200). The intermittent misfire suggests looming Pentastar valve issues that could cost $700-1,500 to diagnose and repair (-$900). The worn driver seat and dead seat heater are functional annoyances (-$400). Combined $3,500 in hidden defects brings true value to $15,700."
+  },
+  {
+    "car_id": "mustang_2013",
+    "year": 2013,
+    "make": "Ford",
+    "model": "Mustang",
+    "trim": "GT",
+    "odometer_miles": 88000,
+    "exterior_condition": "good",
+    "asking_price": 19500,
+    "dealer_pitch": "Legendary 5.0L Coyote V8 power in a head-turning package! This well-maintained GT features the premium audio system, leather-trimmed seats, and that unmistakable exhaust note. Perfect for the enthusiast looking for classic American muscle at an affordable price.",
+    "private_facts": [
+      {
+        "focus_area": "history",
+        "summary": "Odometer rolled back from 127,000 miles; previous owner was a rideshare driver who put on excessive highway miles before selling to auction",
+        "severity": 5,
+        "price_impact_usd": -3500
+      },
+      {
+        "focus_area": "transmission",
+        "summary": "MT-82 manual transmission exhibits grinding when engaging 2nd and 3rd gears; synchros are worn and will require rebuild within 10,000 miles",
+        "severity": 4,
+        "price_impact_usd": -2200
+      },
+      {
+        "focus_area": "body",
+        "summary": "Rear passenger side quarter panel has been replaced after collision; paint match is slightly off and body lines don't align perfectly with trunk lid",
+        "severity": 3,
+        "price_impact_usd": -1500
+      },
+      {
+        "focus_area": "engine",
+        "summary": "Coyote V8 has developed a ticking noise from the right bank valve train; likely needs cam phaser replacement which is a known issue on high-mileage examples",
+        "severity": 3,
+        "price_impact_usd": -1800
+      }
+    ],
+    "real_mileage": 127000,
+    "public_fair_value": 18800,
+    "true_value": 9800,
+    "reasoning": "A 2013 Mustang GT with 88,000 miles in good condition typically retails between $18,000-$20,000 in today's market. The asking price of $19,500 is slightly optimistic but within range. However, the true mileage of 127,000 significantly increases wear concerns. The odometer discrepancy alone represents substantial fraud risk and value loss. Combined with an impending transmission rebuild ($2,000+ repair), collision-repaired bodywork affecting resale, and developing engine noise requiring expensive cam phaser work, the cumulative impact drops true value to under $10,000\u2014reflecting a car that would struggle to pass a thorough pre-purchase inspection."
+  },
+  {
+    "car_id": "tahoe_2016",
+    "year": 2016,
+    "make": "Chevrolet",
+    "model": "Tahoe",
+    "trim": "LT",
+    "odometer_miles": 142000,
+    "exterior_condition": "good",
+    "asking_price": 24900,
+    "dealer_pitch": "Well-equipped 2016 Tahoe LT with leather seating, Bose audio, and third-row capability \u2014 perfect for the active family! This full-size SUV has been dealer-serviced and runs strong with the proven 5.3L V8. Ready for your next adventure.",
+    "private_facts": [
+      {
+        "focus_area": "history",
+        "summary": "Odometer was rolled back from 187,000 to 142,000 miles; prior auction records confirm actual mileage",
+        "severity": 5,
+        "price_impact_usd": -4500
+      },
+      {
+        "focus_area": "transmission",
+        "summary": "8-speed automatic exhibits shudder between 35-50 mph indicating torque converter lockup clutch failure; repair typically $2,800-$3,500",
+        "severity": 4,
+        "price_impact_usd": -3200
+      },
+      {
+        "focus_area": "engine",
+        "summary": "Active Fuel Management lifters ticking on cold start with intermittent misfire codes on cylinders 1 and 7; lifter/cam replacement needed",
+        "severity": 4,
+        "price_impact_usd": -2800
+      },
+      {
+        "focus_area": "body",
+        "summary": "Rear frame crossmember shows significant corrosion with 30% material loss; will fail inspection in rust-belt states",
+        "severity": 4,
+        "price_impact_usd": -1800
+      }
+    ],
+    "real_mileage": 187000,
+    "public_fair_value": 24000,
+    "true_value": 11700,
+    "reasoning": "A 2016 Tahoe LT with stated 142k miles in good exterior condition typically retails around $23,000-$25,000. The asking price of $24,900 is slightly optimistic but within range, making $24,000 a realistic public fair value. However, the rolled-back odometer hides 45,000 additional miles (-$4,500), the torque converter shudder requires transmission work (-$3,200), the AFM lifter tick and misfires signal expensive valvetrain repairs (-$2,800), and the corroded rear crossmember is a structural safety issue (-$1,800). Total hidden defects of $12,300 reduce true value to $11,700 \u2014 about 51% below what an uninformed buyer would pay."
+  },
+  {
+    "car_id": "sienna_2017",
+    "year": 2017,
+    "make": "Toyota",
+    "model": "Sienna",
+    "trim": "XLE",
+    "odometer_miles": 89000,
+    "exterior_condition": "good",
+    "asking_price": 24500,
+    "dealer_pitch": "Well-maintained family hauler with premium XLE features including leather seating, dual power sliding doors, and rear entertainment system. Toyota reliability you can count on with years of service ahead. Recent inspection completed and ready for your next road trip!",
+    "private_facts": [
+      {
+        "focus_area": "body",
+        "summary": "Quarter-sized dent with minor paint crack on rear passenger door from shopping cart impact, partially hidden by door handle shadow in photos",
+        "severity": 1,
+        "price_impact_usd": -450
+      },
+      {
+        "focus_area": "history",
+        "summary": "Single Carfax flag for minor fender bender in 2021, repaired at non-certified body shop with aftermarket bumper cover",
+        "severity": 2,
+        "price_impact_usd": -1100
+      }
+    ],
+    "real_mileage": 89000,
+    "public_fair_value": 24200,
+    "true_value": 22650,
+    "reasoning": "A 2017 Sienna XLE with 89k miles typically trades in the $23,500-$25,000 range in today's market given strong minivan demand and Toyota's reputation. The asking price of $24,500 is slightly optimistic but within range for a dealer listing. The undisclosed minor accident history with aftermarket repair knocks approximately $1,100 off value as buyers discount prior collision vehicles, while the door dent requiring PDR or respray costs around $450 to properly address. Combined impact of ~6.4% aligns with the minor severity profile."
+  },
+  {
+    "car_id": "bmw3_2015",
+    "year": 2015,
+    "make": "BMW",
+    "model": "328i",
+    "trim": "Sport",
+    "odometer_miles": 96000,
+    "exterior_condition": "good",
+    "asking_price": 14900,
+    "dealer_pitch": "Well-maintained 2015 BMW 328i Sport with the desirable turbocharged 2.0L engine and Sport Line package. Features include sport seats, M steering wheel, and 18-inch alloy wheels. Service records available \u2014 runs and drives beautifully!",
+    "private_facts": [
+      {
+        "focus_area": "history",
+        "summary": "Moderate front-end collision in 2019 with $7,200 in repairs through insurance; airbags did not deploy but bumper, hood, and radiator support were replaced",
+        "severity": 4,
+        "price_impact_usd": -1800
+      },
+      {
+        "focus_area": "engine",
+        "summary": "Valve cover gasket seeping oil onto exhaust manifold, causing occasional burning smell after spirited driving; repair quoted at $850",
+        "severity": 3,
+        "price_impact_usd": -900
+      },
+      {
+        "focus_area": "interior",
+        "summary": "Driver seat bolster leather cracked and foam showing through; passenger side beginning to crack as well",
+        "severity": 2,
+        "price_impact_usd": -400
+      }
+    ],
+    "real_mileage": 96000,
+    "public_fair_value": 14500,
+    "true_value": 11400,
+    "reasoning": "A 2015 328i Sport with 96k miles in good exterior condition typically trades around $14,000-$15,500 retail. The asking price of $14,900 is reasonable for the public presentation. However, the prior accident history significantly impacts resale value (-$1,800), the valve cover gasket leak is a common N20 engine issue requiring near-term repair (-$900), and the worn leather seats detract from the premium interior experience (-$400). Combined private issues reduce true value by $3,100 to $11,400."
+  },
+  {
+    "car_id": "prius_2018",
+    "year": 2018,
+    "make": "Toyota",
+    "model": "Prius",
+    "trim": "Two",
+    "odometer_miles": 71000,
+    "exterior_condition": "good",
+    "asking_price": 18495,
+    "dealer_pitch": "Fuel-sipping reliability at its finest! This 2018 Prius Two averages over 50 MPG and comes with Toyota's legendary hybrid drivetrain. Well-maintained with a clean history \u2014 perfect for commuters looking to save at the pump.",
+    "private_facts": [
+      {
+        "focus_area": "interior",
+        "summary": "Small coffee stain on rear seat fabric, approximately 2 inches in diameter, mostly hidden by seat crease",
+        "severity": 1,
+        "price_impact_usd": -150
+      }
+    ],
+    "real_mileage": 71000,
+    "public_fair_value": 18200,
+    "true_value": 18050,
+    "reasoning": "A 2018 Prius Two with 71k miles in good condition typically trades between $17,500-$19,000 in today's market. The asking price of $18,495 is slightly above fair market value at $18,200, reflecting typical dealer markup. The minor rear seat stain is cosmetic and easily overlooked but would warrant a small negotiation point, reducing true value by $150 to $18,050."
+  },
+  {
+    "car_id": "silverado_2017",
+    "year": 2017,
+    "make": "Chevrolet",
+    "model": "Silverado 1500",
+    "trim": "LT",
+    "odometer_miles": 109000,
+    "exterior_condition": "good",
+    "asking_price": 26495,
+    "dealer_pitch": "Rugged and reliable 2017 Silverado LT with the proven 5.3L V8! This crew cab comes loaded with tow package, backup camera, and power seats. Well-maintained truck ready for work or weekend adventures.",
+    "private_facts": [
+      {
+        "focus_area": "body",
+        "summary": "Quarter-sized dent on passenger rear fender with minor paint cracking, not visible in listing photos",
+        "severity": 1,
+        "price_impact_usd": -450
+      },
+      {
+        "focus_area": "history",
+        "summary": "Transmission fluid service overdue by 18,000 miles; last changed at 61,000 instead of recommended 45,000-mile intervals",
+        "severity": 2,
+        "price_impact_usd": -800
+      }
+    ],
+    "real_mileage": 109000,
+    "public_fair_value": 25800,
+    "true_value": 24550,
+    "reasoning": "A 2017 Silverado 1500 LT with 109k miles in good exterior condition typically trades between $24,500-$26,500 retail depending on region and equipment. The asking price of $26,495 is slightly aggressive but within range for a desirable crew cab with tow package. Public fair value of $25,800 reflects what a buyer would reasonably negotiate to. The hidden dent is a minor cosmetic issue costing ~$450 to repair properly, while the deferred transmission service represents a moderate maintenance concern that warrants fluid/filter service plus inspection, justifying an $800 reduction. Combined ~$1,250 hit represents roughly 4.8% of public fair value."
+  }
+]

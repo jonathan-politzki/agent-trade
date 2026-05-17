@@ -1,0 +1,72 @@
+{
+  "n_sessions": 40,
+  "n_deals": 21,
+  "n_walks": 8,
+  "n_timeouts": 11,
+  "close_rate": 0.525,
+  "mean_premium_over_true_when_deal": 0.1940122612645669,
+  "mean_premium_over_listed_when_deal": -0.024085799701315955,
+  "premium_by_seller_persona": {
+    "slimy": 0.1940122612645669
+  },
+  "premium_by_buyer_persona": {
+    "casual": 0.15449358334399166,
+    "engineer": 0.3204720306104077
+  },
+  "premium_by_seller_x_buyer": {
+    "slimy__x__casual": 0.15449358334399166,
+    "slimy__x__engineer": 0.3204720306104077
+  },
+  "close_rate_by_seller_x_buyer": {
+    "slimy__x__casual": 0.8,
+    "slimy__x__engineer": 0.25
+  },
+  "premium_by_tactic_x_buyer": {},
+  "premium_by_buyer_model": {
+    "opus": 0.14228337061670923,
+    "haiku": 0.15256043576860906,
+    "gpt4o-mini": 0.13246374981061834,
+    "gemini-flash": 0.27907043899519246
+  },
+  "premium_by_seller_model": {
+    "opus": 0.1940122612645669
+  },
+  "close_rate_by_buyer_model": {
+    "opus": 0.4,
+    "haiku": 0.4,
+    "gpt4o-mini": 0.5,
+    "gemini-flash": 0.8
+  },
+  "premium_by_buyer_model_x_persona": {
+    "opus__x__casual": 0.14228337061670923,
+    "haiku__x__casual": 0.15256043576860906,
+    "gpt4o-mini__x__casual": 0.1516090990279788,
+    "gemini-flash__x__casual": 0.1715214279626695,
+    "gemini-flash__x__engineer": 0.38661945002771547,
+    "gpt4o-mini__x__engineer": 0.05588235294117647
+  },
+  "mean_inspections_by_buyer_model": {
+    "opus": 2,
+    "haiku": 1,
+    "gpt4o-mini": 0.5,
+    "gemini-flash": 0.7
+  },
+  "mean_questions_by_buyer_model": {
+    "opus": 6,
+    "haiku": 7.7,
+    "gpt4o-mini": 2.7,
+    "gemini-flash": 2.9
+  },
+  "mean_turns_by_buyer_model": {
+    "opus": 19.1,
+    "haiku": 20,
+    "gpt4o-mini": 10.7,
+    "gemini-flash": 11.8
+  },
+  "n_deals_by_buyer_model": {
+    "opus": 4,
+    "haiku": 4,
+    "gpt4o-mini": 5,
+    "gemini-flash": 8
+  }
+}

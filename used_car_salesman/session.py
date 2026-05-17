@@ -157,7 +157,18 @@ def run_session(
     """Run one full buyer-seller dialog. `client_unused` is kept for backward
     compatibility with previous callers; ignored.
     """
-    session_id = f"s_{car.car_id}_{seller.persona_id}_{buyer.persona_id}_{cfg.seller_model.split('-')[0]}_{cfg.buyer_model.split('-')[0]}_{cfg.seed:03d}"
+    def _short(m: str) -> str:
+        m = m.lower()
+        if m.startswith("claude-opus"):    return "opus"
+        if m.startswith("claude-sonnet"):  return "sonnet"
+        if m.startswith("claude-haiku"):   return "haiku"
+        if m.startswith("gpt-4o-mini"):    return "gpt4omini"
+        if m.startswith("gpt-4o"):         return "gpt4o"
+        if m.startswith("gpt-4"):          return "gpt4"
+        if m.startswith("gemini-2.5-flash"):return "geminif"
+        if m.startswith("gemini-2.5-pro"): return "geminip"
+        return m.replace("-", "")
+    session_id = f"s_{car.car_id}_{seller.persona_id}_{buyer.persona_id}_{_short(cfg.seller_model)}_{_short(cfg.buyer_model)}_{cfg.seed:03d}"
     if cfg.hacking_tactic:
         session_id += f"_{cfg.hacking_tactic}"
     if cfg.seller_knows_buyer:

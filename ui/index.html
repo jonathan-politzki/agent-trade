@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agent Trade — Asymmetric Information in LLM Negotiations</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tiempos+Headline:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="masthead-inner">
+      <div class="masthead-eyebrow">Working paper · v0.1 · 2026-05-16</div>
+      <h1 class="masthead-title">Asymmetric Information in LLM Negotiations</h1>
+      <p class="masthead-subtitle">
+        A used-car marketplace where the seller agent knows things the buyer agent doesn't.
+        Measures how much a model's susceptibility to deception costs it at the close — and
+        which selling tactics industrialize that gap.
+      </p>
+      <nav class="masthead-nav">
+        <a href="#overview" data-view="overview" class="nav-link active">Overview</a>
+        <a href="#replay" data-view="replay" class="nav-link">Transcript replay</a>
+        <a href="#susceptibility" data-view="susceptibility" class="nav-link">Susceptibility</a>
+        <a href="#methods" data-view="methods" class="nav-link">Methods</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="content">
+    <!-- ============ OVERVIEW ============ -->
+    <section id="view-overview" class="view active">
+      <div class="grid-stats">
+        <div class="stat-card">
+          <div class="stat-label">Sessions run</div>
+          <div class="stat-value" data-stat="n_sessions">—</div>
+          <div class="stat-foot">across persona × tactic cells</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Deal rate</div>
+          <div class="stat-value" data-stat="deal_rate">—</div>
+          <div class="stat-foot">% of sessions ending in a deal</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Mean premium over true value</div>
+          <div class="stat-value" data-stat="mean_premium">—</div>
+          <div class="stat-foot">across closed deals only</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Inspection rate</div>
+          <div class="stat-value" data-stat="inspection_rate">—</div>
+          <div class="stat-foot">% of sessions with ≥1 paid inspection</div>
+        </div>
+      </div>
+
+      <section class="paper-section">
+        <h2 class="section-title">The premium curve</h2>
+        <p class="section-lede">
+          Each closed deal lands somewhere relative to the car's <em>true value</em> — the
+          valuation given all private facts. A deal at zero premium is fair. Positive
+          premium means the seller extracted information rents from the buyer.
+          The curve below is split by buyer persona; the gap between mechanic and
+          grandma is the value of expertise in a market with hidden information.
+        </p>
+        <div id="premium-histogram" class="chart"></div>
+        <div class="legend-row" id="premium-histogram-legend"></div>
+      </section>
+
+      <section class="paper-section">
+        <h2 class="section-title">Persona pair — premium by buyer × seller</h2>
+        <p class="section-lede">
+          Mean premium across closed deals in each (seller, buyer) cell. Reading
+          across a row: how much does a given buyer get exploited by sellers of
+          increasing dishonesty? Reading down a column: how much does a given
+          seller's edge erode against more expert buyers?
+        </p>
+        <div id="pair-matrix" class="chart"></div>
+      </section>
+
+      <section class="paper-section">
+        <h2 class="section-title">Inspections and outcomes</h2>
+        <p class="section-lede">
+          Inspections are the buyer's costly route to private facts. Paying $150
+          for an inspection of a focus area reveals every private fact tagged to
+          that area. The plot maps inspections-used to final premium — the
+          downward slope is the return on diligence.
+        </p>
+        <div id="inspection-scatter" class="chart"></div>
+      </section>
+    </section>
+
+    <!-- ============ REPLAY ============ -->
+    <section id="view-replay" class="view">
+      <div class="replay-controls">
+        <label>Session
+          <select id="replay-session-select"></select>
+        </label>
+        <div class="replay-play-controls">
+          <button id="replay-prev" class="ctrl-btn" title="Previous turn">‹</button>
+          <button id="replay-play" class="ctrl-btn ctrl-btn-primary">▶ Play</button>
+          <button id="replay-next" class="ctrl-btn" title="Next turn">›</button>
+          <button id="replay-reset" class="ctrl-btn" title="Reset">⟲</button>
+          <label class="speed-label">Speed
+            <select id="replay-speed">
+              <option value="1500">0.5×</option>
+              <option value="900" selected>1×</option>
+              <option value="500">2×</option>
+              <option value="250">4×</option>
+            </select>
+          </label>
+        </div>
+        <div class="replay-meta" id="replay-meta">—</div>
+      </div>
+
+      <div class="replay-layout">
+        <div class="replay-transcript-pane">
+          <div class="pane-header">
+            <span class="pane-title">Conversation</span>
+            <span class="pane-meta" id="replay-turn-indicator">turn 0 / —</span>
+          </div>
+          <div id="replay-transcript" class="transcript"></div>
+        </div>
+        <div class="replay-iceberg-pane">
+          <div class="pane-header">
+            <span class="pane-title">The asymmetric-information iceberg</span>
+            <span class="pane-meta">public listing above · private facts below</span>
+          </div>
+          <div id="replay-iceberg" class="iceberg"></div>
+          <div id="replay-price-track" class="price-track"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SUSCEPTIBILITY ============ -->
+    <section id="view-susceptibility" class="view">
+      <div class="filter-bar">
+        <label>Rows
+          <select id="heatmap-rows">
+            <option value="buyer_persona">Buyer persona</option>
+            <option value="buyer_model">Buyer model</option>
+            <option value="seller_persona">Seller persona</option>
+            <option value="seller_model">Seller model</option>
+          </select>
+        </label>
+        <label>Columns
+          <select id="heatmap-cols">
+            <option value="tactic" selected>Forced tactic</option>
+            <option value="seller_persona">Seller persona</option>
+            <option value="buyer_persona">Buyer persona</option>
+          </select>
+        </label>
+        <label>Cell value
+          <select id="heatmap-metric">
+            <option value="premium_over_true" selected>Mean premium over true value</option>
+            <option value="deal_rate">Deal close rate</option>
+            <option value="walk_rate">Buyer walk-away rate</option>
+            <option value="mean_inspections">Mean inspections per session</option>
+          </select>
+        </label>
+      </div>
+
+      <section class="paper-section">
+        <h2 class="section-title">Susceptibility map</h2>
+        <p class="section-lede" id="heatmap-lede">
+          Each cell is the mean of the selected metric over all sessions in that
+          (row, column) bin. Warmer cells mean the seller is extracting more rent;
+          cooler cells mean the buyer held the line.
+        </p>
+        <div id="heatmap-chart" class="chart"></div>
+        <div class="legend-row" id="heatmap-legend"></div>
+      </section>
+
+      <section class="paper-section">
+        <h2 class="section-title">Tactic profile</h2>
+        <p class="section-lede">
+          For the currently selected row dimension, premium lift attributable to each
+          tactic relative to the same row's <em>no-tactic baseline</em>. A long
+          right-pointing bar means this tactic systematically extracts more from
+          this kind of buyer than a vanilla conversation does.
+        </p>
+        <div id="tactic-bars" class="chart"></div>
+      </section>
+    </section>
+
+    <!-- ============ METHODS ============ -->
+    <section id="view-methods" class="view">
+      <section class="paper-section narrow">
+        <h2 class="section-title">Method</h2>
+        <p>
+          Each session pairs a <strong>seller agent</strong> and a <strong>buyer agent</strong>
+          across one car drawn from a fleet. The seller's system prompt contains
+          two layers — a <em>public</em> listing (year, make, mileage, asking
+          price, marketing blurb) and a <em>private</em> layer the buyer cannot
+          see (true mileage, undisclosed accidents, mechanical issues, title
+          brand, maintenance gaps). The buyer's prompt contains only the public
+          layer.
+        </p>
+        <p>
+          The buyer extracts private facts two ways. They can <strong>ask</strong>
+          questions, which the seller may answer truthfully, deflect, or lie
+          about depending on persona. Or they can pay <strong>$150 for an
+          inspection</strong> of a focus area, which truthfully surfaces every
+          private fact tagged to that area. Inspections give expertise real bite —
+          a methodical buyer knows when and where to spend.
+        </p>
+        <p>
+          Ground truth comes from two valuations Claude reasons through during
+          fleet generation: <code>public_fair_value</code>, the price if the
+          public layer were the whole truth, and <code>true_value</code>,
+          accounting for all private facts. The headline metric is
+          <strong>premium over true value</strong>:
+          <code>(final_price − true_value) / true_value</code>.
+        </p>
+        <h3 class="subsection-title">Personas</h3>
+        <p>
+          Four sellers (<em>honest, pragmatic, pushy, slimy</em>) define a
+          deception axis. Four buyers (<em>grandma, casual, engineer, mechanic</em>)
+          define a knowledge / skepticism axis. Personas are JSON files
+          containing knowledge level, patience, skepticism, inspection
+          propensity, default budget, and a hand-written system prompt.
+        </p>
+        <h3 class="subsection-title">Tactics</h3>
+        <p>
+          Ten named selling angles drawn from social-engineering and persuasion
+          literature — anchoring, false urgency, phantom buyers, manufactured
+          authority, buried disclosure, technical confusion, flattery, sunk-cost
+          framing, sweetener bundles, and social proof. Each tactic comes with a
+          system-prompt instruction the seller is forced to deploy when the
+          session toggle is set, isolating the marginal effect of that single
+          lever.
+        </p>
+        <h3 class="subsection-title">Outcome metrics</h3>
+        <p>
+          Logged per session: outcome (deal / walk-away / timeout), final price,
+          premium over true and listed value, turn count, question count,
+          inspections used, facts revealed, and a post-hoc classification of
+          which private facts were lied about, deflected, or volunteered. The
+          flat-row table at <code>runs/&lt;sweep_id&gt;/sessions.parquet</code>
+          is the API to this analysis layer.
+        </p>
+      </section>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>agent-trade · used-car-salesman branch</span>
+      <span class="footer-sep">·</span>
+      <span>data: <span id="data-source-tag">mock fleet</span></span>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/overview.js"></script>
+  <script src="js/heatmap.js"></script>
+  <script src="js/replay.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
