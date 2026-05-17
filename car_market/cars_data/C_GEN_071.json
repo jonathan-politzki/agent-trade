@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_071",
+  "year": 2022,
+  "make": "BMW",
+  "model": "5 Series",
+  "body": "Sedan",
+  "mileage": 70204,
+  "true_condition": 2.805425071433972,
+  "true_value": 21677.998667469823,
+  "seller_floor": 19826.172570947307,
+  "seller_ceiling": 23490.28271114279,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

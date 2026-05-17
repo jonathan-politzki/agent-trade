@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_120",
+  "year": 2013,
+  "make": "Honda",
+  "model": "CR-V",
+  "body": "SUV",
+  "mileage": 250000,
+  "true_condition": 2.8505626212494635,
+  "true_value": 7879.156864037836,
+  "seller_floor": 7035.220714863571,
+  "seller_ceiling": 8318.71779104849,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

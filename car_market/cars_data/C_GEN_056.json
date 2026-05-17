@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_056",
+  "year": 2018,
+  "make": "Tesla",
+  "model": "Model Y",
+  "body": "SUV",
+  "mileage": 130622,
+  "true_condition": 2.994670514256284,
+  "true_value": 21163.913007424693,
+  "seller_floor": 19351.816061632708,
+  "seller_ceiling": 23198.502595659083,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_190",
+  "year": 2016,
+  "make": "Ford",
+  "model": "Explorer",
+  "body": "SUV",
+  "mileage": 196575,
+  "true_condition": 3.2729900148696034,
+  "true_value": 11966.459401747634,
+  "seller_floor": 10708.611531513763,
+  "seller_ceiling": 13121.881561200635,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_041",
+  "year": 2021,
+  "make": "Tesla",
+  "model": "Model 3",
+  "body": "Sedan",
+  "mileage": 107487,
+  "true_condition": 2.8079655472841347,
+  "true_value": 21837.174529561136,
+  "seller_floor": 19524.510602387432,
+  "seller_ceiling": 22722.081375719645,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

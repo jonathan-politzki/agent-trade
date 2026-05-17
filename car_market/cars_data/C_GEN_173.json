@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_173",
+  "year": 2018,
+  "make": "Subaru",
+  "model": "Forester",
+  "body": "SUV",
+  "mileage": 164682,
+  "true_condition": 3.291987044125078,
+  "true_value": 16780.31655712791,
+  "seller_floor": 15294.322460061332,
+  "seller_ceiling": 17965.936186094943,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

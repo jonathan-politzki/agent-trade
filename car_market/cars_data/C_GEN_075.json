@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_075",
+  "year": 2011,
+  "make": "Toyota",
+  "model": "Corolla",
+  "body": "Sedan",
+  "mileage": 250000,
+  "true_condition": 3.7229334562375174,
+  "true_value": 8477.796597379769,
+  "seller_floor": 7479.058270234631,
+  "seller_ceiling": 9367.011869111968,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

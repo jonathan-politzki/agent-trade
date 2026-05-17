@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_153",
+  "year": 2025,
+  "make": "Toyota",
+  "model": "Highlander",
+  "body": "SUV",
+  "mileage": 51192,
+  "true_condition": 3.2646058809757195,
+  "true_value": 24187.989098643233,
+  "seller_floor": 22024.148104805958,
+  "seller_ceiling": 26993.02815668444,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "PRIOR_USE_LEASE"
+  ]
+}

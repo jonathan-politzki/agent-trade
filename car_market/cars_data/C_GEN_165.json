@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_165",
+  "year": 2014,
+  "make": "Toyota",
+  "model": "RAV4",
+  "body": "SUV",
+  "mileage": 250000,
+  "true_condition": 4.129598634419458,
+  "true_value": 12686.98012312554,
+  "seller_floor": 11514.235218963027,
+  "seller_ceiling": 13566.025048918866,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

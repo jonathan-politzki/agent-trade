@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_140",
+  "year": 2023,
+  "make": "Toyota",
+  "model": "RAV4",
+  "body": "SUV",
+  "mileage": 63704,
+  "true_condition": 3.054689956786836,
+  "true_value": 19582.020847376705,
+  "seller_floor": 18029.4000494861,
+  "seller_ceiling": 21264.653353939408,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

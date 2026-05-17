@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_013",
+  "year": 2018,
+  "make": "Chevrolet",
+  "model": "Colorado",
+  "body": "Truck",
+  "mileage": 145035,
+  "true_condition": 3.904171529014893,
+  "true_value": 14361.899066223134,
+  "seller_floor": 12535.647206204965,
+  "seller_ceiling": 15881.214030636638,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

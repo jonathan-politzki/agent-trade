@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_022",
+  "year": 2023,
+  "make": "Jeep",
+  "model": "Grand Cherokee",
+  "body": "SUV",
+  "mileage": 68421,
+  "true_condition": 3.6109673960472692,
+  "true_value": 22195.8585994946,
+  "seller_floor": 19629.445194241496,
+  "seller_ceiling": 25041.207506214,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_126",
+  "year": 2020,
+  "make": "Ford",
+  "model": "Escape",
+  "body": "SUV",
+  "mileage": 115056,
+  "true_condition": 2.9320758717936775,
+  "true_value": 13605.077225132625,
+  "seller_floor": 12551.36076479329,
+  "seller_ceiling": 14736.818546361808,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "PRIOR_USE_LEASE"
+  ]
+}

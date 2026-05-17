@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_087",
+  "year": 2014,
+  "make": "Toyota",
+  "model": "Highlander",
+  "body": "SUV",
+  "mileage": 230067,
+  "true_condition": 1.6914242029957964,
+  "true_value": 10042.148132961538,
+  "seller_floor": 8939.655287589552,
+  "seller_ceiling": 11104.773728230131,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "PRIOR_USE_LEASE"
+  ]
+}

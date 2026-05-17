@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_047",
+  "year": 2019,
+  "make": "Honda",
+  "model": "Civic",
+  "body": "Sedan",
+  "mileage": 152422,
+  "true_condition": 3.362432280828081,
+  "true_value": 12644.031610626664,
+  "seller_floor": 11757.83716239702,
+  "seller_ceiling": 13819.14707677022,
+  "true_vhr_flags": [
+    "SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

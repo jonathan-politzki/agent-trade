@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_147",
+  "year": 2022,
+  "make": "Chevrolet",
+  "model": "Colorado",
+  "body": "Truck",
+  "mileage": 78095,
+  "true_condition": 4.4625040809052825,
+  "true_value": 21068.037144223672,
+  "seller_floor": 18703.41607283353,
+  "seller_ceiling": 23313.390656566047,
+  "true_vhr_flags": [
+    "SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

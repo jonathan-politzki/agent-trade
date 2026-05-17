@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_189",
+  "year": 2022,
+  "make": "Toyota",
+  "model": "Tundra",
+  "body": "Truck",
+  "mileage": 77587,
+  "true_condition": 1.9975869942801456,
+  "true_value": 16801.32000235385,
+  "seller_floor": 15793.064456551381,
+  "seller_ceiling": 18434.687904053113,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_046",
+  "year": 2022,
+  "make": "Hyundai",
+  "model": "Sonata",
+  "body": "Sedan",
+  "mileage": 79735,
+  "true_condition": 2.5473263345581483,
+  "true_value": 12843.06720519173,
+  "seller_floor": 11746.596305018888,
+  "seller_ceiling": 14392.834905520664,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

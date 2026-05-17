@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_043",
+  "year": 2019,
+  "make": "Tesla",
+  "model": "Model X",
+  "body": "SUV",
+  "mileage": 144907,
+  "true_condition": 2.9833443915194175,
+  "true_value": 22161.705279238508,
+  "seller_floor": 19831.661722154233,
+  "seller_ceiling": 23735.8059648856,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "PRIOR_USE_LEASE"
+  ]
+}

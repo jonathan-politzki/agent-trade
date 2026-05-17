@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_008",
+  "year": 2013,
+  "make": "Ford",
+  "model": "Escape",
+  "body": "SUV",
+  "mileage": 248371,
+  "true_condition": 3.4989884894001917,
+  "true_value": 9067.093484733696,
+  "seller_floor": 8231.892770228247,
+  "seller_ceiling": 9932.604140970896,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

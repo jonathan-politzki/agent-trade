@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_084",
+  "year": 2015,
+  "make": "Hyundai",
+  "model": "Sonata",
+  "body": "Sedan",
+  "mileage": 215277,
+  "true_condition": 4.329424015567,
+  "true_value": 10212.323838437156,
+  "seller_floor": 9008.257019964216,
+  "seller_ceiling": 11317.141004017474,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "PRIOR_USE_LEASE"
+  ]
+}

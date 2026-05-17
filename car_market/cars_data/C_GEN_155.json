@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_155",
+  "year": 2016,
+  "make": "Ford",
+  "model": "Ranger",
+  "body": "Truck",
+  "mileage": 219649,
+  "true_condition": 2.9120624134950237,
+  "true_value": 11311.581012541215,
+  "seller_floor": 10446.621152020229,
+  "seller_ceiling": 12050.15799502337,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

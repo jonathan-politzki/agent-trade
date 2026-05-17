@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_166",
+  "year": 2021,
+  "make": "Toyota",
+  "model": "Tacoma",
+  "body": "Truck",
+  "mileage": 124504,
+  "true_condition": 4.2535267949451985,
+  "true_value": 21917.74261003459,
+  "seller_floor": 20236.701816062065,
+  "seller_ceiling": 24778.33117180997,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

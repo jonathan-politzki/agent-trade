@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_112",
+  "year": 2012,
+  "make": "Kia",
+  "model": "Sportage",
+  "body": "SUV",
+  "mileage": 250000,
+  "true_condition": 3.2792184857484066,
+  "true_value": 8828.266706207563,
+  "seller_floor": 7801.228364793897,
+  "seller_ceiling": 9823.439651433586,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

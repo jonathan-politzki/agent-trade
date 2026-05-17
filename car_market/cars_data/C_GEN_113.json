@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_113",
+  "year": 2020,
+  "make": "Toyota",
+  "model": "Corolla",
+  "body": "Sedan",
+  "mileage": 125752,
+  "true_condition": 4.366202243794296,
+  "true_value": 14936.91890665352,
+  "seller_floor": 13909.97119057935,
+  "seller_ceiling": 16402.30807986183,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

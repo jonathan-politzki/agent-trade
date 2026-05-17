@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_029",
+  "year": 2022,
+  "make": "Ford",
+  "model": "Ranger",
+  "body": "Truck",
+  "mileage": 98755,
+  "true_condition": 3.3347273892758342,
+  "true_value": 18836.80271039323,
+  "seller_floor": 17103.299244970647,
+  "seller_ceiling": 21437.097288624973,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

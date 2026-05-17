@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_093",
+  "year": 2018,
+  "make": "Tesla",
+  "model": "Model 3",
+  "body": "Sedan",
+  "mileage": 170865,
+  "true_condition": 2.8829239542363156,
+  "true_value": 16233.200767393659,
+  "seller_floor": 14346.884242101076,
+  "seller_ceiling": 17891.807919100956,
+  "true_vhr_flags": [
+    "SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "ACCIDENTS_REPORTED",
+    "PRIOR_USE_LEASE"
+  ]
+}

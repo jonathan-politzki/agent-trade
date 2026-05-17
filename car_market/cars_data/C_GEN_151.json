@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_151",
+  "year": 2020,
+  "make": "Toyota",
+  "model": "Camry",
+  "body": "Sedan",
+  "mileage": 138381,
+  "true_condition": 3.6082847527273887,
+  "true_value": 14379.288046962496,
+  "seller_floor": 12894.140690277465,
+  "seller_ceiling": 16105.555793805968,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

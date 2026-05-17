@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_198",
+  "year": 2016,
+  "make": "Honda",
+  "model": "CR-V",
+  "body": "SUV",
+  "mileage": 200317,
+  "true_condition": 4.439121777763308,
+  "true_value": 12178.00356822284,
+  "seller_floor": 10844.813300344855,
+  "seller_ceiling": 12949.707784985498,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

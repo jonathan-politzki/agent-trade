@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_185",
+  "year": 2021,
+  "make": "Ford",
+  "model": "Ranger",
+  "body": "Truck",
+  "mileage": 111243,
+  "true_condition": 4.832340595372739,
+  "true_value": 21245.05313825174,
+  "seller_floor": 19518.126017120336,
+  "seller_ceiling": 23846.977872714833,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

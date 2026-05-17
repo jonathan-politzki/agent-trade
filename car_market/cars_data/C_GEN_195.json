@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_195",
+  "year": 2020,
+  "make": "Honda",
+  "model": "Pilot",
+  "body": "SUV",
+  "mileage": 118952,
+  "true_condition": 4.027747801557056,
+  "true_value": 17647.721212844514,
+  "seller_floor": 16619.740123353724,
+  "seller_ceiling": 19682.79194342126,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "PRIOR_USE_LEASE"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_136",
+  "year": 2021,
+  "make": "Toyota",
+  "model": "Corolla",
+  "body": "Sedan",
+  "mileage": 111440,
+  "true_condition": 2.622562690298496,
+  "true_value": 15439.806922609203,
+  "seller_floor": 13179.713397697784,
+  "seller_ceiling": 16527.861997384578,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

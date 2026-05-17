@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_176",
+  "year": 2016,
+  "make": "Toyota",
+  "model": "RAV4",
+  "body": "SUV",
+  "mileage": 213133,
+  "true_condition": 2.4416560462711283,
+  "true_value": 11847.502740542926,
+  "seller_floor": 10756.93930334288,
+  "seller_ceiling": 12696.691825819853,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

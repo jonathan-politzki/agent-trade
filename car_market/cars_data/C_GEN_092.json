@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_092",
+  "year": 2022,
+  "make": "Toyota",
+  "model": "RAV4",
+  "body": "SUV",
+  "mileage": 79053,
+  "true_condition": 4.224740211483407,
+  "true_value": 20789.306859573626,
+  "seller_floor": 17784.32847166165,
+  "seller_ceiling": 23022.398070621755,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

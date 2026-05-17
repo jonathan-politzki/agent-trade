@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_050",
+  "year": 2019,
+  "make": "Mazda",
+  "model": "Mazda3",
+  "body": "Sedan",
+  "mileage": 162047,
+  "true_condition": 2.524779144778071,
+  "true_value": 11816.362741460116,
+  "seller_floor": 10169.061740088633,
+  "seller_ceiling": 12891.260429000511,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

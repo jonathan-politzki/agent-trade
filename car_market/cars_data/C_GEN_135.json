@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_135",
+  "year": 2018,
+  "make": "Hyundai",
+  "model": "Sonata",
+  "body": "Sedan",
+  "mileage": 180479,
+  "true_condition": 2.3868588349224993,
+  "true_value": 9386.71089415656,
+  "seller_floor": 8198.508750049723,
+  "seller_ceiling": 10425.604175700471,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

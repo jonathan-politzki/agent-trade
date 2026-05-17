@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_127",
+  "year": 2023,
+  "make": "Mazda",
+  "model": "Mazda6",
+  "body": "Sedan",
+  "mileage": 70879,
+  "true_condition": 3.023573801026913,
+  "true_value": 16849.880603718742,
+  "seller_floor": 15119.951082194037,
+  "seller_ceiling": 18588.15421746418,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "PRIOR_USE_LEASE"
+  ]
+}

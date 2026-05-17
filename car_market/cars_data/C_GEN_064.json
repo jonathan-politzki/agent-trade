@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_064",
+  "year": 2023,
+  "make": "Toyota",
+  "model": "Tundra",
+  "body": "Truck",
+  "mileage": 57743,
+  "true_condition": 3.0658403928945748,
+  "true_value": 21980.13932549467,
+  "seller_floor": 20438.479965868828,
+  "seller_ceiling": 24509.033673069287,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_099",
+  "year": 2017,
+  "make": "Ford",
+  "model": "Ranger",
+  "body": "Truck",
+  "mileage": 176525,
+  "true_condition": 2.115818331997447,
+  "true_value": 12646.363429905387,
+  "seller_floor": 11625.153067939009,
+  "seller_ceiling": 13664.951016217183,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

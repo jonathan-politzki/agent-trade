@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_031",
+  "year": 2021,
+  "make": "Toyota",
+  "model": "RAV4",
+  "body": "SUV",
+  "mileage": 98347,
+  "true_condition": 3.198183572028505,
+  "true_value": 18041.588530793284,
+  "seller_floor": 15912.88194092098,
+  "seller_ceiling": 19590.881315052393,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}

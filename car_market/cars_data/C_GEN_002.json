@@ -1,0 +1,19 @@
+{
+  "car_id": "C_GEN_002",
+  "year": 2020,
+  "make": "Honda",
+  "model": "Accord",
+  "body": "Sedan",
+  "mileage": 105027,
+  "true_condition": 3.621208754502375,
+  "true_value": 13142.660218400018,
+  "seller_floor": 11750.876488887923,
+  "seller_ceiling": 14293.821147164272,
+  "true_vhr_flags": [
+    "NO_SALVAGE_TITLE",
+    "NO_FRAME_DAMAGE",
+    "NO_FLOOD_WATER_DAMAGE",
+    "NO_ACCIDENTS_REPORTED",
+    "NO_ONE_OWNER"
+  ]
+}
