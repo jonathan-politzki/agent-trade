@@ -357,11 +357,18 @@
         <p class="section-lede">
           The asymmetry problem looks like a model problem (e1, e3): every model
           pair extracts ~30% premium under deception. But it isn't a model
-          problem — it's a market-design problem. e4 holds the model fixed
-          (slimy <code>gemini-flash-lite</code> seller, casual
-          <code>gemini-flash</code> buyer) and toggles one thing:
+          problem — it's a market-design problem. e4 / e5 hold the model fixed
+          (slimy <code>gemini-flash-lite</code> seller,
+          <code>gemini-flash</code> buyer) and toggle one thing:
           <strong>can the next buyer read what previous buyers wrote about this seller?</strong>
         </p>
+
+        <div class="filter-bar" id="reputation-filter-bar">
+          <label>Buyer persona
+            <select id="reputation-persona-select"></select>
+          </label>
+          <div id="reputation-filter-summary" class="filter-summary"></div>
+        </div>
 
         <div id="reputation-stats" class="reputation-stats"></div>
       </section>

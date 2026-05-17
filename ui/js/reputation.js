@@ -7,16 +7,73 @@ const Reputation = (() => {
   const COLOR_TREATMENT = "#2F6E6E";  // rep visible — buyer surplus
   const COLOR_CONTROL   = "#A0432F";  // rep hidden — seller extracts
 
+  let cachedRep = null;
+  let currentPersona = null;  // null => "all personas combined"
+
   function render(data) {
     const rep = data.reputation;
     if (!rep || !rep.trades?.length) {
       renderEmpty();
       return;
     }
-    renderStats(rep);
-    renderDecayChart(rep);
-    renderCloseChart(rep);
-    renderReviewFeed(rep);
+    cachedRep = rep;
+    bindControls(rep);
+    renderAll();
+  }
+
+  function bindControls(rep) {
+    const sel = document.getElementById("reputation-persona-select");
+    if (!sel) return;
+    const personas = rep.personas || [...new Set(rep.trades.map(t => t.buyer_persona_id))];
+    sel.innerHTML = "";
+    const allOpt = document.createElement("option");
+    allOpt.value = ""; allOpt.textContent = "All personas (combined)";
+    sel.appendChild(allOpt);
+    personas.sort().forEach(p => {
+      const opt = document.createElement("option");
+      opt.value = p; opt.textContent = personaLabel(p);
+      sel.appendChild(opt);
+    });
+    // Default to whichever persona has the most trades, since the user is
+    // usually about to talk about one specific persona's story.
+    const counts = {};
+    for (const t of rep.trades) {
+      counts[t.buyer_persona_id] = (counts[t.buyer_persona_id] || 0) + 1;
+    }
+    const defaultPersona = Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0] || "";
+    sel.value = currentPersona ?? defaultPersona ?? "";
+    currentPersona = sel.value || null;
+
+    sel.removeEventListener("change", onPersonaChange);
+    sel.addEventListener("change", onPersonaChange);
+  }
+
+  function onPersonaChange(e) {
+    currentPersona = e.target.value || null;
+    renderAll();
+  }
+
+  function filteredTrades() {
+    if (!cachedRep) return [];
+    if (!currentPersona) return cachedRep.trades;
+    return cachedRep.trades.filter(t => t.buyer_persona_id === currentPersona);
+  }
+
+  function personaLabel(p) {
+    return ({ grandma: "Grandma (low knowledge)", casual: "Casual Shopper", engineer: "Methodical Engineer", mechanic: "Mechanic (expert)" })[p] || p;
+  }
+
+  function renderAll() {
+    const trades = filteredTrades();
+    const summaryEl = document.getElementById("reputation-filter-summary");
+    if (summaryEl) {
+      const label = currentPersona ? personaLabel(currentPersona) : "all buyer personas";
+      summaryEl.textContent = `${trades.length} trades · ${label}`;
+    }
+    renderStats(trades);
+    renderDecayChart(trades);
+    renderCloseChart(trades);
+    renderReviewFeed(trades);
   }
 
   function renderEmpty() {
@@ -75,8 +132,8 @@ const Reputation = (() => {
 
   // ---- stats cards ----
 
-  function renderStats(rep) {
-    const t = topline(rep.trades);
+  function renderStats(trades) {
+    const t = topline(trades);
     const ratio = t.control.totalExtracted > 0
       ? t.treatment.totalExtracted / t.control.totalExtracted
       : null;
@@ -126,11 +183,11 @@ const Reputation = (() => {
 
   // ---- decay curve ----
 
-  function renderDecayChart(rep) {
+  function renderDecayChart(trades) {
     const host = document.getElementById("reputation-decay");
     host.innerHTML = "";
 
-    const cells = aggregate(rep.trades);
+    const cells = aggregate(trades);
 
     const W = host.clientWidth || 800, H = 340;
     const margin = { top: 22, right: 36, bottom: 50, left: 56 };
@@ -205,11 +262,11 @@ const Reputation = (() => {
 
   // ---- close rate chart ----
 
-  function renderCloseChart(rep) {
+  function renderCloseChart(trades) {
     const host = document.getElementById("reputation-close");
     host.innerHTML = "";
 
-    const cells = aggregate(rep.trades);
+    const cells = aggregate(trades);
     const W = host.clientWidth || 800, H = 220;
     const margin = { top: 18, right: 36, bottom: 42, left: 56 };
     const w = W - margin.left - margin.right, h = H - margin.top - margin.bottom;
@@ -255,13 +312,13 @@ const Reputation = (() => {
 
   // ---- reviews feed ----
 
-  function renderReviewFeed(rep) {
+  function renderReviewFeed(trades) {
     const host = document.getElementById("reputation-reviews");
     host.innerHTML = "";
 
     // Take all reviews with text, sort by treatment (treatment first for context),
     // then by trade_index so reader sees the seller's reputation building.
-    const reviews = rep.trades
+    const reviews = trades
       .filter(t => t.review?.review_text)
       .sort((a, b) => {
         if (a.reputation_visible !== b.reputation_visible)

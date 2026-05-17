@@ -1,11 +1,11 @@
-"""Pack an arc/reputation sweep into ui/data/reputation_arcs.json.
+"""Pack one or more arc/reputation sweeps into ui/data/reputation_arcs.json.
 
 Usage:
-  python3 ui/import_reputation.py sweeps/e4_reputation
+  python3 ui/import_reputation.py sweeps/e4_reputation [sweeps/e5_*...]
 
-The Reputation view loads this file directly; it's independent of the
-main sessions.json (so e1/e3 stay focused on the one-shot question and
-e4 stays focused on the longitudinal question).
+Multiple sweep dirs are unioned. The view filters by buyer_persona_id so
+the same chart machinery works across casual / grandma / mechanic /
+engineer arcs.
 """
 from __future__ import annotations
 
@@ -16,12 +16,12 @@ from pathlib import Path
 UI_DATA = Path(__file__).resolve().parent / "data"
 
 
-def main(sweep_dir: Path) -> None:
+def load_sweep(sweep_dir: Path) -> list[dict]:
     trades_path = sweep_dir / "trades.jsonl"
     if not trades_path.exists():
-        sys.exit(f"missing {trades_path}")
-
-    trades = []
+        print(f"  WARN: missing {trades_path}", file=sys.stderr)
+        return []
+    rows = []
     for line in trades_path.read_text().splitlines():
         if not line.strip(): continue
         try:
@@ -30,28 +30,46 @@ def main(sweep_dir: Path) -> None:
             continue
         if row.get("arc_id") is None or row.get("trade_index") is None:
             continue
-        trades.append(row)
+        row["_sweep_id"] = sweep_dir.name
+        rows.append(row)
+    return rows
 
-    # Optionally pull the per-cell pre-aggregated summary if present.
-    summary_path = sweep_dir / "arc_summary.json"
-    summary = json.loads(summary_path.read_text()) if summary_path.exists() else {}
+
+def main(sweep_dirs: list[Path]) -> None:
+    all_trades: list[dict] = []
+    sweep_summaries: dict[str, dict] = {}
+    for d in sweep_dirs:
+        rows = load_sweep(d)
+        all_trades.extend(rows)
+        summary_path = d / "arc_summary.json"
+        if summary_path.exists():
+            sweep_summaries[d.name] = json.loads(summary_path.read_text())
+        print(f"  {d.name}: {len(rows)} trades")
+
+    if not all_trades:
+        sys.exit("no trades loaded")
+
+    # Per-persona summary so the UI can show a one-line description without
+    # recomputing every load.
+    personas = sorted({t.get("buyer_persona_id", "?") for t in all_trades})
+    print(f"\npersonas: {personas}")
+    print(f"total trades: {len(all_trades)}")
 
     payload = {
-        "sweep_id": sweep_dir.name,
-        "n_trades": len(trades),
-        "trades": trades,
-        "summary": summary,
+        "sweep_ids": [d.name for d in sweep_dirs],
+        "n_trades": len(all_trades),
+        "trades": all_trades,
+        "summaries_by_sweep": sweep_summaries,
+        "personas": personas,
     }
 
     UI_DATA.mkdir(parents=True, exist_ok=True)
     out = UI_DATA / "reputation_arcs.json"
     out.write_text(json.dumps(payload, indent=2))
-    print(f"wrote {out} ({len(trades)} trades across "
-          f"{len({t['arc_id'] for t in trades})} arcs, "
-          f"{len({t['trade_index'] for t in trades})} trade indices)")
+    print(f"\nwrote {out}")
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        sys.exit("usage: python3 ui/import_reputation.py <sweep_dir>")
-    main(Path(sys.argv[1]).resolve())
+    if len(sys.argv) < 2:
+        sys.exit("usage: python3 ui/import_reputation.py <sweep_dir> [<sweep_dir> ...]")
+    main([Path(p).resolve() for p in sys.argv[1:]])

@@ -1230,6 +1230,15 @@ strong { font-weight: 600; color: var(--ink); }
 .reputation-stats {
   margin-top: 0.4rem;
 }
+
+.filter-summary {
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  color: var(--ink-3);
+  margin-left: auto;
+  align-self: center;
+  font-style: italic;
+}
 .rep-stats-grid {
   display: grid;
   grid-template-columns: 1.4fr 1fr 1fr 0.7fr;
