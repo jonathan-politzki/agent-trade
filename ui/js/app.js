@@ -18,6 +18,9 @@
     return;
   }
 
+  // Expose data globally for view modules (e.g. lot.js).
+  window.AT_DATA = data;
+
   // Update data-source tag.
   document.getElementById("data-source-tag").textContent =
     `${data.sessions.length} sessions · ${data.replayable.length} replayable transcripts`;
@@ -36,6 +39,8 @@
       if (v === "overview") {
         Overview.render(data);
         rendered.overview = true;
+      } else if (v === "lot") {
+        window.AT_LOT_RENDER && window.AT_LOT_RENDER();
       } else if (v === "susceptibility") {
         HeatmapView.render(data);
         rendered.susceptibility = true;
@@ -47,7 +52,7 @@
   }
 
   // Hash routing.
-  const views = ["overview", "replay", "susceptibility", "methods"];
+  const views = ["overview", "lot", "replay", "susceptibility", "methods"];
 
   function setView(v) {
     if (!views.includes(v)) v = "overview";

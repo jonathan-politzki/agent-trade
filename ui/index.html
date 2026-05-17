@@ -22,6 +22,7 @@
       </p>
       <nav class="masthead-nav">
         <a href="#overview" data-view="overview" class="nav-link active">Overview</a>
+        <a href="#lot" data-view="lot" class="nav-link">Who's on the lot</a>
         <a href="#replay" data-view="replay" class="nav-link">Transcript replay</a>
         <a href="#susceptibility" data-view="susceptibility" class="nav-link">Susceptibility</a>
         <a href="#methods" data-view="methods" class="nav-link">Methods</a>
@@ -88,6 +89,40 @@
           downward slope is the return on diligence.
         </p>
         <div id="inspection-scatter" class="chart"></div>
+      </section>
+    </section>
+
+    <!-- ============ WHO'S ON THE LOT ============ -->
+    <section id="view-lot" class="view">
+      <section class="paper-section">
+        <h2 class="section-title">Who's on the lot</h2>
+        <p class="section-lede">
+          The cast of this market. Four salesmen running the gamut from honest
+          to slimy, four buyers from grandma to certified mechanic, and twelve
+          cars sorted by how much the seller has to hide. Each card shows the
+          handful of structured fields the simulation drives off — beneath every
+          card there's a system prompt giving the LLM its voice.
+        </p>
+      </section>
+
+      <section class="paper-section">
+        <h2 class="section-title">Sellers</h2>
+        <div id="lot-sellers" class="lot-grid"></div>
+      </section>
+
+      <section class="paper-section">
+        <h2 class="section-title">Buyers</h2>
+        <div id="lot-buyers" class="lot-grid"></div>
+      </section>
+
+      <section class="paper-section">
+        <h2 class="section-title">Cars on the lot</h2>
+        <p class="section-lede">
+          Grouped by how far the seller's asking price sits above the true value.
+          The bigger the gap, the more there is to hide. Click into the
+          Susceptibility view to see how the gap actually plays out per buyer.
+        </p>
+        <div id="lot-cars" class="lot-tiers"></div>
       </section>
     </section>
 
@@ -256,6 +291,7 @@
   <script src="js/overview.js"></script>
   <script src="js/heatmap.js"></script>
   <script src="js/replay.js"></script>
+  <script src="js/lot.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
