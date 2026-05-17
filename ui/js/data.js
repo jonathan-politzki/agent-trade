@@ -18,6 +18,16 @@ const Data = (() => {
     const carsById = Object.fromEntries(cars.map(c => [c.car_id, c]));
     const tacticsById = tactics;
 
+    // Derived fields — add per-row before any aggregation.
+    sessions.forEach(r => {
+      // delegation_cell: H-H / H-A / A-H / A-A (seller-buyer)
+      const sa = r.seller_is_agent === true ? 'A' : 'H';
+      const ba = r.buyer_is_agent === true ? 'A' : 'H';
+      r.delegation_cell = sa + '-' + ba;
+      // karma_label: visible / hidden (string, easier to display than bool)
+      r.karma_label = r.karma_visible === true ? 'visible' : 'hidden';
+    });
+
     // Sessions with annotations (only handcrafted ones have any).
     const replayable = sessions.filter(s => annotations[s.session_id]);
 
@@ -82,11 +92,15 @@ const Data = (() => {
 
   function keyFor(s, dimension) {
     switch (dimension) {
-      case "buyer_persona":  return s.buyer_persona_id;
-      case "seller_persona": return s.seller_persona_id;
-      case "buyer_model":    return shortModel(s.buyer_model);
-      case "seller_model":   return shortModel(s.seller_model);
-      case "tactic":         return s.hacking_tactic || "none";
+      case "buyer_persona":    return s.buyer_persona_id;
+      case "seller_persona":   return s.seller_persona_id;
+      case "buyer_model":      return shortModel(s.buyer_model);
+      case "seller_model":     return shortModel(s.seller_model);
+      case "tactic":           return s.hacking_tactic || "none";
+      case "delegation_cell":  return s.delegation_cell || "H-H";
+      case "karma_label":      return s.karma_label || "hidden";
+      case "seller_is_agent":  return s.seller_is_agent === true ? "agent" : "human";
+      case "buyer_is_agent":   return s.buyer_is_agent === true ? "agent" : "human";
       default: return "";
     }
   }
