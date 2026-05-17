@@ -1273,6 +1273,13 @@ strong { font-weight: 600; color: var(--ink); }
   font-size: 0.92rem;
   color: var(--ink-2);
   border-bottom: 1px solid var(--rule);
+  cursor: help;
+}
+.rep-stats-info {
+  font-size: 0.8rem;
+  color: var(--ink-3, var(--ink-2));
+  opacity: 0.55;
+  margin-left: 0.25rem;
 }
 .rep-stats-grid > div:nth-last-child(-n+4) { border-bottom: none; }
 

@@ -140,28 +140,44 @@ const Reputation = (() => {
     const host = document.getElementById("reputation-stats");
     host.innerHTML = "";
 
+    // Per-attempt expected loss — the right headline, since per-deal premium
+    // is biased by selection (cautious buyers only close on the hardest cases).
+    const perAttemptT = t.treatment.n ? t.treatment.totalExtracted / t.treatment.n : 0;
+    const perAttemptC = t.control.n ? t.control.totalExtracted / t.control.n : 0;
+    const perAttemptDrop = perAttemptC > 0 ? (1 - perAttemptT / perAttemptC) : null;
+
     const rows = [
+      ["Loss per shopping attempt",
+       fmtUsd(perAttemptT),
+       fmtUsd(perAttemptC),
+       perAttemptDrop != null ? `${(perAttemptDrop * 100).toFixed(0)}% drop` : "—",
+       perAttemptT < perAttemptC,
+       "Total $ the slimy seller extracted, divided by the total number of buyers who walked onto the lot. This is the right comparison across personas — it doesn't double-count buyers who walked away."],
       ["Close rate",
        `${(t.treatment.closed/t.treatment.n*100).toFixed(0)}%`,
        `${(t.control.closed/t.control.n*100).toFixed(0)}%`,
        `${((t.treatment.closed/t.treatment.n - t.control.closed/t.control.n)*100).toFixed(0)} pp`,
-       (t.treatment.closed/t.treatment.n - t.control.closed/t.control.n) < 0],
-      ["Mean premium (closed deals)",
+       (t.treatment.closed/t.treatment.n - t.control.closed/t.control.n) < 0,
+       "Share of approaches that resulted in a sale. Lower = more buyers walked away."],
+      ["Mean premium · conditional on closing",
        fmtPct(t.treatment.meanPrem),
        fmtPct(t.control.meanPrem),
        fmtPctDelta((t.treatment.meanPrem ?? 0) - (t.control.meanPrem ?? 0)),
-       (t.treatment.meanPrem ?? 0) < (t.control.meanPrem ?? 0)],
+       (t.treatment.meanPrem ?? 0) < (t.control.meanPrem ?? 0),
+       "Average overpayment on deals that actually closed. Cautious buyers (mechanic, engineer) close only on the cases their filter missed, so this number can look high even when their total loss is tiny — use loss-per-attempt as the headline."],
       ["Mean buyer rating",
        t.treatment.meanRating != null ? `${t.treatment.meanRating.toFixed(2)} / 5` : "—",
        t.control.meanRating != null ? `${t.control.meanRating.toFixed(2)} / 5` : "—",
        t.treatment.meanRating != null && t.control.meanRating != null
          ? `+${(t.treatment.meanRating - t.control.meanRating).toFixed(2)}` : "—",
-       (t.treatment.meanRating ?? 0) > (t.control.meanRating ?? 0)],
-      ["Total extracted value (seller surplus)",
+       (t.treatment.meanRating ?? 0) > (t.control.meanRating ?? 0),
+       "Post-deal review left by the buyer (1-5) after the private facts were revealed. Higher under reputation = walk-aways cull the worst deals."],
+      ["Total extracted value (raw)",
        fmtUsd(t.treatment.totalExtracted),
        fmtUsd(t.control.totalExtracted),
        ratio != null ? `${((1 - ratio) * 100).toFixed(0)}% drop` : "—",
-       (t.treatment.totalExtracted ?? 0) < (t.control.totalExtracted ?? 0)],
+       (t.treatment.totalExtracted ?? 0) < (t.control.totalExtracted ?? 0),
+       "Sum of (final_price − true_value) across all closed deals in the arc."],
     ];
 
     const table = document.createElement("div");
@@ -171,8 +187,8 @@ const Reputation = (() => {
       <div class="rep-stats-head rep-stats-head-treatment">Treatment<br><span>reputation visible</span></div>
       <div class="rep-stats-head rep-stats-head-control">Control<br><span>reputation hidden</span></div>
       <div class="rep-stats-head">Δ</div>
-      ${rows.map(([label, a, b, delta, good]) => `
-        <div class="rep-stats-label">${label}</div>
+      ${rows.map(([label, a, b, delta, good, tip]) => `
+        <div class="rep-stats-label" ${tip ? `title="${tip.replace(/"/g,'&quot;')}"` : ""}>${label}${tip ? ' <span class="rep-stats-info">ⓘ</span>' : ''}</div>
         <div class="rep-stats-cell rep-stats-cell-treatment">${a}</div>
         <div class="rep-stats-cell rep-stats-cell-control">${b}</div>
         <div class="rep-stats-cell rep-stats-cell-delta ${good ? "rep-good" : "rep-bad"}">${delta}</div>

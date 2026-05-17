@@ -30,19 +30,43 @@ Grandma's budget was bumped from $18K → $25K so she can engage 9 of 12 cars in
 
 ## Headline: the four-persona expertise gradient
 
-| Buyer persona | Skepticism (prompt) | Close rate **without** rep | Close rate **with** rep | Δ |
-| ------------- | ------------------- | -------------------------- | ----------------------- | - |
-| **grandma** | 0.20 | **82.5%** | **42.5%** | **−40 pp** |
-| casual (e4) | 0.50 | 95.0% | 60.0% | −35 pp |
-| engineer | 0.70 | 22.5% | 15.0% | −7.5 pp |
-| **mechanic** | 0.90 | 17.5% | 15.0% | −2.5 pp |
+### The right metric: **loss per shopping attempt**
 
-| Buyer persona | Mean premium **without** rep | Mean premium **with** rep | Δ |
-| ------------- | ---------------------------- | ------------------------- | - |
-| grandma | +33.0% | **+14.5%** | **−18.5 pp** |
-| casual | +27.0% | +17.5% | −9.5 pp |
-| engineer | +9.6% | +1.4% | −8.2 pp |
-| mechanic | +36.5% | +15.9% | **−20.6 pp** |
+Per-deal premium is conditional on a deal closing, which biases against cautious
+buyers — mechanic only closes on the ~17% of cases her filter misses, so by
+construction those are the worst examples. The unbiased headline is
+*expected loss per shopping attempt*: total `(final_price − true_value)`
+divided by the 40 buyers who walked onto the lot, whether they bought or not.
+
+| Buyer persona | Skepticism | **Loss / attempt** (no rep) | **Loss / attempt** (with rep) | Reduction |
+| ------------- | ---------- | ---------------------------:| -----------------------------:| ---------:|
+| **grandma** | 0.20 | **$3,199** | $807 | **75%** |
+| casual (e4) | 0.50 | $3,150 | $1,295 | 59% |
+| **mechanic** | 0.90 | $694 | $251 | 64% |
+| engineer | 0.70 | $276 | **$41** | **85%** |
+
+The vulnerability ordering now reads correctly: grandma ≈ casual lose ~$3K
+every time they go car shopping; mechanic loses about a fifth of that;
+engineer loses almost nothing. Reputation cuts every persona's loss by 59-85%.
+
+### Selection-biased view (kept for reference)
+
+These are the *per-closed-deal* numbers that motivated the question of which
+metric to use. They mislead because the deals that cautious buyers close are
+not representative of the deals they encountered — they're the deals where
+caution failed.
+
+| Buyer persona | Close rate (no rep / with rep) | Per-deal premium (no rep / with rep) |
+| ------------- | ------------------------------ | ----------------------------------- |
+| grandma | 82.5% / 42.5% | +33.0% / +14.5% |
+| casual | 95.0% / 60.0% | +27.0% / +17.5% |
+| engineer | 22.5% / 15.0% | +9.6% / +1.4% |
+| mechanic | 17.5% / 15.0% | +36.5% / +15.9% |
+
+Notice mechanic's per-deal premium of +36.5% — higher than grandma's +33.0%.
+That looks paradoxical until you weight by close rate: the 7 deals mechanic
+closes in 40 attempts contribute $694 total expected loss; the 33 deals
+grandma closes contribute $3,199.
 
 | Buyer persona | Mean rating (without rep) | Mean rating (with rep) |
 | ------------- | ------------------------- | ----------------------- |
