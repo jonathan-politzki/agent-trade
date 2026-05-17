@@ -37,6 +37,8 @@ class SessionConfig:
     seller_knows_buyer: bool = False
     karma_visible: bool = False     # if True, buyer system prompt includes seller karma score
     hacking_tactic: str | None = None
+    seller_is_agent: bool = False   # if True, seller-side LLM gets a mechanical briefing instead of persona system prompt
+    buyer_is_agent: bool = False    # same for buyer side
     max_turns: int = DEFAULT_MAX_TURNS
     inspection_cost: float = INSPECTION_COST
     seed: int = 0
