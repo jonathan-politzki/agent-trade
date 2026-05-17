@@ -79,18 +79,39 @@ CONVERSATION RULES:
 """
 
 
-def _buyer_system_prompt(persona: Persona, car: Car, cfg: SessionConfig) -> str:
+def _buyer_system_prompt(persona: Persona, car: Car, cfg: SessionConfig,
+                          seller_persona: Persona | None = None) -> str:
     options_block = (
         "\nYou have already narrowed your shortlist. This is the car you are evaluating; "
         "you are not comparison-shopping against other vehicles during this conversation."
         if cfg.buyer_options_narrowed else
         "\nThis is one of several cars on your shortlist. You may walk away if this one doesn't fit."
     )
+    karma_block = ""
+    if cfg.karma_visible and seller_persona is not None:
+        ks = seller_persona.karma_score
+        if ks is not None:
+            stars = 1.0 + 4.0 * ((ks + 1.0) / 2.0)   # map [-1,+1] -> [1,5]
+            descriptor = (
+                "stellar — multiple customers describe them as transparent and trustworthy" if ks >= 0.6 else
+                "generally positive — most customers report fair dealings" if ks >= 0.2 else
+                "mixed — some customers report misleading claims or pressure tactics" if ks >= -0.2 else
+                "concerning — repeated complaints of misleading descriptions and undisclosed defects" if ks >= -0.5 else
+                "very poor — consistent customer reports of deception and bait-and-switch"
+            )
+            karma_block = (
+                f"\nSELLER REPUTATION (visible to you before negotiation begins):\n"
+                f"  Dealership: {seller_persona.display_name}\n"
+                f"  Reputation score: {ks:+.2f}  ({stars:.1f}/5.0 stars)\n"
+                f"  Customer-review summary: {descriptor}.\n"
+                f"  Source: aggregate of past customer feedback on this dealership.\n"
+                f"This information is a PRIOR, not a guarantee — verify with your own questions."
+            )
     return f"""{persona.system_prompt}
 
 YOU ARE BUYING A CAR (public information only — anything else you must extract):
 {_format_public_view(car)}
-
+{karma_block}
 YOUR BUDGET: ${persona.default_budget:,.0f} (hard ceiling — you cannot offer above this).
 INSPECTION COST: ${cfg.inspection_cost:.0f} per focus area, deducted from your budget when used.
 {options_block}
@@ -179,7 +200,7 @@ def run_session(
     transcript_path.write_text("")
 
     seller_system = _seller_system_prompt(seller, car, cfg, buyer_persona=buyer)
-    buyer_system = _buyer_system_prompt(buyer, car, cfg)
+    buyer_system = _buyer_system_prompt(buyer, car, cfg, seller_persona=seller)
     (out_dir / "seller_system.txt").write_text(seller_system)
     (out_dir / "buyer_system.txt").write_text(buyer_system)
 

@@ -35,6 +35,7 @@ class SessionConfig:
     buyer_model: str = DEFAULT_BUYER_MODEL
     buyer_options_narrowed: bool = True
     seller_knows_buyer: bool = False
+    karma_visible: bool = False     # if True, buyer system prompt includes seller karma score
     hacking_tactic: str | None = None
     max_turns: int = DEFAULT_MAX_TURNS
     inspection_cost: float = INSPECTION_COST

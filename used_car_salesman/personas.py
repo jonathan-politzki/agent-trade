@@ -34,6 +34,25 @@ class Persona:
     @property
     def default_budget(self) -> float: return float(self.raw.get("default_budget", 20000))
 
+    @property
+    def karma_score(self) -> float | None:
+        """Reputation prior in [-1, +1]. None if not set in the JSON."""
+        v = self.raw.get("karma_score")
+        return None if v is None else float(v)
+
+    @property
+    def archetype(self) -> str | None:
+        v = self.raw.get("archetype")
+        return None if v is None else str(v)
+
+    @property
+    def signature_line(self) -> str:
+        return str(self.raw.get("signature_line", ""))
+
+    @property
+    def location(self) -> str:
+        return str(self.raw.get("location", ""))
+
 
 def load_persona(path: Path) -> Persona:
     data = json.loads(Path(path).read_text())
