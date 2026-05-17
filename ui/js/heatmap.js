@@ -6,13 +6,26 @@ const HeatmapView = (() => {
 
   function render(data) {
     cachedData = data;
+    populateSweepFilter(data);
     bindControls();
     update();
   }
 
+  function populateSweepFilter(data) {
+    const sel = document.getElementById("heatmap-sweep");
+    if (!sel) return;
+    const sweeps = [...new Set(data.sessions.map(s => s.sweep_id).filter(Boolean))].sort();
+    // Keep the "All sweeps" first option, append the rest.
+    const current = sel.value;
+    sel.innerHTML = '<option value="">All sweeps</option>' +
+      sweeps.map(s => `<option value="${s}">${s}</option>`).join("");
+    if (sweeps.includes(current)) sel.value = current;
+  }
+
   function bindControls() {
-    ["heatmap-rows", "heatmap-cols", "heatmap-metric"].forEach(id => {
+    ["heatmap-rows", "heatmap-cols", "heatmap-metric", "heatmap-sweep"].forEach(id => {
       const el = document.getElementById(id);
+      if (!el) return;
       el.removeEventListener("change", update);
       el.addEventListener("change", update);
     });
@@ -22,8 +35,12 @@ const HeatmapView = (() => {
     const rowDim = document.getElementById("heatmap-rows").value;
     const colDim = document.getElementById("heatmap-cols").value;
     const metric = document.getElementById("heatmap-metric").value;
-    renderHeatmap(cachedData.sessions, rowDim, colDim, metric);
-    renderTacticBars(cachedData.sessions, rowDim, metric);
+    const sweep = document.getElementById("heatmap-sweep")?.value || "";
+    const sessions = sweep
+      ? cachedData.sessions.filter(s => s.sweep_id === sweep)
+      : cachedData.sessions;
+    renderHeatmap(sessions, rowDim, colDim, metric);
+    renderTacticBars(sessions, rowDim, metric);
     updateLede(rowDim, colDim, metric);
   }
 
