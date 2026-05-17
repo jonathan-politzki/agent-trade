@@ -7,18 +7,24 @@ const Data = (() => {
 
   async function init() {
     if (state) return state;
+    return reload();
+  }
+
+  // Re-fetch all data files. Cache-busts via a timestamp query param so a
+  // refresh during an in-progress sweep always sees the latest results.
+  async function reload() {
+    const cb = `?t=${Date.now()}`;
     const [sessions, annotations, cars, personas, tactics] = await Promise.all([
-      fetch("data/sessions.json").then(r => r.json()),
-      fetch("data/session_annotations.json").then(r => r.json()),
-      fetch("data/cars.json").then(r => r.json()),
-      fetch("data/personas.json").then(r => r.json()),
-      fetch("data/tactics.json").then(r => r.json()),
+      fetch("data/sessions.json" + cb).then(r => r.json()),
+      fetch("data/session_annotations.json" + cb).then(r => r.json()),
+      fetch("data/cars.json" + cb).then(r => r.json()),
+      fetch("data/personas.json" + cb).then(r => r.json()),
+      fetch("data/tactics.json" + cb).then(r => r.json()),
     ]);
 
     const carsById = Object.fromEntries(cars.map(c => [c.car_id, c]));
     const tacticsById = tactics;
 
-    // Sessions with annotations (only handcrafted ones have any).
     const replayable = sessions.filter(s => annotations[s.session_id]);
 
     state = {
@@ -101,10 +107,11 @@ const Data = (() => {
     if (m.includes("haiku"))      return "haiku";
     if (m.includes("sonnet-4-6")) return "sonnet-4-6";
     if (m.includes("sonnet"))     return "sonnet";
-    // Google
-    if (m.includes("gemini") && m.includes("flash")) return "gemini-flash";
-    if (m.includes("gemini") && m.includes("pro"))   return "gemini-pro";
-    if (m.includes("gemini"))                        return "gemini";
+    // Google — flash-lite must be checked before flash (it's a smaller distinct model)
+    if (m.includes("gemini") && m.includes("flash-lite")) return "gemini-flash-lite";
+    if (m.includes("gemini") && m.includes("flash"))      return "gemini-flash";
+    if (m.includes("gemini") && m.includes("pro"))        return "gemini-pro";
+    if (m.includes("gemini"))                             return "gemini";
     // OpenAI
     if (m.includes("gpt-4o-mini")) return "gpt-4o-mini";
     if (m.includes("gpt-4o"))      return "gpt-4o";
@@ -137,11 +144,11 @@ const Data = (() => {
       seller_persona: ["honest", "pragmatic", "pushy", "slimy"],
       buyer_model:    ["opus-4-7", "opus-4-5", "opus", "haiku-4-5", "haiku",
                        "sonnet-4-6", "sonnet",
-                       "gemini-pro", "gemini-flash", "gemini",
+                       "gemini-pro", "gemini-flash", "gemini-flash-lite", "gemini",
                        "gpt-4o", "gpt-4o-mini", "gpt-4", "gpt"],
       seller_model:   ["opus-4-7", "opus-4-5", "opus", "haiku-4-5", "haiku",
                        "sonnet-4-6", "sonnet",
-                       "gemini-pro", "gemini-flash", "gemini",
+                       "gemini-pro", "gemini-flash", "gemini-flash-lite", "gemini",
                        "gpt-4o", "gpt-4o-mini", "gpt-4", "gpt"],
       tactic: [
         "none",
@@ -180,6 +187,7 @@ const Data = (() => {
 
   return {
     init,
+    reload,
     loadTranscript,
     aggregateGrid,
     keyFor,

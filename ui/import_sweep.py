@@ -151,16 +151,19 @@ def main(sweep_dir: Path) -> None:
 
 def _short_model(m: str | None) -> str:
     if not m: return "unknown"
-    if "opus" in m and "4-7" in m:  return "opus47"
-    if "opus" in m and "4-5" in m:  return "opus45"
-    if "opus" in m:                  return "opus"
-    if "haiku" in m and "4-5" in m: return "haiku45"
-    if "haiku" in m:                 return "haiku"
-    if "sonnet" in m:                return "sonnet"
-    if "gemini" in m:                return "gemini"
-    if "gpt-4o-mini" in m:           return "gpt4omini"
-    if "gpt-4o" in m:                return "gpt4o"
-    if "gpt" in m:                   return "gpt"
+    if "opus" in m and "4-7" in m:           return "opus47"
+    if "opus" in m and "4-5" in m:           return "opus45"
+    if "opus" in m:                           return "opus"
+    if "haiku" in m and "4-5" in m:          return "haiku45"
+    if "haiku" in m:                          return "haiku"
+    if "sonnet" in m:                         return "sonnet"
+    if "gemini" in m and "flash-lite" in m:  return "geminiflite"
+    if "gemini" in m and "flash" in m:        return "geminif"
+    if "gemini" in m and "pro" in m:          return "geminipro"
+    if "gemini" in m:                         return "gemini"
+    if "gpt-4o-mini" in m:                    return "gpt4omini"
+    if "gpt-4o" in m:                         return "gpt4o"
+    if "gpt" in m:                            return "gpt"
     return m.replace("/", "_").replace("-", "")[:12]
 
 

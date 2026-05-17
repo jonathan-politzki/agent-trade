@@ -315,10 +315,11 @@ const HeatmapView = (() => {
       "haiku":     "#E0A98F",
       "sonnet-4-6":"#CC785C",
       "sonnet":    "#CC785C",
-      // Google — slate-blue family
-      "gemini-pro":   "#3B5B7A",
-      "gemini-flash": "#6B8AA8",
-      "gemini":       "#6B8AA8",
+      // Google — slate-blue family. Lighter shade distinguishes flash-lite from flash.
+      "gemini-pro":        "#3B5B7A",
+      "gemini-flash":      "#6B8AA8",
+      "gemini-flash-lite": "#A5BACC",
+      "gemini":            "#6B8AA8",
       // OpenAI — teal-green family
       "gpt-4o":      "#2F6E6E",
       "gpt-4o-mini": "#7A8B5A",

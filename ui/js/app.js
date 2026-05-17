@@ -81,4 +81,32 @@
       else if (v === "susceptibility") HeatmapView.render(data);
     }, 220);
   });
+
+  // Refresh button: re-fetch all data files and re-render whatever's active.
+  // Useful for watching a sweep in progress: re-run `import_sweep.py` after
+  // new sessions land, then click Refresh — no page reload needed.
+  const refreshBtn = document.getElementById("refresh-data");
+  if (refreshBtn) {
+    refreshBtn.addEventListener("click", async () => {
+      refreshBtn.classList.remove("flash-done");
+      refreshBtn.classList.add("loading");
+      try {
+        data = await Data.reload();
+        document.getElementById("data-source-tag").textContent =
+          `${data.sessions.length} sessions · ${data.replayable.length} replayable transcripts`;
+        // Re-render every constructed view so the next time the user switches
+        // to it, it shows the new data without an additional click.
+        Overview.render(data);
+        HeatmapView.render(data);
+        await Replay.render(data);
+        refreshBtn.classList.remove("loading");
+        refreshBtn.classList.add("flash-done");
+        setTimeout(() => refreshBtn.classList.remove("flash-done"), 1200);
+      } catch (e) {
+        refreshBtn.classList.remove("loading");
+        console.error("refresh failed:", e);
+        alert(`Refresh failed: ${e.message}`);
+      }
+    });
+  }
 })();
