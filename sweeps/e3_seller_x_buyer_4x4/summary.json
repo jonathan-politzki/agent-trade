@@ -1,0 +1,143 @@
+{
+  "n_sessions": 478,
+  "n_deals": 269,
+  "n_walks": 104,
+  "n_timeouts": 105,
+  "close_rate": 0.5627615062761506,
+  "mean_premium_over_true_when_deal": 0.31546636327753574,
+  "mean_premium_over_listed_when_deal": -0.015673167210881647,
+  "premium_by_seller_persona": {
+    "slimy": 0.31546636327753574
+  },
+  "premium_by_buyer_persona": {
+    "casual": 0.3561420907813623,
+    "engineer": 0.10746548399660467
+  },
+  "premium_by_seller_x_buyer": {
+    "slimy__x__casual": 0.3561420907813623,
+    "slimy__x__engineer": 0.10746548399660467
+  },
+  "close_rate_by_seller_x_buyer": {
+    "slimy__x__casual": 0.9375,
+    "slimy__x__engineer": 0.18487394957983194
+  },
+  "premium_by_tactic_x_buyer": {},
+  "premium_by_buyer_model": {
+    "gemini-flash-lite": 0.3451341778169172,
+    "gpt4o-mini": 0.31266932181835444,
+    "gemini-flash": 0.2992456040728465,
+    "haiku": 0.30581610339748844
+  },
+  "premium_by_seller_model": {
+    "gemini-flash-lite": 0.3147452867145808,
+    "gpt4o-mini": 0.33859268261025804,
+    "gemini-flash": 0.32795950786083217,
+    "haiku": 0.2848591006534745
+  },
+  "close_rate_by_buyer_model": {
+    "gemini-flash-lite": 0.55,
+    "gpt4o-mini": 0.6083333333333333,
+    "gemini-flash": 0.6386554621848739,
+    "haiku": 0.453781512605042
+  },
+  "close_rate_by_seller_model": {
+    "gemini-flash-lite": 0.5210084033613446,
+    "gpt4o-mini": 0.5416666666666666,
+    "gemini-flash": 0.5583333333333333,
+    "haiku": 0.6302521008403361
+  },
+  "premium_by_buyer_model_x_persona": {
+    "gemini-flash-lite__x__casual": 0.3609445966238746,
+    "gpt4o-mini__x__casual": 0.3718728593676194,
+    "gemini-flash__x__casual": 0.36518936626988463,
+    "haiku__x__casual": 0.32221850773923794,
+    "gpt4o-mini__x__engineer": 0.13176962375115617,
+    "gemini-flash__x__engineer": 0.051956495833953543,
+    "gemini-flash-lite__x__engineer": 0.18702998974734317,
+    "haiku__x__engineer": 0.10078604912561974
+  },
+  "premium_by_seller_x_buyer_model": {
+    "gemini-flash-lite__x__gemini-flash-lite": 0.34891422867114963,
+    "gemini-flash-lite__x__gpt4o-mini": 0.3167869945785631,
+    "gpt4o-mini__x__gpt4o-mini": 0.3647676707559108,
+    "gemini-flash-lite__x__gemini-flash": 0.28718188440993303,
+    "gemini-flash__x__gemini-flash-lite": 0.35701311652032036,
+    "gpt4o-mini__x__gemini-flash-lite": 0.3560237114933991,
+    "gemini-flash__x__gemini-flash": 0.29599136167034223,
+    "haiku__x__gemini-flash-lite": 0.3215904574436418,
+    "gemini-flash__x__gpt4o-mini": 0.3268731753407744,
+    "haiku__x__gpt4o-mini": 0.2651309111081303,
+    "haiku__x__gemini-flash": 0.2885487785870528,
+    "gemini-flash-lite__x__haiku": 0.30968476368362524,
+    "gpt4o-mini__x__gemini-flash": 0.3272999256816693,
+    "gpt4o-mini__x__haiku": 0.3020314199938832,
+    "gemini-flash__x__haiku": 0.3398381516463302,
+    "haiku__x__haiku": 0.2647451443606807
+  },
+  "close_rate_by_seller_x_buyer_model": {
+    "gemini-flash-lite__x__gemini-flash-lite": 0.5333333333333333,
+    "gemini-flash-lite__x__gpt4o-mini": 0.5333333333333333,
+    "gpt4o-mini__x__gpt4o-mini": 0.5333333333333333,
+    "gemini-flash-lite__x__gemini-flash": 0.6333333333333333,
+    "gemini-flash__x__gemini-flash-lite": 0.5,
+    "gpt4o-mini__x__gemini-flash-lite": 0.5666666666666667,
+    "gemini-flash__x__gemini-flash": 0.6333333333333333,
+    "haiku__x__gemini-flash-lite": 0.6,
+    "gemini-flash__x__gpt4o-mini": 0.5666666666666667,
+    "haiku__x__gpt4o-mini": 0.8,
+    "haiku__x__gemini-flash": 0.6896551724137931,
+    "gemini-flash-lite__x__haiku": 0.3793103448275862,
+    "gpt4o-mini__x__gemini-flash": 0.6,
+    "gpt4o-mini__x__haiku": 0.4666666666666667,
+    "gemini-flash__x__haiku": 0.5333333333333333,
+    "haiku__x__haiku": 0.43333333333333335
+  },
+  "mean_inspections_by_buyer_model": {
+    "gemini-flash-lite": 1.45,
+    "gpt4o-mini": 0.575,
+    "gemini-flash": 1.050420168067227,
+    "haiku": 1.3781512605042017
+  },
+  "mean_questions_by_buyer_model": {
+    "gemini-flash-lite": 3.6166666666666667,
+    "gpt4o-mini": 3.5833333333333335,
+    "gemini-flash": 3.4705882352941178,
+    "haiku": 4.899159663865547
+  },
+  "mean_turns_by_buyer_model": {
+    "gemini-flash-lite": 14.266666666666667,
+    "gpt4o-mini": 12.5,
+    "gemini-flash": 13.033613445378151,
+    "haiku": 15.369747899159664
+  },
+  "n_deals_by_buyer_model": {
+    "gemini-flash-lite": 66,
+    "gpt4o-mini": 73,
+    "gemini-flash": 76,
+    "haiku": 54
+  },
+  "n_deals_by_seller_model": {
+    "gemini-flash-lite": 62,
+    "gpt4o-mini": 65,
+    "gemini-flash": 67,
+    "haiku": 75
+  },
+  "n_deals_by_seller_x_buyer_model": {
+    "gemini-flash-lite__x__gemini-flash-lite": 16,
+    "gemini-flash-lite__x__gpt4o-mini": 16,
+    "gpt4o-mini__x__gpt4o-mini": 16,
+    "gemini-flash-lite__x__gemini-flash": 19,
+    "gemini-flash__x__gemini-flash-lite": 15,
+    "gpt4o-mini__x__gemini-flash-lite": 17,
+    "gemini-flash__x__gemini-flash": 19,
+    "haiku__x__gemini-flash-lite": 18,
+    "gemini-flash__x__gpt4o-mini": 17,
+    "haiku__x__gpt4o-mini": 24,
+    "haiku__x__gemini-flash": 20,
+    "gemini-flash-lite__x__haiku": 11,
+    "gpt4o-mini__x__gemini-flash": 18,
+    "gpt4o-mini__x__haiku": 14,
+    "gemini-flash__x__haiku": 16,
+    "haiku__x__haiku": 13
+  }
+}

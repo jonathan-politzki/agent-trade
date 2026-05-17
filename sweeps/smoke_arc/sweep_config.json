@@ -1,0 +1,46 @@
+{
+  "sweep_id": "smoke_arc",
+  "fleet_path": "/Users/jonathanpolitzki/Desktop/agent-trade/cars/generated/fleet.json",
+  "n_arcs": 2,
+  "trades_per_arc": [
+    4,
+    4
+  ],
+  "workers": 2,
+  "arcs": [
+    {
+      "arc_id": "arc_rep_gemini_2.5_flash_s00",
+      "seller_persona_id": "slimy",
+      "buyer_persona_id": "casual",
+      "seller_model": "gemini-2.5-flash-lite",
+      "buyer_model": "gemini-2.5-flash",
+      "car_ids": [
+        "rav4_2019",
+        "f150_2015",
+        "sienna_2017",
+        "tahoe_2016"
+      ],
+      "reputation_visible": true,
+      "seed": 1000,
+      "max_turns": 22,
+      "inspection_cost": 150.0
+    },
+    {
+      "arc_id": "arc_ctrl_gemini_2.5_flash_s00",
+      "seller_persona_id": "slimy",
+      "buyer_persona_id": "casual",
+      "seller_model": "gemini-2.5-flash-lite",
+      "buyer_model": "gemini-2.5-flash",
+      "car_ids": [
+        "rav4_2019",
+        "f150_2015",
+        "sienna_2017",
+        "tahoe_2016"
+      ],
+      "reputation_visible": false,
+      "seed": 1000,
+      "max_turns": 22,
+      "inspection_cost": 150.0
+    }
+  ]
+}

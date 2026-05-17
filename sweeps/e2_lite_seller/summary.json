@@ -1,0 +1,72 @@
+{
+  "n_sessions": 55,
+  "n_deals": 34,
+  "n_walks": 7,
+  "n_timeouts": 14,
+  "close_rate": 0.6181818181818182,
+  "mean_premium_over_true_when_deal": 0.14356533909890776,
+  "mean_premium_over_listed_when_deal": -0.017248974255321244,
+  "premium_by_seller_persona": {
+    "slimy": 0.14356533909890776
+  },
+  "premium_by_buyer_persona": {
+    "casual": 0.15710132893396425,
+    "engineer": 0.003693444136657433
+  },
+  "premium_by_seller_x_buyer": {
+    "slimy__x__casual": 0.15710132893396425,
+    "slimy__x__engineer": 0.003693444136657433
+  },
+  "close_rate_by_seller_x_buyer": {
+    "slimy__x__casual": 0.96875,
+    "slimy__x__engineer": 0.13043478260869565
+  },
+  "premium_by_tactic_x_buyer": {},
+  "premium_by_buyer_model": {
+    "gemini-flash": 0.15152916789404539,
+    "haiku": 0.145649061015069,
+    "gpt4o-mini": 0.1289866002506777,
+    "opus": 0.15100619858802444
+  },
+  "premium_by_seller_model": {
+    "gemini-flash": 0.14356533909890776
+  },
+  "close_rate_by_buyer_model": {
+    "gemini-flash": 0.6428571428571429,
+    "haiku": 0.5,
+    "gpt4o-mini": 0.7142857142857143,
+    "opus": 0.6153846153846154
+  },
+  "premium_by_buyer_model_x_persona": {
+    "gemini-flash__x__casual": 0.16873901194174287,
+    "haiku__x__casual": 0.145649061015069,
+    "gpt4o-mini__x__casual": 0.16157951070115878,
+    "opus__x__casual": 0.15100619858802444,
+    "gpt4o-mini__x__engineer": -0.0013850415512465374,
+    "gemini-flash__x__engineer": 0.013850415512465374
+  },
+  "mean_inspections_by_buyer_model": {
+    "gemini-flash": 1.2142857142857142,
+    "haiku": 1.2857142857142858,
+    "gpt4o-mini": 0.5,
+    "opus": 1.5384615384615385
+  },
+  "mean_questions_by_buyer_model": {
+    "gemini-flash": 3.7142857142857144,
+    "haiku": 4.571428571428571,
+    "gpt4o-mini": 3.4285714285714284,
+    "opus": 4.769230769230769
+  },
+  "mean_turns_by_buyer_model": {
+    "gemini-flash": 13.285714285714286,
+    "haiku": 14.857142857142858,
+    "gpt4o-mini": 11.857142857142858,
+    "opus": 15.615384615384615
+  },
+  "n_deals_by_buyer_model": {
+    "gemini-flash": 9,
+    "haiku": 7,
+    "gpt4o-mini": 10,
+    "opus": 8
+  }
+}

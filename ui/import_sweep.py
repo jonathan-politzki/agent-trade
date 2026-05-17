@@ -39,8 +39,20 @@ def main(sweep_dir: Path) -> None:
     if not results_path.exists():
         sys.exit(f"missing {results_path}")
 
-    sessions = [json.loads(line) for line in results_path.read_text().splitlines() if line.strip()]
-    print(f"loaded {len(sessions)} sessions from {results_path}")
+    sessions = []
+    skipped = 0
+    for line in results_path.read_text().splitlines():
+        if not line.strip(): continue
+        try:
+            row = json.loads(line)
+        except json.JSONDecodeError:
+            skipped += 1; continue
+        # Some sweeps log error rows without session_id. Skip those.
+        if not row.get("session_id"):
+            skipped += 1; continue
+        sessions.append(row)
+    print(f"loaded {len(sessions)} sessions from {results_path}" +
+          (f" (skipped {skipped} error rows)" if skipped else ""))
 
     # Some sweeps (multi-model) produce colliding session_ids because the upstream
     # generator doesn't fold the model into the ID. Disambiguate now so the UI

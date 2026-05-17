@@ -1,0 +1,52 @@
+{
+  "by_cell": {
+    "ctrl_t0": {
+      "n": 1,
+      "close_rate": 1.0,
+      "mean_premium": 0.0148975791433892,
+      "mean_rating": 3
+    },
+    "ctrl_t1": {
+      "n": 1,
+      "close_rate": 1.0,
+      "mean_premium": 0.33540372670807456,
+      "mean_rating": 1
+    },
+    "ctrl_t2": {
+      "n": 1,
+      "close_rate": 1.0,
+      "mean_premium": 0.08167770419426049,
+      "mean_rating": 1
+    },
+    "ctrl_t3": {
+      "n": 1,
+      "close_rate": 1.0,
+      "mean_premium": 1.1111111111111112,
+      "mean_rating": 1
+    },
+    "rep_t0": {
+      "n": 1,
+      "close_rate": 1.0,
+      "mean_premium": 0.020484171322160148,
+      "mean_rating": 3
+    },
+    "rep_t1": {
+      "n": 1,
+      "close_rate": 1.0,
+      "mean_premium": 0.32298136645962733,
+      "mean_rating": 1
+    },
+    "rep_t2": {
+      "n": 1,
+      "close_rate": 1.0,
+      "mean_premium": 0.0728476821192053,
+      "mean_rating": 3
+    },
+    "rep_t3": {
+      "n": 1,
+      "close_rate": 0.0,
+      "mean_premium": null,
+      "mean_rating": null
+    }
+  }
+}

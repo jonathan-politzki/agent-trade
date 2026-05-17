@@ -42,6 +42,7 @@ def main() -> None:
     ap.add_argument("--buyer-models", default=DEFAULT_BUYER_MODEL)
     ap.add_argument("--seeds", default="0")
     ap.add_argument("--max-turns", type=int, default=DEFAULT_MAX_TURNS)
+    ap.add_argument("--workers", type=int, default=1, help="Parallel session workers (threaded). 1 = sequential.")
     args = ap.parse_args()
 
     fleet = load_fleet(Path(args.fleet))
@@ -76,7 +77,7 @@ def main() -> None:
         max_turns=args.max_turns,
     )
 
-    out_path = run_sweep(args.sweep_id, Path(args.fleet), sessions, out_root=SWEEPS_DIR)
+    out_path = run_sweep(args.sweep_id, Path(args.fleet), sessions, out_root=SWEEPS_DIR, workers=args.workers)
     print(f"Results JSONL: {out_path}")
 
 

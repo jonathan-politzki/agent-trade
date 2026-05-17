@@ -39,6 +39,11 @@
       } else if (v === "susceptibility") {
         HeatmapView.render(data);
         rendered.susceptibility = true;
+      } else if (v === "primer") {
+        // Primer renders once; stop+restart so re-entering the view gets
+        // fresh counters and a fresh swirl of agents.
+        Primer.stop();
+        Primer.render(data);
       }
       // Replay view is rendered once at boot; it uses HTML for the iceberg
       // and a viewBox-scaled SVG for the price track, so it survives being
@@ -46,8 +51,8 @@
     });
   }
 
-  // Hash routing.
-  const views = ["overview", "replay", "susceptibility", "methods"];
+  // Hash routing. Primer is the default landing.
+  const views = ["primer", "overview", "replay", "susceptibility", "methods"];
 
   function setView(v) {
     if (!views.includes(v)) v = "overview";
