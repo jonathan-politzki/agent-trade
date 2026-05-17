@@ -1,9 +1,9 @@
 from car_market.generator import load_curated_cars, hedonic_value
 
 
-def test_load_curated_cars_returns_25():
+def test_load_curated_cars_returns_full_set():
     cars = load_curated_cars()
-    assert len(cars) == 25
+    assert len(cars) == 200
 
 
 def test_curated_car_value_within_hedonic_range():
