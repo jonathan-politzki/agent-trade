@@ -7,12 +7,14 @@ const Data = (() => {
 
   async function init() {
     if (state) return state;
-    const [sessions, annotations, cars, personas, tactics] = await Promise.all([
+    const [sessions, annotations, cars, personas, tactics, reputation] = await Promise.all([
       fetch("data/sessions.json").then(r => r.json()),
       fetch("data/session_annotations.json").then(r => r.json()),
       fetch("data/cars.json").then(r => r.json()),
       fetch("data/personas.json").then(r => r.json()),
       fetch("data/tactics.json").then(r => r.json()),
+      // Reputation sweep (e4) — tolerate missing file by yielding null.
+      fetch("data/reputation_arcs.json").then(r => r.ok ? r.json() : null).catch(() => null),
     ]);
 
     const carsById = Object.fromEntries(cars.map(c => [c.car_id, c]));
@@ -38,6 +40,7 @@ const Data = (() => {
       personas,
       tactics: tacticsById,
       replayable,
+      reputation,
     };
     return state;
   }
