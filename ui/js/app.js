@@ -36,7 +36,9 @@
   function renderViewIfNeeded(v) {
     // Need to wait one frame after un-hiding so layout settles.
     requestAnimationFrame(() => {
-      if (v === "overview") {
+      if (v === "primer") {
+        if (typeof Primer !== "undefined" && Primer.render) Primer.render(data);
+      } else if (v === "overview") {
         Overview.render(data);
         rendered.overview = true;
       } else if (v === "lot") {
@@ -46,6 +48,8 @@
       } else if (v === "susceptibility") {
         HeatmapView.render(data);
         rendered.susceptibility = true;
+      } else if (v === "reputation") {
+        if (typeof Reputation !== "undefined" && Reputation.render) Reputation.render(data);
       }
       // Replay view is rendered once at boot; it uses HTML for the iceberg
       // and a viewBox-scaled SVG for the price track, so it survives being
@@ -54,10 +58,10 @@
   }
 
   // Hash routing.
-  const views = ["overview", "lot", "replay", "susceptibility", "e3", "methods"];
+  const views = ["primer", "overview", "lot", "replay", "susceptibility", "reputation", "e3", "methods"];
 
   function setView(v) {
-    if (!views.includes(v)) v = "overview";
+    if (!views.includes(v)) v = "primer";
     document.querySelectorAll(".view").forEach(el => el.classList.remove("active"));
     document.getElementById(`view-${v}`).classList.add("active");
     document.querySelectorAll(".nav-link").forEach(a => {
@@ -74,7 +78,7 @@
     });
   });
   window.addEventListener("hashchange", () => setView(window.location.hash.slice(1)));
-  setView(window.location.hash.slice(1) || "overview");
+  setView(window.location.hash.slice(1) || "primer");
 
   // Re-render charts on resize (debounced) for whichever view is active.
   let resizeTimer;
