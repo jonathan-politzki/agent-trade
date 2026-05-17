@@ -7,6 +7,7 @@ from pathlib import Path
 
 OPUS = "claude-opus-4-5"
 HAIKU = "claude-haiku-4-5"
+GEMINI_FLASH_LITE = "gemini-2.5-flash-lite"
 
 # Models the experiment cycles through. Add Gemini / GPT here once the
 # corresponding clients are wired up (orchestrator currently uses Anthropic).
