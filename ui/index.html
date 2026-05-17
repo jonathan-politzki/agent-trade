@@ -3,6 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>Agent Trade — Asymmetric Information in LLM Negotiations</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,6 +28,7 @@
         <a href="#overview" data-view="overview" class="nav-link">Overview</a>
         <a href="#replay" data-view="replay" class="nav-link">Transcript replay</a>
         <a href="#susceptibility" data-view="susceptibility" class="nav-link">Susceptibility</a>
+        <a href="#reputation" data-view="reputation" class="nav-link">Reputation</a>
         <a href="#methods" data-view="methods" class="nav-link">Methods</a>
         <button id="refresh-data" class="refresh-btn" title="Re-fetch data files and re-render the active view">
           <span class="refresh-icon">↻</span><span class="refresh-text">Refresh data</span>
@@ -182,13 +186,14 @@
       </div>
 
       <section class="paper-section">
-        <h2 class="section-title">The premium curve</h2>
+        <h2 class="section-title">The premium distribution, by buyer persona</h2>
         <p class="section-lede">
-          Each closed deal lands somewhere relative to the car's <em>true value</em> — the
-          valuation given all private facts. A deal at zero premium is fair. Positive
-          premium means the seller extracted information rents from the buyer.
-          The curve below is split by buyer persona; the gap between mechanic and
-          grandma is the value of expertise in a market with hidden information.
+          Each closed deal lands somewhere relative to the car's <em>true value</em> —
+          the valuation given all private facts. Zero is fair; positive is
+          seller rent. Each ridge below is one buyer persona's density of
+          premiums, normalized to unit area so distribution <em>shape</em>
+          comparisons aren't distorted by uneven sample sizes. The dashed tick
+          in each ridge is that persona's median.
         </p>
         <div id="premium-histogram" class="chart"></div>
         <div class="legend-row" id="premium-histogram-legend"></div>
@@ -345,6 +350,52 @@
       </section>
     </section>
 
+    <!-- ============ REPUTATION ============ -->
+    <section id="view-reputation" class="view">
+      <section class="paper-section">
+        <h2 class="section-title">The institutional fix</h2>
+        <p class="section-lede">
+          The asymmetry problem looks like a model problem (e1, e3): every model
+          pair extracts ~30% premium under deception. But it isn't a model
+          problem — it's a market-design problem. e4 holds the model fixed
+          (slimy <code>gemini-flash-lite</code> seller, casual
+          <code>gemini-flash</code> buyer) and toggles one thing:
+          <strong>can the next buyer read what previous buyers wrote about this seller?</strong>
+        </p>
+
+        <div id="reputation-stats" class="reputation-stats"></div>
+      </section>
+
+      <section class="paper-section">
+        <h2 class="section-title">Within-arc decay</h2>
+        <p class="section-lede">
+          Each arc is 8 sequential trades with the same seller, 5 arcs per
+          condition. When reputation is hidden (control), the slimy seller
+          keeps closing at +20–50% premium every trade. When reputation is
+          visible (treatment), buyers walk earlier and the premium collapses by
+          trade 3, after the seller has crystallized at ~2/5 stars.
+        </p>
+        <div id="reputation-decay" class="chart"></div>
+        <div class="legend-row" id="reputation-decay-legend"></div>
+      </section>
+
+      <section class="paper-section">
+        <h2 class="section-title">Close rate · trade by trade</h2>
+        <div id="reputation-close" class="chart"></div>
+      </section>
+
+      <section class="paper-section">
+        <h2 class="section-title">What buyers actually wrote</h2>
+        <p class="section-lede">
+          Reviews are the audit trail. They name specific failures — frame
+          damage, transmission issues, undisclosed rental history — not
+          generic complaints. The next buyer sees these before deciding
+          whether to engage.
+        </p>
+        <div id="reputation-reviews" class="review-feed"></div>
+      </section>
+    </section>
+
     <!-- ============ METHODS ============ -->
     <section id="view-methods" class="view">
       <section class="paper-section narrow">
@@ -418,6 +469,7 @@
   <script src="js/overview.js"></script>
   <script src="js/heatmap.js"></script>
   <script src="js/replay.js"></script>
+  <script src="js/reputation.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

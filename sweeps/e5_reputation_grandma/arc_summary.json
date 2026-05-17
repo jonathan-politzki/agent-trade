@@ -1,0 +1,100 @@
+{
+  "by_cell": {
+    "ctrl_t0": {
+      "n": 5,
+      "close_rate": 0.8,
+      "mean_premium": 0.1384055415636145,
+      "mean_rating": 1.75
+    },
+    "ctrl_t1": {
+      "n": 5,
+      "close_rate": 1.0,
+      "mean_premium": 0.5931153917583212,
+      "mean_rating": 1
+    },
+    "ctrl_t2": {
+      "n": 5,
+      "close_rate": 0.6,
+      "mean_premium": 0.4115121906705257,
+      "mean_rating": 2
+    },
+    "ctrl_t3": {
+      "n": 5,
+      "close_rate": 1.0,
+      "mean_premium": 0.5366866061193141,
+      "mean_rating": 2
+    },
+    "ctrl_t4": {
+      "n": 5,
+      "close_rate": 0.6,
+      "mean_premium": 0.11674064374856669,
+      "mean_rating": 2.6666666666666665
+    },
+    "ctrl_t5": {
+      "n": 5,
+      "close_rate": 0.8,
+      "mean_premium": 0.2620892034105963,
+      "mean_rating": 1
+    },
+    "ctrl_t6": {
+      "n": 5,
+      "close_rate": 0.8,
+      "mean_premium": 0.08767778910106268,
+      "mean_rating": 2
+    },
+    "ctrl_t7": {
+      "n": 5,
+      "close_rate": 1.0,
+      "mean_premium": 0.3417003179414575,
+      "mean_rating": 1.4
+    },
+    "rep_t0": {
+      "n": 5,
+      "close_rate": 0.8,
+      "mean_premium": 0.14366986468081766,
+      "mean_rating": 1.5
+    },
+    "rep_t1": {
+      "n": 5,
+      "close_rate": 0.4,
+      "mean_premium": 0.30954788386537624,
+      "mean_rating": 1
+    },
+    "rep_t2": {
+      "n": 5,
+      "close_rate": 0.4,
+      "mean_premium": 0.053165721903224425,
+      "mean_rating": 2.5
+    },
+    "rep_t3": {
+      "n": 5,
+      "close_rate": 0.4,
+      "mean_premium": 0.1657038938810441,
+      "mean_rating": 2
+    },
+    "rep_t4": {
+      "n": 5,
+      "close_rate": 0.4,
+      "mean_premium": 0.03832752613240418,
+      "mean_rating": 2.5
+    },
+    "rep_t5": {
+      "n": 5,
+      "close_rate": 0.2,
+      "mean_premium": 0.07058823529411765,
+      "mean_rating": 3
+    },
+    "rep_t6": {
+      "n": 5,
+      "close_rate": 0.4,
+      "mean_premium": 0.14289012003693444,
+      "mean_rating": 2
+    },
+    "rep_t7": {
+      "n": 5,
+      "close_rate": 0.4,
+      "mean_premium": 0.1974793601651187,
+      "mean_rating": 1
+    }
+  }
+}

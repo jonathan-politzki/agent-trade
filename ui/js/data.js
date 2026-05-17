@@ -14,12 +14,14 @@ const Data = (() => {
   // refresh during an in-progress sweep always sees the latest results.
   async function reload() {
     const cb = `?t=${Date.now()}`;
-    const [sessions, annotations, cars, personas, tactics] = await Promise.all([
+    const [sessions, annotations, cars, personas, tactics, reputation] = await Promise.all([
       fetch("data/sessions.json" + cb).then(r => r.json()),
       fetch("data/session_annotations.json" + cb).then(r => r.json()),
       fetch("data/cars.json" + cb).then(r => r.json()),
       fetch("data/personas.json" + cb).then(r => r.json()),
       fetch("data/tactics.json" + cb).then(r => r.json()),
+      // reputation_arcs.json is optional — older sweeps don't have it.
+      fetch("data/reputation_arcs.json" + cb).then(r => r.ok ? r.json() : null).catch(() => null),
     ]);
 
     const carsById = Object.fromEntries(cars.map(c => [c.car_id, c]));
@@ -34,6 +36,7 @@ const Data = (() => {
       personas,
       tactics: tacticsById,
       replayable,
+      reputation,
     };
     return state;
   }

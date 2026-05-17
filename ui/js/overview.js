@@ -33,89 +33,158 @@ const Overview = (() => {
     setStat("inspection_rate", `${(inspected.length / sessions.length * 100).toFixed(1)}%`);
   }
 
-  // ---------- Premium histogram (overlapped densities) -----------------------
+  // ---------- Premium distribution (ridgeline) -------------------------------
+  //
+  // Why a ridgeline and not stacked density curves: when one persona has many
+  // more closed deals than another, count-based curves let the larger-N
+  // persona visually dominate even when distributional *shape* is what the
+  // reader needs. A ridgeline puts each persona on its own row, normalizes to
+  // unit area, and annotates n + median so sample-size info is preserved
+  // without distorting the shape comparison.
 
   function renderPremiumHistogram(sessions) {
     const host = document.getElementById("premium-histogram");
     host.innerHTML = "";
 
-    const W = host.clientWidth, H = 320;
-    const margin = { top: 16, right: 18, bottom: 42, left: 48 };
+    const deals = sessions.filter(s => s.outcome === "deal" && s.premium_over_true != null);
+    const personaOrder = ["grandma", "casual", "engineer", "mechanic"];
+    const rows = personaOrder.map(p => {
+      const vals = deals.filter(s => s.buyer_persona_id === p).map(s => s.premium_over_true);
+      return { persona: p, vals, n: vals.length,
+               median: vals.length ? d3.quantile(vals.slice().sort(d3.ascending), 0.5) : null,
+               mean:   vals.length ? d3.mean(vals) : null };
+    }).filter(r => r.n > 0);  // hide rows with no data so the chart isn't half empty
+
+    const W = host.clientWidth || 760;
+    const rowH = 86;                                 // visual height per persona row
+    const overlap = 22;                              // small overlap so ridges read as a single chart
+    const innerH = rows.length * (rowH - overlap) + overlap + 18;
+    const margin = { top: 16, right: 24, bottom: 42, left: 178 };
+    const H = innerH + margin.top + margin.bottom;
     const w = W - margin.left - margin.right;
-    const h = H - margin.top - margin.bottom;
 
     const svg = d3.select(host).append("svg")
       .attr("viewBox", `0 0 ${W} ${H}`)
       .attr("preserveAspectRatio", "xMidYMid meet");
     const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
-    const deals = sessions.filter(s => s.outcome === "deal" && s.premium_over_true != null);
-    const x = d3.scaleLinear().domain([-0.18, 0.42]).range([0, w]);
-    const personas = ["grandma", "casual", "engineer", "mechanic"];
+    // X domain: clip to the empirical range but always include zero and a few
+    // pp of negative space, so "true value" stays visible even if every deal
+    // is positive.
+    const allVals = deals.map(s => s.premium_over_true);
+    const xMin = Math.min(-0.05, d3.quantile(allVals.slice().sort(d3.ascending), 0.01) ?? -0.05);
+    const xMax = Math.max( 0.10, d3.quantile(allVals.slice().sort(d3.ascending), 0.99) ?? 0.10);
+    const x = d3.scaleLinear().domain([xMin - 0.02, xMax + 0.04]).range([0, w]);
 
-    const bins = d3.bin().domain(x.domain()).thresholds(28);
-    const series = personas.map(p => {
-      const vals = deals.filter(s => s.buyer_persona_id === p).map(s => s.premium_over_true);
-      return { persona: p, values: vals, bins: bins(vals) };
+    // Compute KDE per row, scaled so the peak fills the row height. Gaussian
+    // kernel with bandwidth that scales with the row's IQR — large-N rows get
+    // tighter curves automatically.
+    const sampleXs = d3.range(xMin - 0.02, xMax + 0.04, (xMax - xMin) / 160);
+    const rowDensities = rows.map(r => {
+      const bw = bandwidth(r.vals);
+      const density = sampleXs.map(xv => ({
+        x: xv,
+        y: d3.mean(r.vals, v => gauss((xv - v) / bw)) / bw || 0,
+      }));
+      const peak = d3.max(density, d => d.y) || 1;
+      return { ...r, density, peak };
     });
 
-    const maxY = d3.max(series, s => d3.max(s.bins, b => b.length)) || 1;
-    const y = d3.scaleLinear().domain([0, maxY * 1.15]).range([h, 0]);
+    // Per-row baselines.
+    rowDensities.forEach((r, i) => {
+      const yBaseline = i * (rowH - overlap) + (rowH - 18);
+      const yMin = yBaseline - rowH + 18;
+      const ridgeY = d3.scaleLinear().domain([0, r.peak]).range([yBaseline, yMin]);
+      const color = COLORS[r.persona];
 
-    // Grid
-    g.append("g").attr("class", "grid")
-      .call(d3.axisLeft(y).tickSize(-w).tickFormat(""))
-      .call(g => g.select(".domain").remove())
-      .selectAll("text").remove();
+      // baseline tick (faint)
+      g.append("line")
+        .attr("x1", 0).attr("x2", w)
+        .attr("y1", yBaseline).attr("y2", yBaseline)
+        .attr("stroke", "var(--rule)").attr("stroke-width", 0.8);
 
-    // Zero-premium reference line.
+      // ridge fill
+      const area = d3.area()
+        .x(d => x(d.x))
+        .y0(yBaseline)
+        .y1(d => ridgeY(d.y))
+        .curve(d3.curveBasis);
+      g.append("path").datum(r.density)
+        .attr("d", area)
+        .attr("fill", color).attr("fill-opacity", 0.22);
+
+      // ridge outline
+      const line = d3.line()
+        .x(d => x(d.x)).y(d => ridgeY(d.y)).curve(d3.curveBasis);
+      g.append("path").datum(r.density)
+        .attr("d", line).attr("fill", "none")
+        .attr("stroke", color).attr("stroke-width", 1.6);
+
+      // median tick within the ridge
+      if (r.median != null) {
+        g.append("line")
+          .attr("x1", x(r.median)).attr("x2", x(r.median))
+          .attr("y1", yBaseline).attr("y2", yMin + 6)
+          .attr("stroke", color).attr("stroke-width", 1.5)
+          .attr("stroke-dasharray", "2 3");
+      }
+
+      // row label (left)
+      const label = Data.displayLabel("buyer_persona", r.persona);
+      g.append("text")
+        .attr("x", -16).attr("y", yBaseline - 4)
+        .attr("text-anchor", "end")
+        .attr("font-family", "var(--serif)").attr("font-size", 13)
+        .attr("fill", "var(--ink)").attr("font-weight", 500)
+        .text(label);
+
+      // sample-size + median annotation under the label
+      const medianStr = r.median == null ? "—"
+        : `${r.median >= 0 ? "+" : "−"}${Math.abs(r.median * 100).toFixed(1)}%`;
+      g.append("text")
+        .attr("x", -16).attr("y", yBaseline + 10)
+        .attr("text-anchor", "end")
+        .attr("font-family", "var(--mono)").attr("font-size", 10)
+        .attr("fill", "var(--ink-3)")
+        .text(`n=${r.n} · median ${medianStr}`);
+    });
+
+    // Zero-premium reference line spanning all ridges.
     g.append("line").attr("class", "ref-line")
       .attr("x1", x(0)).attr("x2", x(0))
-      .attr("y1", 0).attr("y2", h);
+      .attr("y1", 0).attr("y2", innerH - 20);
     g.append("text").attr("class", "ref-label")
-      .attr("x", x(0) + 4).attr("y", 12)
-      .text("true value");
+      .attr("x", x(0) + 4).attr("y", 10)
+      .text("true value (fair)");
 
-    // Curves (smoothed histograms via stepped areas).
-    const area = d3.area()
-      .x(b => x((b.x0 + b.x1) / 2))
-      .y0(h)
-      .y1(b => y(b.length))
-      .curve(d3.curveMonotoneX);
-
-    series.forEach(s => {
-      const color = COLORS[s.persona];
-      g.append("path")
-        .datum(s.bins)
-        .attr("d", area)
-        .attr("fill", color)
-        .attr("fill-opacity", 0.18)
-        .attr("stroke", color)
-        .attr("stroke-width", 1.6);
-    });
-
-    // Axes
+    // X axis at bottom.
     const xAxis = d3.axisBottom(x).ticks(7).tickFormat(d => `${(d * 100).toFixed(0)}%`);
-    g.append("g").attr("class", "axis").attr("transform", `translate(0,${h})`).call(xAxis);
-    const yAxis = d3.axisLeft(y).ticks(5);
-    g.append("g").attr("class", "axis").call(yAxis);
-
+    g.append("g").attr("class", "axis")
+      .attr("transform", `translate(0,${innerH - 14})`)
+      .call(xAxis);
     g.append("text").attr("class", "axis-label")
-      .attr("x", w).attr("y", h + 36).attr("text-anchor", "end")
-      .text("premium over true value");
+      .attr("x", w).attr("y", innerH + 14).attr("text-anchor", "end")
+      .text("premium over true value (deals only)");
 
-    g.append("text").attr("class", "axis-label")
-      .attr("transform", "rotate(-90)")
-      .attr("x", 0).attr("y", -36)
-      .attr("text-anchor", "end")
-      .text("deals (count)");
-
-    // Legend
+    // Legend simplified — colors match row labels but rows are self-labeled,
+    // so the legend is just a small note about what the median ticks mean.
     const legend = document.getElementById("premium-histogram-legend");
-    legend.innerHTML = personas.map(p => {
-      const display = Data.displayLabel("buyer_persona", p);
-      return `<span><span class="legend-swatch" style="background:${COLORS[p]}"></span>${display}</span>`;
-    }).join("");
+    legend.innerHTML = `
+      <span style="color:var(--ink-3);font-size:0.78rem;">
+        Each row: density of premiums for that buyer persona's closed deals,
+        normalized to unit area. Dashed tick = median.
+      </span>`;
+  }
+
+  // Gaussian kernel + bandwidth helper (Silverman's rule of thumb).
+  function gauss(u) { return Math.exp(-0.5 * u * u) / Math.sqrt(2 * Math.PI); }
+  function bandwidth(vals) {
+    if (vals.length < 2) return 0.04;
+    const sd = d3.deviation(vals) || 0.04;
+    const iqr = (d3.quantile(vals.slice().sort(d3.ascending), 0.75) -
+                 d3.quantile(vals.slice().sort(d3.ascending), 0.25));
+    const a = Math.min(sd, (iqr || sd) / 1.34);
+    return Math.max(0.012, 0.9 * a * Math.pow(vals.length, -1/5));
   }
 
   // ---------- Pair matrix (seller × buyer) -----------------------------------

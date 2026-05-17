@@ -40,22 +40,19 @@
         HeatmapView.render(data);
         rendered.susceptibility = true;
       } else if (v === "primer") {
-        // Primer renders once; stop+restart so re-entering the view gets
-        // fresh counters and a fresh swirl of agents.
         Primer.stop();
         Primer.render(data);
+      } else if (v === "reputation") {
+        Reputation.render(data);
       }
-      // Replay view is rendered once at boot; it uses HTML for the iceberg
-      // and a viewBox-scaled SVG for the price track, so it survives being
-      // initially hidden.
     });
   }
 
   // Hash routing. Primer is the default landing.
-  const views = ["primer", "overview", "replay", "susceptibility", "methods"];
+  const views = ["primer", "overview", "replay", "susceptibility", "reputation", "methods"];
 
   function setView(v) {
-    if (!views.includes(v)) v = "overview";
+    if (!views.includes(v)) v = "primer";
     document.querySelectorAll(".view").forEach(el => el.classList.remove("active"));
     document.getElementById(`view-${v}`).classList.add("active");
     document.querySelectorAll(".nav-link").forEach(a => {
@@ -72,7 +69,7 @@
     });
   });
   window.addEventListener("hashchange", () => setView(window.location.hash.slice(1)));
-  setView(window.location.hash.slice(1) || "overview");
+  setView(window.location.hash.slice(1) || "primer");
 
   // Re-render charts on resize (debounced) for whichever view is active.
   let resizeTimer;
@@ -103,6 +100,7 @@
         // to it, it shows the new data without an additional click.
         Overview.render(data);
         HeatmapView.render(data);
+        Reputation.render(data);
         await Replay.render(data);
         refreshBtn.classList.remove("loading");
         refreshBtn.classList.add("flash-done");

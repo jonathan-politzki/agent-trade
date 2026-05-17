@@ -1,0 +1,100 @@
+{
+  "by_cell": {
+    "rep_t0": {
+      "n": 5,
+      "close_rate": 0.2,
+      "mean_premium": 0.002770083102493075,
+      "mean_rating": 3
+    },
+    "rep_t1": {
+      "n": 5,
+      "close_rate": 0.2,
+      "mean_premium": 0.05263157894736842,
+      "mean_rating": 1
+    },
+    "rep_t2": {
+      "n": 5,
+      "close_rate": 0.6,
+      "mean_premium": 0.3323408772557961,
+      "mean_rating": 1.6666666666666667
+    },
+    "rep_t3": {
+      "n": 5,
+      "close_rate": 0.2,
+      "mean_premium": -0.09883720930232558,
+      "mean_rating": 1
+    },
+    "rep_t4": {
+      "n": 5,
+      "close_rate": 0.0,
+      "mean_premium": null,
+      "mean_rating": null
+    },
+    "rep_t5": {
+      "n": 5,
+      "close_rate": 0.0,
+      "mean_premium": null,
+      "mean_rating": null
+    },
+    "rep_t6": {
+      "n": 5,
+      "close_rate": 0.0,
+      "mean_premium": null,
+      "mean_rating": null
+    },
+    "rep_t7": {
+      "n": 5,
+      "close_rate": 0.0,
+      "mean_premium": null,
+      "mean_rating": null
+    },
+    "ctrl_t0": {
+      "n": 5,
+      "close_rate": 0.0,
+      "mean_premium": null,
+      "mean_rating": null
+    },
+    "ctrl_t1": {
+      "n": 5,
+      "close_rate": 0.0,
+      "mean_premium": null,
+      "mean_rating": null
+    },
+    "ctrl_t2": {
+      "n": 5,
+      "close_rate": 0.4,
+      "mean_premium": 0.29081632653061223,
+      "mean_rating": 1
+    },
+    "ctrl_t3": {
+      "n": 5,
+      "close_rate": 0.0,
+      "mean_premium": null,
+      "mean_rating": null
+    },
+    "ctrl_t4": {
+      "n": 5,
+      "close_rate": 0.4,
+      "mean_premium": 0.416709996100351,
+      "mean_rating": 1
+    },
+    "ctrl_t5": {
+      "n": 5,
+      "close_rate": 0.2,
+      "mean_premium": 0.2719298245614035,
+      "mean_rating": 1
+    },
+    "ctrl_t6": {
+      "n": 5,
+      "close_rate": 0.0,
+      "mean_premium": null,
+      "mean_rating": null
+    },
+    "ctrl_t7": {
+      "n": 5,
+      "close_rate": 0.4,
+      "mean_premium": 0.4347136603234164,
+      "mean_rating": 2
+    }
+  }
+}

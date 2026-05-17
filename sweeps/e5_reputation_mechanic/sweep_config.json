@@ -1,0 +1,230 @@
+{
+  "sweep_id": "e5_reputation_mechanic",
+  "fleet_path": "/Users/jonathanpolitzki/Desktop/agent-trade/cars/generated/fleet.json",
+  "n_arcs": 10,
+  "trades_per_arc": [
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8
+  ],
+  "workers": 10,
+  "arcs": [
+    {
+      "arc_id": "arc_rep_gemini_2.5_flash_s00",
+      "seller_persona_id": "slimy",
+      "buyer_persona_id": "mechanic",
+      "seller_model": "gemini-2.5-flash-lite",
+      "buyer_model": "gemini-2.5-flash",
+      "car_ids": [
+        "mustang_2013",
+        "bmw3_2015",
+        "prius_2018",
+        "altima_2017",
+        "civic_2016",
+        "wrangler_2014",
+        "sienna_2017",
+        "f150_2015"
+      ],
+      "reputation_visible": true,
+      "seed": 2000,
+      "max_turns": 22,
+      "inspection_cost": 150.0
+    },
+    {
+      "arc_id": "arc_rep_gemini_2.5_flash_s01",
+      "seller_persona_id": "slimy",
+      "buyer_persona_id": "mechanic",
+      "seller_model": "gemini-2.5-flash-lite",
+      "buyer_model": "gemini-2.5-flash",
+      "car_ids": [
+        "prius_2018",
+        "f150_2015",
+        "mustang_2013",
+        "wrangler_2014",
+        "altima_2017",
+        "bmw3_2015",
+        "civic_2016",
+        "tahoe_2016"
+      ],
+      "reputation_visible": true,
+      "seed": 2001,
+      "max_turns": 22,
+      "inspection_cost": 150.0
+    },
+    {
+      "arc_id": "arc_rep_gemini_2.5_flash_s02",
+      "seller_persona_id": "slimy",
+      "buyer_persona_id": "mechanic",
+      "seller_model": "gemini-2.5-flash-lite",
+      "buyer_model": "gemini-2.5-flash",
+      "car_ids": [
+        "civic_2016",
+        "tahoe_2016",
+        "mustang_2013",
+        "f150_2015",
+        "silverado_2017",
+        "wrangler_2014",
+        "camry_2018",
+        "bmw3_2015"
+      ],
+      "reputation_visible": true,
+      "seed": 2002,
+      "max_turns": 22,
+      "inspection_cost": 150.0
+    },
+    {
+      "arc_id": "arc_rep_gemini_2.5_flash_s03",
+      "seller_persona_id": "slimy",
+      "buyer_persona_id": "mechanic",
+      "seller_model": "gemini-2.5-flash-lite",
+      "buyer_model": "gemini-2.5-flash",
+      "car_ids": [
+        "f150_2015",
+        "rav4_2019",
+        "bmw3_2015",
+        "camry_2018",
+        "mustang_2013",
+        "sienna_2017",
+        "altima_2017",
+        "civic_2016"
+      ],
+      "reputation_visible": true,
+      "seed": 2003,
+      "max_turns": 22,
+      "inspection_cost": 150.0
+    },
+    {
+      "arc_id": "arc_rep_gemini_2.5_flash_s04",
+      "seller_persona_id": "slimy",
+      "buyer_persona_id": "mechanic",
+      "seller_model": "gemini-2.5-flash-lite",
+      "buyer_model": "gemini-2.5-flash",
+      "car_ids": [
+        "altima_2017",
+        "tahoe_2016",
+        "silverado_2017",
+        "f150_2015",
+        "wrangler_2014",
+        "bmw3_2015",
+        "prius_2018",
+        "camry_2018"
+      ],
+      "reputation_visible": true,
+      "seed": 2004,
+      "max_turns": 22,
+      "inspection_cost": 150.0
+    },
+    {
+      "arc_id": "arc_ctrl_gemini_2.5_flash_s00",
+      "seller_persona_id": "slimy",
+      "buyer_persona_id": "mechanic",
+      "seller_model": "gemini-2.5-flash-lite",
+      "buyer_model": "gemini-2.5-flash",
+      "car_ids": [
+        "mustang_2013",
+        "bmw3_2015",
+        "prius_2018",
+        "altima_2017",
+        "civic_2016",
+        "wrangler_2014",
+        "sienna_2017",
+        "f150_2015"
+      ],
+      "reputation_visible": false,
+      "seed": 2000,
+      "max_turns": 22,
+      "inspection_cost": 150.0
+    },
+    {
+      "arc_id": "arc_ctrl_gemini_2.5_flash_s01",
+      "seller_persona_id": "slimy",
+      "buyer_persona_id": "mechanic",
+      "seller_model": "gemini-2.5-flash-lite",
+      "buyer_model": "gemini-2.5-flash",
+      "car_ids": [
+        "prius_2018",
+        "f150_2015",
+        "mustang_2013",
+        "wrangler_2014",
+        "altima_2017",
+        "bmw3_2015",
+        "civic_2016",
+        "tahoe_2016"
+      ],
+      "reputation_visible": false,
+      "seed": 2001,
+      "max_turns": 22,
+      "inspection_cost": 150.0
+    },
+    {
+      "arc_id": "arc_ctrl_gemini_2.5_flash_s02",
+      "seller_persona_id": "slimy",
+      "buyer_persona_id": "mechanic",
+      "seller_model": "gemini-2.5-flash-lite",
+      "buyer_model": "gemini-2.5-flash",
+      "car_ids": [
+        "civic_2016",
+        "tahoe_2016",
+        "mustang_2013",
+        "f150_2015",
+        "silverado_2017",
+        "wrangler_2014",
+        "camry_2018",
+        "bmw3_2015"
+      ],
+      "reputation_visible": false,
+      "seed": 2002,
+      "max_turns": 22,
+      "inspection_cost": 150.0
+    },
+    {
+      "arc_id": "arc_ctrl_gemini_2.5_flash_s03",
+      "seller_persona_id": "slimy",
+      "buyer_persona_id": "mechanic",
+      "seller_model": "gemini-2.5-flash-lite",
+      "buyer_model": "gemini-2.5-flash",
+      "car_ids": [
+        "f150_2015",
+        "rav4_2019",
+        "bmw3_2015",
+        "camry_2018",
+        "mustang_2013",
+        "sienna_2017",
+        "altima_2017",
+        "civic_2016"
+      ],
+      "reputation_visible": false,
+      "seed": 2003,
+      "max_turns": 22,
+      "inspection_cost": 150.0
+    },
+    {
+      "arc_id": "arc_ctrl_gemini_2.5_flash_s04",
+      "seller_persona_id": "slimy",
+      "buyer_persona_id": "mechanic",
+      "seller_model": "gemini-2.5-flash-lite",
+      "buyer_model": "gemini-2.5-flash",
+      "car_ids": [
+        "altima_2017",
+        "tahoe_2016",
+        "silverado_2017",
+        "f150_2015",
+        "wrangler_2014",
+        "bmw3_2015",
+        "prius_2018",
+        "camry_2018"
+      ],
+      "reputation_visible": false,
+      "seed": 2004,
+      "max_turns": 22,
+      "inspection_cost": 150.0
+    }
+  ]
+}
