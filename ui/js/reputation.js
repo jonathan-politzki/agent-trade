@@ -214,9 +214,12 @@ const Reputation = (() => {
     const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
     const x = d3.scaleLinear().domain([0, 7]).range([0, w]);
-    const yMax = d3.max(cells, d => d.premN ? d.sumPrem / d.premN : 0);
-    const yMin = Math.min(0, d3.min(cells, d => d.premN ? d.sumPrem / d.premN : 0));
-    const y = d3.scaleLinear().domain([yMin - 0.02, Math.max(0.6, yMax + 0.05)]).range([h, 0]);
+    // Use $/attempt (extracted divided by total attempts at that trade index)
+    // so the curve is unbiased by selection on who closes.
+    const yMax = d3.max(cells, d => d.n ? d.totalExtracted / d.n : 0) || 0;
+    const yMin = Math.min(0, d3.min(cells, d => d.n ? d.totalExtracted / d.n : 0) || 0);
+    const yPad = Math.max(50, (yMax - yMin) * 0.08);
+    const y = d3.scaleLinear().domain([yMin - yPad, yMax + yPad]).range([h, 0]).nice();
 
     g.append("g").attr("class", "grid")
       .call(d3.axisLeft(y).tickSize(-w).tickFormat(""))
@@ -228,16 +231,17 @@ const Reputation = (() => {
       .attr("y1", y(0)).attr("y2", y(0));
     g.append("text").attr("class", "ref-label")
       .attr("x", w - 4).attr("y", y(0) - 4).attr("text-anchor", "end")
-      .text("zero premium (fair price)");
+      .text("no extraction");
 
     const xAxis = d3.axisBottom(x).ticks(8).tickFormat(d => `trade ${d}`);
     g.append("g").attr("class", "axis").attr("transform", `translate(0,${h})`).call(xAxis);
-    const yAxis = d3.axisLeft(y).ticks(7).tickFormat(d => `${(d * 100).toFixed(0)}%`);
+    const fmt$ = v => v >= 1000 ? `$${(v/1000).toFixed(1)}k` : `$${Math.round(v)}`;
+    const yAxis = d3.axisLeft(y).ticks(7).tickFormat(fmt$);
     g.append("g").attr("class", "axis").call(yAxis);
 
     g.append("text").attr("class", "axis-label")
       .attr("transform", "rotate(-90)").attr("x", 0).attr("y", -42).attr("text-anchor", "end")
-      .text("mean premium over true value");
+      .text("seller surplus per shopping attempt ($)");
 
     const series = [
       { rep: true,  color: COLOR_TREATMENT, label: "reputation visible (treatment)" },
@@ -247,7 +251,7 @@ const Reputation = (() => {
     series.forEach(s => {
       const points = d3.range(0, 8).map(ti => {
         const c = cells.find(c => c.rep === s.rep && c.ti === ti);
-        return c && c.premN ? { ti, val: c.sumPrem / c.premN, n: c.premN } : null;
+        return c && c.n ? { ti, val: c.totalExtracted / c.n, n: c.n, deals: c.deals } : null;
       }).filter(Boolean);
 
       const line = d3.line()
@@ -258,7 +262,8 @@ const Reputation = (() => {
         .attr("stroke", s.color).attr("stroke-width", 2);
       g.selectAll(null).data(points).join("circle")
         .attr("cx", d => x(d.ti)).attr("cy", d => y(d.val))
-        .attr("r", 4.5).attr("fill", s.color).attr("stroke", "var(--bg-elev)").attr("stroke-width", 1.5);
+        .attr("r", 4.5).attr("fill", s.color).attr("stroke", "var(--bg-elev)").attr("stroke-width", 1.5)
+        .append("title").text(d => `trade ${d.ti}: ${fmt$(d.val)} extracted per buyer  (${d.deals}/${d.n} closed)`);
     });
 
     // Annotation: where treatment "crystallizes".

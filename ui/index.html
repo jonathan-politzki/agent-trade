@@ -374,13 +374,16 @@
       </section>
 
       <section class="paper-section">
-        <h2 class="section-title">Within-arc decay</h2>
+        <h2 class="section-title">Within-arc decay — extraction per shopping attempt</h2>
         <p class="section-lede">
           Each arc is 8 sequential trades with the same seller, 5 arcs per
-          condition. When reputation is hidden (control), the slimy seller
-          keeps closing at +20–50% premium every trade. When reputation is
-          visible (treatment), buyers walk earlier and the premium collapses by
-          trade 3, after the seller has crystallized at ~2/5 stars.
+          condition. The y-axis is the seller's surplus (final price minus
+          true value) <em>divided by all 5 buyers who approached</em>, not
+          just the buyers who closed — this avoids the selection bias where
+          cautious buyers only close on the deals their filter missed. With
+          reputation hidden, the seller keeps extracting steadily every
+          trade. With reputation visible, total extraction collapses by
+          trade 3 as enough bad reviews land that the next buyer walks.
         </p>
         <div id="reputation-decay" class="chart"></div>
         <div class="legend-row" id="reputation-decay-legend"></div>
