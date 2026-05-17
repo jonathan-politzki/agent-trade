@@ -17,3 +17,5 @@ class S3Config:
     mode: str = "fast"                # fast | llm | replay
     llm_model: str = "anthropic/claude-haiku-4-5"
     out_dir: str = "runs"
+    cars_source: str = "generator"   # "generator" | "curated"
+    sellers_source: str = "anonymous"  # "anonymous" | "curated"

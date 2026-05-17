@@ -12,17 +12,18 @@ from .prompts import load_prompt
 DEFAULT_MODEL = "anthropic/claude-haiku-4-5"
 
 
-def buyer_message(buyer_persona_id: str, listing_summary: str,
-                   action: str, bid: float, cache: LLMCache,
-                   model: str = DEFAULT_MODEL) -> str:
-    ctx = {"who": "buyer", "persona": buyer_persona_id,
+def buyer_message(buyer_name: str, buyer_description: str,
+                   listing_summary: str, action: str, bid: float,
+                   cache: LLMCache, model: str = DEFAULT_MODEL) -> str:
+    ctx = {"who": "buyer", "name": buyer_name,
            "listing": listing_summary, "action": action,
            "bid": round(bid), "_model": model}
     hit = cache.get("negotiation_msg", ctx)
     if hit is not None:
         return hit
     prompt = load_prompt("buyer_message").format(
-        buyer_persona_id=buyer_persona_id,
+        buyer_name=buyer_name,
+        buyer_description=buyer_description,
         listing_summary=listing_summary,
         action=action,
         bid=f"{bid:.0f}",
@@ -34,17 +35,20 @@ def buyer_message(buyer_persona_id: str, listing_summary: str,
     return text
 
 
-def seller_message(archetype_name: str, listing_summary: str,
-                    action: str, price: float, cache: LLMCache,
-                    model: str = DEFAULT_MODEL) -> str:
-    ctx = {"who": "seller", "archetype": archetype_name,
+def seller_message(seller_name: str, description: str, signature_line: str,
+                    archetype_name: str, listing_summary: str,
+                    action: str, price: float,
+                    cache: LLMCache, model: str = DEFAULT_MODEL) -> str:
+    ctx = {"who": "seller", "name": seller_name, "archetype": archetype_name,
            "listing": listing_summary, "action": action,
            "price": round(price), "_model": model}
     hit = cache.get("negotiation_msg", ctx)
     if hit is not None:
         return hit
     prompt = load_prompt("seller_message").format(
-        archetype_name=archetype_name,
+        seller_name=seller_name,
+        description=description,
+        signature_line=signature_line,
         listing_summary=listing_summary,
         action=action,
         price=f"{price:.0f}",
@@ -56,21 +60,22 @@ def seller_message(archetype_name: str, listing_summary: str,
     return text
 
 
-def lookup_buyer_message(buyer_persona_id: str, listing_summary: str,
-                          action: str, bid: float, cache: LLMCache,
-                          model: str = DEFAULT_MODEL) -> str | None:
+def lookup_buyer_message(buyer_name: str, buyer_description: str,
+                          listing_summary: str, action: str, bid: float,
+                          cache: LLMCache, model: str = DEFAULT_MODEL) -> str | None:
     """Cache-only lookup — returns None on miss. No API call."""
-    ctx = {"who": "buyer", "persona": buyer_persona_id,
+    ctx = {"who": "buyer", "name": buyer_name,
            "listing": listing_summary, "action": action,
            "bid": round(bid), "_model": model}
     return cache.get("negotiation_msg", ctx)
 
 
-def lookup_seller_message(archetype_name: str, listing_summary: str,
-                           action: str, price: float, cache: LLMCache,
-                           model: str = DEFAULT_MODEL) -> str | None:
+def lookup_seller_message(seller_name: str, description: str, signature_line: str,
+                           archetype_name: str, listing_summary: str,
+                           action: str, price: float,
+                           cache: LLMCache, model: str = DEFAULT_MODEL) -> str | None:
     """Cache-only lookup — returns None on miss. No API call."""
-    ctx = {"who": "seller", "archetype": archetype_name,
+    ctx = {"who": "seller", "name": seller_name, "archetype": archetype_name,
            "listing": listing_summary, "action": action,
            "price": round(price), "_model": model}
     return cache.get("negotiation_msg", ctx)

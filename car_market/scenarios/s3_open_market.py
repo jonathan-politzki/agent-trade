@@ -21,7 +21,7 @@ from pathlib import Path
 from ..archetypes import build_listing, population_sample
 from ..config import S3Config
 from ..evaluator import deal_welfare, run_metrics
-from ..generator import generate
+from ..generator import generate, load_curated_cars
 from ..marketplace import CarMarketplace
 from ..personas import load_personas, utility, welfare_value
 from ..policies import HeuristicBuyer, HeuristicSeller
@@ -33,11 +33,13 @@ def _dump_snapshots(
     mp: CarMarketplace,
     cars_by_listing: dict,
     archetype_by_seller: dict,
+    seller_name_by_seller: dict | None = None,
+    seller_signature_by_seller: dict | None = None,
 ) -> None:
     """Write three snapshot files for offline auditing and re-analysis:
       cars.json     — every CarSpec including ground-truth fields
       listings.json — every CarListing (asking, claimed cond/flags) + archetype
-      sellers.json  — seller_id → archetype map
+      sellers.json  — seller_id → archetype map (+ name/signature when curated)
     These exist independently of events.jsonl so analysts can join on
     car_id / listing_id / seller_id without parsing the streaming log."""
     cars_log = [
@@ -65,9 +67,20 @@ def _dump_snapshots(
         }
         for l in mp.listings.values()
     ]
+    if seller_name_by_seller is not None:
+        sellers_log: dict = {
+            sid: {
+                "archetype": archetype_by_seller.get(sid, "?"),
+                "name": seller_name_by_seller.get(sid, sid),
+                "signature_line": (seller_signature_by_seller or {}).get(sid, ""),
+            }
+            for sid in archetype_by_seller
+        }
+    else:
+        sellers_log = archetype_by_seller
     (out_dir / "cars.json").write_text(json.dumps(cars_log, indent=2))
     (out_dir / "listings.json").write_text(json.dumps(listings_log, indent=2))
-    (out_dir / "sellers.json").write_text(json.dumps(archetype_by_seller, indent=2))
+    (out_dir / "sellers.json").write_text(json.dumps(sellers_log, indent=2))
 
 
 def run(cfg: S3Config) -> dict:
@@ -93,25 +106,33 @@ def run(cfg: S3Config) -> dict:
             from ..descriptions import generate_description
             from ..llm_agent import buyer_message, seller_message
 
-    def _bmsg(action: str, bid: float, listing_summary: str, persona_id: str) -> str:
-        if cfg.mode == "fast" or cache is None:
-            return f"(fast {action})"
-        if cfg.mode == "llm":
-            return buyer_message(persona_id, listing_summary, action, bid, cache, model=cfg.llm_model)
-        # replay: cache-only, fall back to a fixed string on miss
-        msg = lookup_buyer_message(persona_id, listing_summary, action, bid, cache, model=cfg.llm_model)
-        return msg if msg is not None else f"(replay-miss {action})"
+    # ---- Resolve sellers ----
+    _seller_description_by_id: dict[str, str] = {}
+    if cfg.sellers_source == "curated":
+        from ..sellers import load_sellers
+        seller_personas = load_sellers()           # 10 named SellerPersona
+        seller_ids = [sp.seller_id for sp in seller_personas]
+        archetypes_list = [sp.archetype for sp in seller_personas]
+        seller_names = {sp.seller_id: sp.name for sp in seller_personas}
+        seller_signatures = {sp.seller_id: sp.signature_line for sp in seller_personas}
+        _seller_description_by_id = {sp.seller_id: sp.description for sp in seller_personas}
+        k = len(seller_personas)
+    else:
+        archetypes_list = population_sample(seed=cfg.seed, k=cfg.k_sellers)
+        seller_ids = [f"S_{i+1:02d}" for i in range(cfg.k_sellers)]
+        seller_names = {sid: sid for sid in seller_ids}
+        seller_signatures = {sid: "" for sid in seller_ids}
+        k = cfg.k_sellers
 
-    def _smsg(action: str, price: float, listing_summary: str, archetype: str) -> str:
-        if cfg.mode == "fast" or cache is None:
-            return f"(fast {action})"
-        if cfg.mode == "llm":
-            return seller_message(archetype, listing_summary, action, price, cache, model=cfg.llm_model)
-        msg = lookup_seller_message(archetype, listing_summary, action, price, cache, model=cfg.llm_model)
-        return msg if msg is not None else f"(replay-miss {action})"
-
-    def _summary(card) -> str:
-        return f"{card.year} {card.make} {card.model} — {card.mileage}mi, cond {card.listing_condition:.1f}, asking ${card.asking_price:.0f}"
+    # ---- Resolve cars ----
+    if cfg.cars_source == "curated":
+        all_cars = load_curated_cars()       # 25 fixed CarSpec
+        # Round-robin assign cars to sellers in order so each seller gets ~equal inventory.
+        car_assignments: list[list] | None = [[] for _ in range(k)]
+        for idx, c in enumerate(all_cars):
+            car_assignments[idx % k].append(c)
+    else:
+        car_assignments = None    # signals: use generator per-seller
 
     mp = CarMarketplace(
         run_name=f"s3_seed{cfg.seed}_gamma{cfg.reputation_gamma}",
@@ -120,19 +141,24 @@ def run(cfg: S3Config) -> dict:
     )
 
     # ---- seed sellers + inventories ----
-    archetypes = population_sample(seed=cfg.seed, k=cfg.k_sellers)
     sellers: dict[str, HeuristicSeller] = {}
     archetype_by_seller: dict[str, str] = {}
+    seller_name_by_seller: dict[str, str] = {}
+    seller_signature_by_seller: dict[str, str] = {}
     cars_by_listing: dict[str, "CarSpec"] = {}
     car_idx = 0
-    for i, archetype in enumerate(archetypes):
-        seller_id = f"S_{i+1:02d}"
-        archetype_by_seller[seller_id] = archetype.name
-        n_inv = rng.randint(*cfg.inventory_per_seller)
-        cars = generate(seed=cfg.seed * 1000 + i, n=n_inv)
+    for i, (sid, arch) in enumerate(zip(seller_ids, archetypes_list)):
+        archetype_by_seller[sid] = arch.name
+        seller_name_by_seller[sid] = seller_names[sid]
+        seller_signature_by_seller[sid] = seller_signatures[sid]
+        if car_assignments is not None:
+            cars = car_assignments[i]
+        else:
+            n_inv = rng.randint(*cfg.inventory_per_seller)
+            cars = generate(seed=cfg.seed * 1000 + i, n=n_inv)
         for c in cars:
             l = build_listing(
-                c, archetype, seller_id=seller_id,
+                c, arch, seller_id=sid,
                 rng=random.Random(cfg.seed * 10000 + car_idx),
                 listing_id=f"L_{car_idx+1:05d}",
             )
@@ -144,14 +170,43 @@ def run(cfg: S3Config) -> dict:
                 l.description = desc if desc is not None else ""
             cars_by_listing[l.listing_id] = c
             car_idx += 1
-        sellers[seller_id] = HeuristicSeller(
-            seller_id=seller_id, archetype=archetype,
+        sellers[sid] = HeuristicSeller(
+            seller_id=sid, archetype=arch,
             rng=random.Random(cfg.seed * 100 + i),
         )
 
+    def _bmsg(action: str, bid: float, listing_summary: str, persona) -> str:
+        if cfg.mode == "fast" or cache is None:
+            return f"(fast {action})"
+        buyer_name = persona.name or persona.persona_id
+        buyer_description = persona.description
+        if cfg.mode == "llm":
+            return buyer_message(buyer_name, buyer_description,
+                                  listing_summary, action, bid, cache, model=cfg.llm_model)
+        msg = lookup_buyer_message(buyer_name, buyer_description,
+                                    listing_summary, action, bid, cache, model=cfg.llm_model)
+        return msg if msg is not None else f"(replay-miss {action})"
+
+    def _smsg(action: str, price: float, listing_summary: str, seller_id: str, archetype_name: str) -> str:
+        if cfg.mode == "fast" or cache is None:
+            return f"(fast {action})"
+        name = seller_name_by_seller.get(seller_id, seller_id)
+        sig = seller_signature_by_seller.get(seller_id, "")
+        description = _seller_description_by_id.get(seller_id, "")
+        if cfg.mode == "llm":
+            return seller_message(name, description, sig, archetype_name,
+                                    listing_summary, action, price, cache, model=cfg.llm_model)
+        msg = lookup_seller_message(name, description, sig, archetype_name,
+                                      listing_summary, action, price, cache, model=cfg.llm_model)
+        return msg if msg is not None else f"(replay-miss {action})"
+
+    def _summary(card) -> str:
+        return f"{card.year} {card.make} {card.model} — {card.mileage}mi, cond {card.listing_condition:.1f}, asking ${card.asking_price:.0f}"
+
     # ---- snapshot the world BEFORE any negotiation, so post-hoc analysis
     #      can reconstruct the run and recompute regret/welfare offline ----
-    _dump_snapshots(out_dir, mp, cars_by_listing, archetype_by_seller)
+    _dump_snapshots(out_dir, mp, cars_by_listing, archetype_by_seller,
+                    seller_name_by_seller, seller_signature_by_seller)
 
     # ---- buyer arrivals ----
     arrivals = poisson_arrivals(m=cfg.m_buyers, T=cfg.T, seed=cfg.seed + 1)
@@ -176,7 +231,7 @@ def run(cfg: S3Config) -> dict:
             card = next(c for c in cards if c.listing_id == lid)
             car = cars_by_listing[lid]
             bid = buyer.propose_price(card, car)
-            off = mp.make_offer(buyer=buyer_id, listing_id=lid, price=bid, message=_bmsg("offer", bid, _summary(card), persona.persona_id))
+            off = mp.make_offer(buyer=buyer_id, listing_id=lid, price=bid, message=_bmsg("offer", bid, _summary(card), persona))
             if off is None:
                 continue
             seller = sellers[card.seller_id]
@@ -186,7 +241,7 @@ def run(cfg: S3Config) -> dict:
             if step.action == "accept":
                 d = mp.respond_to_offer(
                     seller=seller.seller_id, offer_id=off.offer_id,
-                    action="accept", counter_price=None, message=_smsg("accept", bid, _summary(card), seller.archetype.name),
+                    action="accept", counter_price=None, message=_smsg("accept", bid, _summary(card), seller.seller_id, seller.archetype.name),
                 )
                 if d is not None:
                     # Ex-post welfare: based on TRUE condition (what buyer
@@ -211,7 +266,7 @@ def run(cfg: S3Config) -> dict:
             elif step.action == "counter":
                 mp.respond_to_offer(
                     seller=seller.seller_id, offer_id=off.offer_id,
-                    action="counter", counter_price=step.counter_price, message=_smsg("counter", step.counter_price, _summary(card), seller.archetype.name),
+                    action="counter", counter_price=step.counter_price, message=_smsg("counter", step.counter_price, _summary(card), seller.seller_id, seller.archetype.name),
                 )
                 # Buyer evaluates counter as a new asking price. If her WTP >= counter,
                 # she accepts by re-offering at the counter price.
@@ -219,12 +274,12 @@ def run(cfg: S3Config) -> dict:
                 if step.counter_price <= wtp_under_listing:
                     new_off = mp.make_offer(
                         buyer=buyer_id, listing_id=lid,
-                        price=step.counter_price, message=_bmsg("accepts counter", step.counter_price, _summary(card), persona.persona_id),
+                        price=step.counter_price, message=_bmsg("accepts counter", step.counter_price, _summary(card), persona),
                     )
                     if new_off is not None:
                         d = mp.respond_to_offer(
                             seller=seller.seller_id, offer_id=new_off.offer_id,
-                            action="accept", counter_price=None, message=_smsg("close", step.counter_price, _summary(card), seller.archetype.name),
+                            action="accept", counter_price=None, message=_smsg("close", step.counter_price, _summary(card), seller.seller_id, seller.archetype.name),
                         )
                         if d is not None:
                             bu = welfare_value(car, car.true_condition, persona)
@@ -251,7 +306,8 @@ def run(cfg: S3Config) -> dict:
     summary = {
         "run": mp.run_name, "seed": cfg.seed,
         "reputation_gamma": cfg.reputation_gamma,
-        "k_sellers": cfg.k_sellers, "m_buyers_expected": cfg.m_buyers,
+        "k_sellers": k,                              # actual k resolved above
+        "m_buyers_expected": cfg.m_buyers,
         "m_buyers_actual": buyers_processed,
         "deals": len(per_deal), "no_deal_buyers": no_deal_count,
         "listings_total": len(mp.listings),
