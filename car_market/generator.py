@@ -96,6 +96,15 @@ def _hedonic_log_price(year: int, miles: int, cond: float, make: str, body: str)
     )
 
 
+def hedonic_value(year: int, miles: int, cond: float, make: str, body: str) -> float:
+    """Fair-market value (USD) at the given condition. Public version of the
+    hedonic formula `generate()` uses internally. Same anchor a seller
+    implicitly uses when pricing a listing at its CLAIMED condition — the
+    markup over this anchor is then a separate, observable variable rather
+    than a fixed simulation input."""
+    return float(math.exp(_hedonic_log_price(year, miles, cond, make, body)))
+
+
 def _draw_make_body(rng: random.Random) -> tuple[str, str]:
     total = sum(w for _, _, w in MAKE_BODY_PRIOR)
     target = rng.random() * total

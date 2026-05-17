@@ -11,8 +11,8 @@ from .generator import CarSpec
 
 @dataclass(frozen=True)
 class Persona:
-    persona_id: str
-    description: str
+    persona_id: str               # machine-readable slug
+    description: str              # 1-3 sentence character description
     allowed_bodies: list[str]     # hard constraint
     max_miles: int                # hard constraint
     max_age_years: int            # hard constraint, vs base_year=2026
@@ -21,6 +21,7 @@ class Persona:
     weights: dict                 # keys: year, miles, condition, body_match, brand
     price_sensitivity: float      # λ; higher = more price-averse
     risk_aversion: float          # 0..1; penalty for high asking-price-vs-ceiling
+    name: str = ""                # optional human-readable name for transcripts
 
 
 PERSONA_DIR = Path(__file__).parent / "personas_data"

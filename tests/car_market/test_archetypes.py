@@ -54,9 +54,26 @@ def test_aggressive_drops_negative_flags():
         assert f not in NEGATIVE_FLAGS, f"aggressive should hide {f}"
 
 
-def test_asking_price_within_archetype_band():
+def test_asking_price_within_shared_margin_band():
+    """Asking = hedonic_value(claimed_cond) × margin, with margin in the
+    shared [MARGIN_LOW, MARGIN_HIGH] band for all archetypes. The realized
+    *markup over true_value* is the emergent variable — that's what we
+    measure post-hoc, not what we hardcode."""
+    from car_market.archetypes import MARGIN_LOW, MARGIN_HIGH
+    from car_market.generator import hedonic_value
     car = generate(seed=2, n=1)[0]
-    listing = build_listing(car, MODERATE, seller_id="S_01", rng=random.Random(0))
-    lo = car.seller_ceiling * 1.05
-    hi = car.seller_ceiling * 1.15
-    assert lo <= listing.asking_price <= hi
+    for arch in (HONEST, MODERATE, AGGRESSIVE):
+        listing = build_listing(car, arch, seller_id="S_01", rng=random.Random(0))
+        fair = hedonic_value(car.year, car.mileage, listing.listing_condition,
+                                car.make, car.body)
+        assert MARGIN_LOW * fair <= listing.asking_price <= MARGIN_HIGH * fair
+
+
+def test_aggressive_asks_more_than_honest_on_same_car():
+    """Sanity check: same car + same rng seed → aggressive seller's asking
+    price > honest seller's. The difference comes from the claimed-condition
+    shift, NOT from a baked-in markup."""
+    car = generate(seed=0, n=1)[0]
+    a_honest = build_listing(car, HONEST, "S_01", random.Random(0))
+    a_aggr = build_listing(car, AGGRESSIVE, "S_02", random.Random(0))
+    assert a_aggr.asking_price > a_honest.asking_price

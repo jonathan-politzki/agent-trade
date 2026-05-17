@@ -28,6 +28,48 @@ from ..policies import HeuristicBuyer, HeuristicSeller
 from ..scheduler import poisson_arrivals
 
 
+def _dump_snapshots(
+    out_dir: Path,
+    mp: CarMarketplace,
+    cars_by_listing: dict,
+    archetype_by_seller: dict,
+) -> None:
+    """Write three snapshot files for offline auditing and re-analysis:
+      cars.json     — every CarSpec including ground-truth fields
+      listings.json — every CarListing (asking, claimed cond/flags) + archetype
+      sellers.json  — seller_id → archetype map
+    These exist independently of events.jsonl so analysts can join on
+    car_id / listing_id / seller_id without parsing the streaming log."""
+    cars_log = [
+        {
+            "car_id": c.car_id, "year": c.year, "make": c.make, "model": c.model,
+            "body": c.body, "mileage": c.mileage,
+            "true_condition": c.true_condition,
+            "true_value": c.true_value,
+            "seller_floor": c.seller_floor,
+            "seller_ceiling": c.seller_ceiling,
+            "true_vhr_flags": c.true_vhr_flags,
+        }
+        for c in cars_by_listing.values()
+    ]
+    listings_log = [
+        {
+            "listing_id": l.listing_id,
+            "seller_id": l.seller_id,
+            "seller_archetype": archetype_by_seller.get(l.seller_id, "?"),
+            "car_id": l.car.car_id,
+            "asking_price": l.asking_price,
+            "listing_condition": l.listing_condition,
+            "claimed_vhr_flags": l.claimed_vhr_flags,
+            "asking_markup_over_true_value": l.asking_price / l.car.true_value,
+        }
+        for l in mp.listings.values()
+    ]
+    (out_dir / "cars.json").write_text(json.dumps(cars_log, indent=2))
+    (out_dir / "listings.json").write_text(json.dumps(listings_log, indent=2))
+    (out_dir / "sellers.json").write_text(json.dumps(archetype_by_seller, indent=2))
+
+
 def run(cfg: S3Config) -> dict:
     rng = random.Random(cfg.seed)
     out_dir = Path(cfg.out_dir) / f"s3_seed{cfg.seed}_gamma{cfg.reputation_gamma}"
@@ -80,10 +122,12 @@ def run(cfg: S3Config) -> dict:
     # ---- seed sellers + inventories ----
     archetypes = population_sample(seed=cfg.seed, k=cfg.k_sellers)
     sellers: dict[str, HeuristicSeller] = {}
+    archetype_by_seller: dict[str, str] = {}
     cars_by_listing: dict[str, "CarSpec"] = {}
     car_idx = 0
     for i, archetype in enumerate(archetypes):
         seller_id = f"S_{i+1:02d}"
+        archetype_by_seller[seller_id] = archetype.name
         n_inv = rng.randint(*cfg.inventory_per_seller)
         cars = generate(seed=cfg.seed * 1000 + i, n=n_inv)
         for c in cars:
@@ -104,6 +148,10 @@ def run(cfg: S3Config) -> dict:
             seller_id=seller_id, archetype=archetype,
             rng=random.Random(cfg.seed * 100 + i),
         )
+
+    # ---- snapshot the world BEFORE any negotiation, so post-hoc analysis
+    #      can reconstruct the run and recompute regret/welfare offline ----
+    _dump_snapshots(out_dir, mp, cars_by_listing, archetype_by_seller)
 
     # ---- buyer arrivals ----
     arrivals = poisson_arrivals(m=cfg.m_buyers, T=cfg.T, seed=cfg.seed + 1)
