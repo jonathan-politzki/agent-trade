@@ -34,7 +34,7 @@ SWEEP_ID = "e3_small"
 SELLERS = ["honest", "pragmatic", "pushy", "slimy"]
 BUYERS = ["grandma", "casual", "engineer", "mechanic"]
 CARS = ["prius_2018", "altima_2017", "tahoe_2016"]
-CELLS = [(False, False), (False, True), (True, False), (True, True)]
+CELLS = [(False, False), (True, True)]   # H-H, A-A only (H-A and A-H are lower-prio)
 SEEDS = [0]
 
 MODEL = GEMINI_FLASH_LITE

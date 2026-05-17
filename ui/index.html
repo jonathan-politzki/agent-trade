@@ -22,9 +22,10 @@
       </p>
       <nav class="masthead-nav">
         <a href="#overview" data-view="overview" class="nav-link active">Overview</a>
-        <a href="#lot" data-view="lot" class="nav-link">Who's on the lot</a>
+        <a href="#lot" data-view="lot" class="nav-link">Who's in the lot</a>
         <a href="#replay" data-view="replay" class="nav-link">Transcript replay</a>
         <a href="#susceptibility" data-view="susceptibility" class="nav-link">Susceptibility</a>
+        <a href="#e3" data-view="e3" class="nav-link">E3 — Delegation</a>
         <a href="#methods" data-view="methods" class="nav-link">Methods</a>
       </nav>
     </div>
@@ -92,37 +93,32 @@
       </section>
     </section>
 
-    <!-- ============ WHO'S ON THE LOT ============ -->
+    <!-- ============ WHO'S IN THE LOT ============ -->
     <section id="view-lot" class="view">
       <section class="paper-section">
-        <h2 class="section-title">Who's on the lot</h2>
+        <h2 class="section-title">Who's in the lot</h2>
         <p class="section-lede">
-          The cast of this market. Four salesmen running the gamut from honest
-          to slimy, four buyers from grandma to certified mechanic, and twelve
-          cars sorted by how much the seller has to hide. Each card shows the
-          handful of structured fields the simulation drives off — beneath every
-          card there's a system prompt giving the LLM its voice.
+          Personas define the negotiation style on each side. Knowledge level drives
+          what questions the buyer thinks to ask; deceptiveness drives what the seller
+          is willing to lie about. We vary both — and the underlying model running
+          each agent — across the sweep.
         </p>
-      </section>
 
-      <section class="paper-section">
-        <h2 class="section-title">Sellers</h2>
-        <div id="lot-sellers" class="lot-grid"></div>
-      </section>
+        <div class="lot-row-label">Buyers</div>
+        <div id="lot-buyers" class="lot-row"></div>
 
-      <section class="paper-section">
-        <h2 class="section-title">Buyers</h2>
-        <div id="lot-buyers" class="lot-grid"></div>
-      </section>
+        <div class="lot-row-label">Sellers</div>
+        <div id="lot-sellers" class="lot-row"></div>
 
-      <section class="paper-section">
-        <h2 class="section-title">Cars on the lot</h2>
-        <p class="section-lede">
-          Grouped by how far the seller's asking price sits above the true value.
-          The bigger the gap, the more there is to hide. Click into the
-          Susceptibility view to see how the gap actually plays out per buyer.
+        <div class="lot-row-label">Cars (used in the e3 sweep)</div>
+        <div id="lot-cars" class="lot-row"></div>
+
+        <p class="section-lede" style="margin-top: 28px;">
+          Capability matters, but persona dominates. Across the e3 sweep (96 sessions
+          spanning four sellers, four buyers, and three cars under two delegation modes),
+          persona shifts outcome more than the model — and delegation-mode shifts it again
+          on top.
         </p>
-        <div id="lot-cars" class="lot-tiers"></div>
       </section>
     </section>
 
@@ -227,6 +223,56 @@
       </section>
     </section>
 
+    <!-- ============ E3 DELEGATION ============ -->
+    <section id="view-e3" class="view">
+      <section class="paper-section">
+        <h2 class="section-title">E3 — Delegation: Human vs Agent negotiation</h2>
+        <p class="section-lede">
+          Same LLM (Gemini 2.5 Flash Lite via Vertex) on both sides of every session.
+          The only thing that changes between cells is the system prompt: <strong>H mode</strong>
+          delivers the persona's warm character voice; <strong>A mode</strong> delivers a structured
+          AGENT MANDATE briefing (principal name, constraints, decision rules, operating policy).
+          Same tools, same 22-turn cap. The treatment is briefing-format alone.
+        </p>
+        <p class="section-lede" style="margin-top:8px">
+          <strong>The headline:</strong> agent-mode buyers close <strong>21 percentage points more often</strong>
+          and pay <strong>6.5 pp higher premium</strong> on deals. On the catastrophic-lemon Tahoe,
+          agent-mode buyers close <strong>5× more deals</strong> than human-mode buyers — the same buyers a human
+          would have walked from.
+        </p>
+      </section>
+
+      <section class="paper-section">
+        <h2 class="section-title">Aggregate — H-H vs A-A</h2>
+        <div id="e3-aggregate" class="e3-aggregate"></div>
+      </section>
+
+      <section class="paper-section">
+        <h2 class="section-title">Outcome distribution per cell</h2>
+        <div id="e3-outcome-chart" class="chart"></div>
+      </section>
+
+      <section class="paper-section">
+        <h2 class="section-title">Per-car premium — clean / moderate / catastrophic</h2>
+        <p class="section-lede">
+          The delegation cost is concentrated on the catastrophic lemon. On the clean Prius
+          both cells converge on a fair price. On the moderate Altima the cells are similar.
+          On the Tahoe — the car where E1's only successful close was Gemini-flash buyer being fleeced —
+          A-A buyers close 5× more deals at higher premium.
+        </p>
+        <div id="e3-per-car" class="chart"></div>
+      </section>
+
+      <section class="paper-section">
+        <h2 class="section-title">Featured transcripts</h2>
+        <p class="section-lede">
+          Click into the Transcript Replay view (using these session IDs in the picker) to see
+          the iceberg story play out turn-by-turn.
+        </p>
+        <ul id="e3-featured" class="e3-featured"></ul>
+      </section>
+    </section>
+
     <!-- ============ METHODS ============ -->
     <section id="view-methods" class="view">
       <section class="paper-section narrow">
@@ -300,6 +346,7 @@
   <script src="js/heatmap.js"></script>
   <script src="js/replay.js"></script>
   <script src="js/lot.js"></script>
+  <script src="js/e3.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

@@ -1,131 +1,131 @@
-// "Who's on the lot" view — renders sellers, buyers, cars (grouped by severity).
-//
-// Data: window.AT_DATA is the global object built by data.js (loaded JSONs).
-// Note: AT_DATA.cars may be an object keyed by car_id (carsById) or an array;
-// we normalise to an array via Object.values() so both shapes work.
-
+// "Who's in the lot" — renders buyer cards, seller cards, car cards in
+// the screenshot's clean style. Loads from window.AT_DATA (E1 data) so
+// personas/cars come from the existing data layer.
 (function() {
   'use strict';
 
-  const SELLER_ARCHETYPE_COLOR = {
-    honest:     '#3a7',
-    honest_:    '#3a7',
-    pragmatic:  '#666',
-    pushy:      '#d80',
-    slimy:      '#c33',
-    aggressive: '#c33',
-    moderate:   '#d80',
+  // Buyer indicator dots.
+  const BUYER_DOT = {
+    grandma:  '#c64e3a',   // red
+    casual:   '#d97e3a',   // orange
+    engineer: '#7ba84e',   // green
+    mechanic: '#3a9b8a',   // teal
   };
 
-  function bar(value, label) {
-    const pct = Math.max(0, Math.min(1, value)) * 100;
-    return `<div class="lot-bar"><span class="lot-bar-label">${label}</span>`
-         + `<span class="lot-bar-track"><span class="lot-bar-fill" style="width:${pct}%"></span></span>`
-         + `<span class="lot-bar-val">${value.toFixed(2)}</span></div>`;
+  // Seller indicator squares.
+  const SELLER_SQUARE = {
+    honest:    '#3a9b8a',  // teal
+    pragmatic: '#8a8a3a',  // olive
+    pushy:     '#d97e3a',  // orange
+    slimy:     '#c64e3a',  // red
+  };
+
+  // Car severity dot by tier.
+  function severityDot(gap) {
+    if (gap < 1000)  return '#3a9b8a';
+    if (gap < 4000)  return '#cb8e3a';
+    if (gap < 7000)  return '#d97e3a';
+    return '#c64e3a';
   }
 
-  function sellerCard(p) {
-    const arch = p.archetype || p.persona_id;
-    const color = SELLER_ARCHETYPE_COLOR[arch] || SELLER_ARCHETYPE_COLOR[p.persona_id] || '#888';
-    const tactics = (p.default_tactics || []).slice(0, 4).join(', ') || '—';
-    const sys = (p.system_prompt || '').slice(0, 220) + ((p.system_prompt || '').length > 220 ? '…' : '');
-    return `<div class="lot-card lot-card-seller" style="border-left-color:${color}">
-      <div class="lot-card-head">
-        <div class="lot-card-name">${p.display_name || p.persona_id}</div>
-        <div class="lot-card-tag" style="background:${color}22;color:${color}">${arch}</div>
-      </div>
-      ${bar(p.knowledge_level ?? 0, 'knowledge')}
-      ${bar(p.deceptiveness ?? 0, 'deceptiveness')}
-      ${bar(p.pressure ?? 0, 'pressure')}
-      <div class="lot-card-row"><span class="lot-card-label">tactics</span><span class="lot-card-val">${tactics}</span></div>
-      <details class="lot-card-prompt"><summary>system prompt</summary><pre>${sys}</pre></details>
+  function escapeHtml(s) {
+    return String(s || '').replace(/[&<>"']/g,
+      c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function bar(label, value) {
+    const v = Math.max(0, Math.min(1, value || 0));
+    return `<div class="lot-bar">
+      <span class="lot-bar-label">${escapeHtml(label)}</span>
+      <span class="lot-bar-track"><span class="lot-bar-fill" style="width:${v*100}%"></span></span>
+      <span class="lot-bar-val">${v.toFixed(2)}</span>
     </div>`;
   }
 
   function buyerCard(p) {
-    const sys = (p.system_prompt || '').slice(0, 220) + ((p.system_prompt || '').length > 220 ? '…' : '');
-    return `<div class="lot-card lot-card-buyer">
-      <div class="lot-card-head">
-        <div class="lot-card-name">${p.display_name || p.persona_id}</div>
-        <div class="lot-card-tag">budget $${(p.default_budget || 0).toLocaleString()}</div>
+    const dot = BUYER_DOT[p.persona_id] || '#999';
+    return `<div class="lot-card">
+      <div class="lot-card-eyebrow">BUYER</div>
+      <div class="lot-card-name">
+        <span class="lot-name-text">${escapeHtml(p.display_name || p.persona_id)}</span>
+        <span class="lot-dot" style="background:${dot}"></span>
       </div>
-      ${bar(p.knowledge_level ?? 0, 'knowledge')}
-      ${bar(p.skepticism ?? 0, 'skepticism')}
-      ${bar(p.inspection_propensity ?? 0, 'inspection prop.')}
-      ${bar(p.patience ?? 0, 'patience')}
-      <details class="lot-card-prompt"><summary>system prompt</summary><pre>${sys}</pre></details>
+      <div class="lot-card-bars">
+        ${bar('knowledge', p.knowledge_level)}
+        ${bar('skepticism', p.skepticism)}
+        ${bar('inspects', p.inspection_propensity)}
+      </div>
     </div>`;
   }
 
-  function severityTier(gap) {
-    if (gap < 1000)  return {name: 'Clean',         color: '#3a7'};
-    if (gap < 2000)  return {name: 'Minor',         color: '#7b3'};
-    if (gap < 4000)  return {name: 'Moderate',      color: '#cb3'};
-    if (gap < 7000)  return {name: 'Severe',        color: '#d80'};
-    return                  {name: 'Catastrophic', color: '#c33'};
+  function sellerCard(p) {
+    const sq = SELLER_SQUARE[p.persona_id] || '#999';
+    // "honesty" = 1 - deceptiveness so the bar reads positively
+    const honesty = 1.0 - (p.deceptiveness || 0);
+    return `<div class="lot-card">
+      <div class="lot-card-eyebrow">SELLER</div>
+      <div class="lot-card-name">
+        <span class="lot-name-text">${escapeHtml(p.display_name || p.persona_id)}</span>
+        <span class="lot-square" style="background:${sq}"></span>
+      </div>
+      <div class="lot-card-bars">
+        ${bar('honesty', honesty)}
+        ${bar('pressure', p.pressure)}
+        ${bar('patience', p.patience)}
+      </div>
+    </div>`;
   }
 
   function carCard(c) {
     const gap = (c.asking_price || 0) - (c.true_value || 0);
-    const tier = severityTier(gap);
-    const facts = (c.private_facts || []).length;
-    return `<div class="lot-card lot-card-car" style="border-left-color:${tier.color}">
-      <div class="lot-card-head">
-        <div class="lot-card-name">${c.year} ${c.make} ${c.model}</div>
-        <div class="lot-card-tag" style="background:${tier.color}22;color:${tier.color}">${tier.name}</div>
+    const dot = severityDot(gap);
+    // Normalized bars 0..1:
+    const sev = Math.min(1, gap / 13200);                  // tahoe = 1.0
+    const miles = Math.min(1, (c.odometer_miles || 0) / 200000);
+    const facts = Math.min(1, (c.private_facts || []).length / 5);
+    const name = `${c.year} ${c.make} ${c.model}`;
+    return `<div class="lot-card">
+      <div class="lot-card-eyebrow">CAR</div>
+      <div class="lot-card-name">
+        <span class="lot-name-text">${escapeHtml(name)}</span>
+        <span class="lot-dot" style="background:${dot}"></span>
       </div>
-      <div class="lot-car-prices">
-        <span><span class="lot-card-label">asking</span> $${(c.asking_price || 0).toLocaleString()}</span>
-        <span><span class="lot-card-label">true</span> $${(c.true_value || 0).toLocaleString()}</span>
-        <span><span class="lot-card-label">gap</span> <strong>$${gap >= 0 ? '+' : ''}${gap.toLocaleString()}</strong></span>
+      <div class="lot-card-bars">
+        ${bar('severity', sev)}
+        ${bar('mileage', miles)}
+        ${bar('hidden facts', facts)}
       </div>
-      <div class="lot-card-row"><span class="lot-card-label">miles</span><span class="lot-card-val">${(c.odometer_miles || 0).toLocaleString()}</span></div>
-      <div class="lot-card-row"><span class="lot-card-label">private facts</span><span class="lot-card-val">${facts} hidden</span></div>
-    </div>`;
-  }
-
-  function carTierBlock(tierName, tierColor, cars) {
-    if (!cars.length) return '';
-    return `<div class="lot-tier">
-      <h3 class="lot-tier-head" style="color:${tierColor}">${tierName} <span class="lot-tier-count">(${cars.length})</span></h3>
-      <div class="lot-grid">${cars.map(carCard).join('')}</div>
     </div>`;
   }
 
   function render() {
     const data = window.AT_DATA;
     if (!data) return;
-    const sellers = Object.values((data.personas && data.personas.sellers) || {});
-    const buyers  = Object.values((data.personas && data.personas.buyers)  || {});
-    // data.cars may be an object (carsById dict from data.js) or an array.
-    const carsRaw = data.cars || {};
-    const cars = Array.isArray(carsRaw) ? carsRaw : Object.values(carsRaw);
+    const personasObj = data.personas || {};
+    const buyersObj  = personasObj.buyers  || {};
+    const sellersObj = personasObj.sellers || {};
+    const carsObj    = data.cars || {};
 
-    const sellersEl = document.getElementById('lot-sellers');
-    if (sellersEl) sellersEl.innerHTML = sellers.map(sellerCard).join('');
-    const buyersEl = document.getElementById('lot-buyers');
-    if (buyersEl) buyersEl.innerHTML = buyers.map(buyerCard).join('');
+    const buyers  = Array.isArray(buyersObj)  ? buyersObj  : Object.values(buyersObj);
+    const sellers = Array.isArray(sellersObj) ? sellersObj : Object.values(sellersObj);
+    const carsAll = Array.isArray(carsObj)    ? carsObj    : Object.values(carsObj);
 
-    const carsEl = document.getElementById('lot-cars');
-    if (carsEl) {
-      const tiers = [
-        {name: 'Clean',        color: '#3a7', cars: []},
-        {name: 'Minor',        color: '#7b3', cars: []},
-        {name: 'Moderate',     color: '#cb3', cars: []},
-        {name: 'Severe',       color: '#d80', cars: []},
-        {name: 'Catastrophic', color: '#c33', cars: []},
-      ];
-      cars.forEach(c => {
-        const gap = (c.asking_price || 0) - (c.true_value || 0);
-        const t = severityTier(gap);
-        const tier = tiers.find(x => x.name === t.name);
-        if (tier) tier.cars.push(c);
-      });
-      // Sort cars within each tier by gap descending.
-      tiers.forEach(t => t.cars.sort((a, b) =>
-        ((b.asking_price - b.true_value) - (a.asking_price - a.true_value))));
-      carsEl.innerHTML = tiers.map(t => carTierBlock(t.name, t.color, t.cars)).join('');
-    }
+    // Buyer order: grandma → casual → engineer → mechanic
+    const buyerOrder = ['grandma', 'casual', 'engineer', 'mechanic'];
+    const sellerOrder = ['honest', 'pragmatic', 'pushy', 'slimy'];
+    const buyersOrdered  = buyerOrder.map(id => buyers.find(p => p.persona_id === id)).filter(Boolean);
+    const sellersOrdered = sellerOrder.map(id => sellers.find(p => p.persona_id === id)).filter(Boolean);
+
+    // Cars used in e3 sweep: prius_2018 (clean), altima_2017 (moderate), tahoe_2016 (catastrophic)
+    const carOrder = ['prius_2018', 'altima_2017', 'tahoe_2016'];
+    const cars = carOrder.map(id => carsAll.find(c => c.car_id === id)).filter(Boolean);
+
+    const bEl = document.getElementById('lot-buyers');
+    const sEl = document.getElementById('lot-sellers');
+    const cEl = document.getElementById('lot-cars');
+    if (bEl) bEl.innerHTML = buyersOrdered.map(buyerCard).join('');
+    if (sEl) sEl.innerHTML = sellersOrdered.map(sellerCard).join('');
+    if (cEl) cEl.innerHTML = cars.map(carCard).join('');
   }
 
   window.AT_LOT_RENDER = render;
